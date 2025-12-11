@@ -1,0 +1,77 @@
+package com.soul.fin.service.controller;
+
+
+import com.soul.fin.common.bus.SpringCommandBus;
+import com.soul.fin.server.customer.ports.input.service.CustomerApplicationService;
+import com.soul.fin.service.dto.CustomerRegisteredResponse;
+import com.soul.fin.service.dto.RegisterCustomer;
+import com.soul.fin.service.mapper.CustomerMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    private final CustomerApplicationService customerApplicationService;
+    private final SpringCommandBus commandBus;
+
+    public OrderController(CustomerApplicationService customerApplicationService, SpringCommandBus commandBus) {
+        this.customerApplicationService = customerApplicationService;
+        this.commandBus = commandBus;
+    }
+
+
+    @GetMapping("/ret")
+    @PreAuthorize("hasAuthority('order.create')")
+    public Mono<String> ret() {
+
+        final var req = new RegisterCustomer(UUID.randomUUID());
+        return Mono.just(req)
+                .map(CustomerMapper::toCommand)
+                .as(customerApplicationService::handle)
+                .map(customerRegisteredResponse ->
+                        "Customer registered with id: " + customerRegisteredResponse.customerId()
+                );
+
+//        Mono.just(req)
+//                .map(CustomerMapper::toCommand)
+//                .as(customerApplicationService::handle)
+//                .map(customerRegisteredResponse ->
+//                        "Customer registered with id: " + customerRegisteredResponse.customerId()
+//                );
+//
+//        return Mono.just("qq coisa");
+
+    }
+
+    @GetMapping()
+    @PreAuthorize("hasAuthority('order.create')")
+    public Mono<String> get() {
+        final var req = new RegisterCustomer(UUID.randomUUID());
+        return Mono.just(req)
+                .map(CustomerMapper::toCommand)
+                .flatMap(commandBus::execute)
+//                .doOnNext(res -> System.out.println("TYPE = " + res.getClass()))
+                //.cast(com.soul.fin.server.customer.dto.command.CustomerRegisteredResponse.class)
+                .map(customerRegisteredResponse ->
+                        "Customer registered with id: " + customerRegisteredResponse.customerId().toString()
+                );
+    }
+
+
+    @PostMapping
+    //@PreAuthorize("hasAuthority('order.place')")
+    //@PreAuthorize("hasAuthority('order.delete') and @tenantGuard.allowAccess(authentication, #tenantId)")
+    public Mono<CustomerRegisteredResponse> placeOrder(@RequestBody Mono<RegisterCustomer> request) {
+        return request
+                .map(CustomerMapper::toCommand)
+                .as(customerApplicationService::handle)
+                .map(CustomerMapper::toResponse);
+    }
+
+
+}

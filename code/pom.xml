@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.0.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.soul.fin</groupId>
+    <artifactId>service</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+
+    <modules>
+        <module>common</module>
+        <module>core</module>
+        <module>api</module>
+        <module>infra</module>
+        <module>boot</module>
+        <module>aggregator</module>
+    </modules>
+
+
+    <properties>
+        <project.groupId.name>service</project.groupId.name>
+        <java.version>25</java.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>4.0.0</spring-boot.version>
+        <spring-boot.security.config.version>7.0.0</spring-boot.security.config.version>
+        <lombok.version>1.18.42</lombok.version>
+
+        <otel.version>2.20.1</otel.version>
+        <okhttp.version>4.12.0</okhttp.version>
+        <logback.version>1.5.18</logback.version>
+        <logback.appender.version>2.18.1-alpha</logback.appender.version>
+        <slf4j.version>2.0.17</slf4j.version>
+        <reactor.version>3.7.8</reactor.version>
+        <spring-data-r2dbc.version>1.1.1.RELEASE</spring-data-r2dbc.version>
+        <junit-jupiter.version>5.9.3</junit-jupiter.version>
+        <jacoco.version>0.8.14</jacoco.version>
+        <pitest.version>1.22.0</pitest.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+    </properties>
+
+
+    <dependencies>
+
+
+        <!--        <dependency>-->
+        <!--            <groupId>io.opentelemetry</groupId>-->
+        <!--            <artifactId>opentelemetry-api</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.opentelemetry</groupId>-->
+        <!--            <artifactId>opentelemetry-sdk</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.opentelemetry</groupId>-->
+        <!--            <artifactId>opentelemetry-exporter-otlp</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.squareup.okhttp3</groupId>-->
+        <!--            <artifactId>okhttp</artifactId>-->
+        <!--            <version>${okhttp.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>ch.qos.logback</groupId>-->
+        <!--            <artifactId>logback-classic</artifactId>-->
+        <!--            <version>${logback.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.opentelemetry.instrumentation</groupId>-->
+        <!--            <artifactId>opentelemetry-logback-appender-1.0</artifactId>-->
+        <!--            <version>${logback.appender.version}</version>-->
+        <!--        </dependency>-->
+    </dependencies>
+
+    <dependencyManagement>
+        <!--        Project Dependencies-->
+        <dependencies>
+            <!--            <dependency>-->
+            <!--                <groupId>com.soul</groupId>-->
+            <!--                <artifactId>on-demand-observability</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>common-bus</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>common-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>core-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>common-api-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>core-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>application</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>api-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>infra-data-postgres-db1</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>boot</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>aggregator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--        Project Dependencies-->
+
+            <!--        Spring Dependencies-->
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- Resource Server (JWT) -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- For method security -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-boot.security.config.version}</version>
+            </dependency>
+
+            <!--        Spring Dependencies-->
+
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-core</artifactId>
+                <version>${reactor.version}</version>
+            </dependency>
+
+            <!--        DB Dependencies-->
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-r2dbc</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>r2dbc-postgresql</artifactId>
+                <scope>runtime</scope>
+                <version>${spring-data-r2dbc.version}</version>
+            </dependency>
+
+            <!--        DB Dependencies-->
+
+            <!--        Log & Monitoring Dependencies-->
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.opentelemetry.instrumentation</groupId>
+                <artifactId>opentelemetry-logback-appender-1.0</artifactId>
+                <version>${logback.appender.version}</version>
+            </dependency>
+
+            <!--            <dependency>-->
+            <!--                <groupId>io.opentelemetry.instrumentation</groupId>-->
+            <!--                <artifactId>opentelemetry-instrumentation-bom</artifactId>-->
+            <!--                <version>${otel.version}</version>-->
+            <!--                <type>pom</type>-->
+            <!--                <scope>import</scope>-->
+            <!--            </dependency>-->
+
+
+            <!--        Log & Monitoring Dependencies-->
+
+
+            <!--        Test Dependencies-->
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux-test</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-test</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-r2dbc-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--        Test Dependencies-->
+
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>org.pitest</groupId>-->
+            <!--                <artifactId>pitest-aggregator</artifactId>-->
+            <!--                <version>${pitest.version}</version>-->
+            <!--            </dependency>-->
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+
+                    <executions>
+                        <execution>
+                            <id>prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+
+                        <execution>
+                            <id>report</id>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <phase>test</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- PIT plugin default configuration (inherits in modules) -->
+                <plugin>
+                    <groupId>org.pitest</groupId>
+                    <artifactId>pitest-maven</artifactId>
+                    <version>${pitest.version}</version>
+
+                    <configuration>
+                        <!--                        <targetClasses>-->
+                        <!--                            <param>**.*</param>-->
+                        <!--                        </targetClasses>-->
+
+                        <!--                        <targetTests>-->
+                        <!--                            <param>**.*Test</param>-->
+                        <!--                        </targetTests>-->
+                        <!-- put sane defaults here; modules can override -->
+                        <targetClasses>
+                            <!-- mutate classes in your project's package -->
+                            <param>${project.groupId}.*</param>
+                        </targetClasses>
+
+                        <targetTests>
+                            <param>${project.groupId}.*</param>
+                        </targetTests>
+
+                        <!-- avoid timestamped directories so aggregate can find reports -->
+                        <timestampedReports>false</timestampedReports>
+
+                        <!-- consistent reports folder per module -->
+                        <reportsDirectory>${project.build.directory}/pit-reports</reportsDirectory>
+
+                        <!-- reduce runtime on CI; tune for local runs -->
+                        <threads>4</threads>
+
+                        <!-- JVM args for tests if needed (increase heap) -->
+                        <jvmArgs>
+                            <jvmArg>-Xmx2G</jvmArg>
+                        </jvmArgs>
+
+                        <!-- mutators example -->
+                        <mutators>
+                            <mutator>DEFAULTS</mutator>
+                        </mutators>
+
+                        <!-- optionally skip if no tests/compiled classes -->
+                        <skip>false</skip>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <jvmArguments>
+                            --enable-native-access=ALL-UNNAMED
+                        </jvmArguments>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+
+                <executions>
+                    <!--                    <execution>-->
+                    <!--                        <id>report-aggregate</id>-->
+                    <!--                        <phase>verify</phase>-->
+                    <!--                        <goals>-->
+                    <!--                            <goal>report-aggregate</goal>-->
+                    <!--                        </goals>-->
+                    <!--                    </execution>-->
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <useModulePath>false</useModulePath> <!-- avoid Java 9+ module issues in many projects -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <!-- create a profile to enable pit runs (so you don't run PIT by default) -->
+    <profiles>
+        <profile>
+            <id>pit</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-maven</artifactId>
+                        <!-- plugin version and config are inherited from pluginManagement -->
+                        <!-- bind the pit goal to verify so it runs via mvn -Ppit verify -->
+                        <executions>
+                            <!--                            <execution>-->
+                            <!--                                <id>pit-mutation</id>-->
+                            <!--                                <goals>-->
+                            <!--                                    <goal>mutationCoverage</goal>-->
+                            <!--                                </goals>-->
+                            <!--                                <phase>verify</phase>-->
+                            <!--                            </execution>-->
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

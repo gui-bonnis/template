@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/code/aggregator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/aggregator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/api/rest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/boot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/common-api-rest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/common-bus/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/common-domain/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/common-msg/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/common-observability/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/common-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/core/application/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/core/domain/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/client/client-rest-app1/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/data/data-postgres-db1/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/data/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/data/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/msg/msg-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/msg/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/msg/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/obs/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/obs/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/security/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/infra/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

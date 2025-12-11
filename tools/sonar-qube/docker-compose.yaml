@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  sonarqube:
+    image: sonarqube:10-community
+    container_name: sonarqube
+    depends_on:
+      - db
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+      # avoid mmap issues on some hosts
+      SONAR_SEARCH_JAVAADDITIONALOPTS: -Dnode.store.allow_mmap=false
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - sonar_data:/opt/sonarqube/data
+      - sonar_extensions:/opt/sonarqube/extensions
+      - sonar_logs:/opt/sonarqube/logs
+
+  db:
+    image: postgres:14
+    container_name: sonarqube-db
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U sonar" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  sonarqube-init:
+    image: curlimages/curl:latest
+    container_name: sonarqube-init
+    depends_on:
+      - sonarqube
+    # mount your init script and exported profiles into the container
+    volumes:
+      - ./init:/init
+    entrypoint: [ "/bin/sh", "/init/seed-sonar.sh" ]
+    environment:
+      SONAR_URL: "http://sonarqube:9000"
+      SONAR_USER: "admin"
+      SONAR_PASS: "admin"     # change this for security (or use token)
+    restart: "no"
+
+volumes:
+  sonar_data:
+  sonar_extensions:
+  sonar_logs:
+  postgres_data:
