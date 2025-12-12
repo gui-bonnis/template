@@ -2,6 +2,7 @@ package com.soul.fin.service.mapper;
 
 import com.soul.fin.server.customer.dto.command.RegisterCustomerCommand;
 import com.soul.fin.server.customer.dto.query.GetCustomerByIdQuery;
+import com.soul.fin.service.customer.entity.Customer;
 import com.soul.fin.service.dto.CustomerQueryResponse;
 import com.soul.fin.service.dto.CustomerRegisteredResponse;
 import com.soul.fin.service.dto.GetCustomerRequest;
@@ -23,6 +24,10 @@ public class CustomerMapper {
 
     public static CustomerQueryResponse toQueryResponse(com.soul.fin.server.customer.dto.query.CustomerQuery query) {
         return new CustomerQueryResponse(query.customerId(), query.name());
+    }
+
+    public static CustomerQueryResponse toQueryResponse(Customer customer) {
+        return new CustomerQueryResponse(customer.getId().value(), customer.getName());
     }
 
 }

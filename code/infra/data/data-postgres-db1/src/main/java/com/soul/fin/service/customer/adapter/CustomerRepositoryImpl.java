@@ -5,6 +5,7 @@ import com.soul.fin.service.customer.entity.Customer;
 import com.soul.fin.service.customer.mapper.CustomerMapper;
 import com.soul.fin.service.customer.repository.CustomerJpaRepository;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -23,6 +24,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Override
     public Mono<Customer> findById(UUID id) {
         return customerJpaRepository.findById(id)
+                .map(mapper::toCustomer);
+    }
+
+    @Override
+    public Flux<Customer> findAll() {
+        return customerJpaRepository.findAll()
                 .map(mapper::toCustomer);
     }
 

@@ -3,8 +3,7 @@ package com.soul.fin.service.controller;
 
 import com.soul.fin.common.bus.SpringCommandBus;
 import com.soul.fin.common.bus.SpringQueryBus;
-import com.soul.fin.server.customer.dto.query.CustomerQuery;
-import com.soul.fin.server.customer.ports.input.service.CustomerApplicationService;
+import com.soul.fin.server.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.service.dto.CustomerQueryResponse;
 import com.soul.fin.service.dto.CustomerRegisteredResponse;
 import com.soul.fin.service.dto.GetCustomerRequest;
@@ -12,6 +11,7 @@ import com.soul.fin.service.dto.RegisterCustomerRequest;
 import com.soul.fin.service.mapper.CustomerMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -20,51 +20,43 @@ import java.util.UUID;
 @RequestMapping("/orders")
 public class CustomerController {
 
-    private final CustomerApplicationService customerApplicationService;
     private final SpringCommandBus commandBus;
     private final SpringQueryBus queryBus;
+    private final CustomerRepository customerRepository;
 
-    public CustomerController(CustomerApplicationService customerApplicationService, SpringCommandBus commandBus, SpringQueryBus queryBus) {
-        this.customerApplicationService = customerApplicationService;
+    public CustomerController(SpringCommandBus commandBus, SpringQueryBus queryBus, CustomerRepository customerRepository) {
         this.commandBus = commandBus;
         this.queryBus = queryBus;
+        this.customerRepository = customerRepository;
     }
 
-    @GetMapping("/ret/{customerId}")
-    @PreAuthorize("hasAuthority('order.create')")
-    public Mono<CustomerQueryResponse> ret(@PathVariable UUID customerId) {
+    @GetMapping("/{customerId}")
+    public Mono<CustomerQueryResponse> getCustomerById(@PathVariable UUID customerId) {
 
-        final var req = new GetCustomerRequest(customerId);
-        return Mono.just(req)
+        return Mono.just(new GetCustomerRequest(customerId))
                 .map(CustomerMapper::toQuery)
                 .flatMap(queryBus::execute)
-                .map(c -> new CustomerQuery(c.customerId(), c.name()))
                 .map(CustomerMapper::toQueryResponse);
+
     }
 
     @GetMapping()
-    @PreAuthorize("hasAuthority('order.create')")
-    public Mono<String> get() {
-        final var req = new RegisterCustomerRequest("Guilherme");
-        return Mono.just(req)
-                .map(CustomerMapper::toCommand)
-                .flatMap(commandBus::execute)
-//                .doOnNext(res -> System.out.println("TYPE = " + res.getClass()))
-                //.cast(com.soul.fin.server.customer.dto.command.CustomerRegisteredResponse.class)
-                .map(customerRegisteredResponse ->
-                        "Customer registered with id: " + customerRegisteredResponse.customerId().toString()
-                );
+    public Flux<CustomerQueryResponse> getAllCustomers() {
+        return customerRepository.findAll()
+                .map(CustomerMapper::toQueryResponse);
+
     }
 
-
     @PostMapping
-    //@PreAuthorize("hasAuthority('order.place')")
+    @PreAuthorize("hasAuthority('order.create')")
     //@PreAuthorize("hasAuthority('order.delete') and @tenantGuard.allowAccess(authentication, #tenantId)")
-    public Mono<CustomerRegisteredResponse> placeOrder(@RequestBody Mono<RegisterCustomerRequest> request) {
+    public Mono<CustomerRegisteredResponse> registerCustomer(@RequestBody Mono<RegisterCustomerRequest> request) {
+
         return request
                 .map(CustomerMapper::toCommand)
-                .as(customerApplicationService::registerCustomer)
+                .flatMap(commandBus::execute)
                 .map(CustomerMapper::toResponse);
+
     }
 
 
