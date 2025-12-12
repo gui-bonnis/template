@@ -15,6 +15,43 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Test Report Aggregator Module</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>api-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin</groupId>
+            <artifactId>boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin</groupId>
+            <artifactId>common-api-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin</groupId>
+            <artifactId>common-bus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin</groupId>
+            <artifactId>common-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>core-application</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>core-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin</groupId>
+            <artifactId>infra-data-postgres-db1</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
     <build>
         <plugins>
             <plugin>
@@ -36,4 +73,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.5.4</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
