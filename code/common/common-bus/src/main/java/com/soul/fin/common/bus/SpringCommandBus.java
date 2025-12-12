@@ -4,12 +4,12 @@ import com.soul.fin.common.bus.core.Command;
 import com.soul.fin.common.bus.core.CommandBus;
 import com.soul.fin.common.bus.core.CommandHandler;
 import com.soul.fin.common.bus.middleware.CommandMiddleware;
-import com.soul.fin.common.bus.middleware.NextCommand;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -32,35 +32,25 @@ public class SpringCommandBus implements CommandBus {
     @SuppressWarnings("unchecked")
     @Override
     public <R, C extends Command<R>> Mono<R> execute(C command) {
-        NextCommand chain = new NextCommand() {
-            @Override
-            public <R, C extends Command<R>> Mono<R> invoke(C cmd) {
-                return Mono.just(cmd)
-                        .flatMap(c -> {
-                            @SuppressWarnings("unchecked")
-                            var handler = (CommandHandler<C, R>) handlers.get(c.getClass());
-                            if (handler == null) {
-                                return Mono.error(new IllegalArgumentException("No handler for " + c.getClass()));
-                            }
-                            return handler.handle(c);
-                        });
+        // Innermost execution: handler lookup and call
+        Function<C, Mono<R>> execution = cmd -> {
+            @SuppressWarnings("unchecked")
+            var handler = (CommandHandler<C, R>) handlers.get(cmd.getClass());
+            if (handler == null) {
+                return Mono.error(new IllegalArgumentException("No handler for " + cmd.getClass()));
             }
+            return handler.handle(cmd);
         };
 
-        // Build middleware chain (reverse order)
+        // Compose middlewares (reverse order for outermost first)
         ListIterator<CommandMiddleware> iterator = middlewares.listIterator(middlewares.size());
         while (iterator.hasPrevious()) {
             CommandMiddleware mw = iterator.previous();
-            NextCommand nextCopy = chain;
-            chain = new NextCommand() {
-                @Override
-                public <R, C extends Command<R>> Mono<R> invoke(C cmd) {
-                    return mw.invoke(cmd, nextCopy);
-                }
-            };
+            execution = mw.apply(execution);  // Wrap the execution function
         }
 
-        return chain.invoke(command);
+        // Execute the composed function
+        return execution.apply(command);
     }
 
     private static int getOrder(CommandMiddleware mw) {

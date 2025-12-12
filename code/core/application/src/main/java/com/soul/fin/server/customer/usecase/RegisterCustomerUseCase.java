@@ -2,10 +2,11 @@ package com.soul.fin.server.customer.usecase;
 
 import com.soul.fin.server.customer.dto.command.CustomerRegisteredResponse;
 import com.soul.fin.server.customer.dto.command.RegisterCustomerCommand;
+import com.soul.fin.server.customer.mapper.CustomerMapper;
 import com.soul.fin.server.customer.ports.output.repository.CustomerRepository;
-import com.soul.fin.service.customer.entity.Customer;
 import com.soul.fin.service.customer.service.CustomerDomainService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -14,18 +15,19 @@ public class RegisterCustomerUseCase {
     private final CustomerDomainService customerDomainService;
     private final CustomerRepository customerRepository;
 
-    public RegisterCustomerUseCase(CustomerDomainService customerDomainService, CustomerRepository customerRepository) {
+    public RegisterCustomerUseCase(CustomerDomainService customerDomainService,
+                                   CustomerRepository customerRepository) {
         this.customerDomainService = customerDomainService;
         this.customerRepository = customerRepository;
     }
 
-    //@Transactional
+    @Transactional
     public Mono<CustomerRegisteredResponse> registerCustomer(RegisterCustomerCommand command) {
 
         return Mono.just(command)
                 // validate entities within command
                 // map to use case input
-                .flatMap(this::buildNewCustomer)
+                .flatMap(CustomerMapper::toCustomer)
                 // call domain service
                 .map(customerDomainService::registerCustomer)
                 // call saga orchestrator service if needed (save saga resource)
@@ -34,18 +36,7 @@ public class RegisterCustomerUseCase {
                 // publish event
                 // outbox pattern
                 // build return
-                .map(this::buildResponse);
+                .map(CustomerMapper::toResponse);
     }
 
-    private Mono<Customer> buildNewCustomer(RegisterCustomerCommand command) {
-        return Mono.just(command)
-                .map(cmd -> Customer.builder()
-                        .withName(cmd.name())
-                        .build());
-    }
-
-
-    private CustomerRegisteredResponse buildResponse(final Customer customer) {
-        return new CustomerRegisteredResponse(customer.getId().value());
-    }
 }
