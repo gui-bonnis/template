@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 @FunctionalInterface
 public interface QueryMiddleware {
-    <R, Q extends Query<R>> Mono<Q> invoke(Q query, NextQuery next);
+    <R, Q extends Query<R>> Mono<R> invoke(Q query, NextQuery next);
 }

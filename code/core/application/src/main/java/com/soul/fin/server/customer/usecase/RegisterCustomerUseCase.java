@@ -5,7 +5,6 @@ import com.soul.fin.server.customer.dto.command.RegisterCustomerCommand;
 import com.soul.fin.server.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.service.customer.entity.Customer;
 import com.soul.fin.service.customer.service.CustomerDomainService;
-import com.soul.fin.service.customer.vo.CustomerId;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -38,9 +37,11 @@ public class RegisterCustomerUseCase {
                 .map(this::buildResponse);
     }
 
-    private Mono<CustomerId> buildNewCustomer(RegisterCustomerCommand command) {
+    private Mono<Customer> buildNewCustomer(RegisterCustomerCommand command) {
         return Mono.just(command)
-                .map(cmd -> new CustomerId(command.customerId()));
+                .map(cmd -> Customer.builder()
+                        .withName(cmd.name())
+                        .build());
     }
 
 

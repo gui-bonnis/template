@@ -31,20 +31,19 @@ public class SpringCommandBus implements CommandBus {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <R, C extends Command<R>> Mono<C> execute(C command) {
+    public <R, C extends Command<R>> Mono<R> execute(C command) {
         NextCommand chain = new NextCommand() {
             @Override
-            public <RO, CO extends Command<RO>> Mono<CO> invoke(CO cmdMono) {
-                return Mono.just(cmdMono)
-                        .flatMap(cmd -> {
+            public <R, C extends Command<R>> Mono<R> invoke(C cmd) {
+                return Mono.just(cmd)
+                        .flatMap(c -> {
                             @SuppressWarnings("unchecked")
-                            var handler = (CommandHandler<CO, RO>) handlers.get(cmd.getClass());
+                            var handler = (CommandHandler<C, R>) handlers.get(c.getClass());
                             if (handler == null) {
-                                return Mono.error(new IllegalArgumentException("No handler for " + cmd.getClass()));
+                                return Mono.error(new IllegalArgumentException("No handler for " + c.getClass()));
                             }
-                            return handler.handle(cmd);
-                        })
-                        .map(result -> (CO) cmdMono);
+                            return handler.handle(c);
+                        });
             }
         };
 
@@ -55,7 +54,7 @@ public class SpringCommandBus implements CommandBus {
             NextCommand nextCopy = chain;
             chain = new NextCommand() {
                 @Override
-                public <R, C extends Command<R>> Mono<C> invoke(C cmd) {
+                public <R, C extends Command<R>> Mono<R> invoke(C cmd) {
                     return mw.invoke(cmd, nextCopy);
                 }
             };

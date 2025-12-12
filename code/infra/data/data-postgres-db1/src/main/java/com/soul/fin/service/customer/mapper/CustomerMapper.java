@@ -20,7 +20,8 @@ public class CustomerMapper {
 //                .id(customer.getId().value())
 //                .name(customer.getName())
 //                .build();
-        return new CustomerEntity(customer.getId().value(), customer.getName());
+        final var customerId = customer.getId() != null ? customer.getId().value() : null;
+        return new CustomerEntity(customerId, customer.getName());
     }
 
 }

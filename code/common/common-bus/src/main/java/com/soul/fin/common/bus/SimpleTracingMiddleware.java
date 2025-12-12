@@ -11,13 +11,13 @@ import java.util.UUID;
 @Component
 public final class SimpleTracingMiddleware implements CommandMiddleware {
     @Override
-    public <R, C extends Command<R>> Mono<C> invoke(C command, NextCommand next) {
+    public <R, C extends Command<R>> Mono<R> invoke(C command, NextCommand next) {
         String traceId = UUID.randomUUID().toString();
         long start = System.nanoTime();
         return next.invoke(command)
                 .contextWrite(ctx -> ctx.put("TRACE", traceId))
                 .doOnSubscribe(s -> log("start", traceId, command))
-                .doOnSuccess(r -> log("success", traceId, command))
+                .doOnSuccess(r -> log("success", traceId, command, r))
                 .doOnError(e -> log("error", traceId, command, e))
                 .doFinally(signal -> {
                     long duration = System.nanoTime() - start;
@@ -28,6 +28,10 @@ public final class SimpleTracingMiddleware implements CommandMiddleware {
 
     private <C extends Command<?>> void log(String event, String traceId, C command) {
         System.out.printf("[trace=%s] %s %s%n", traceId, event, command.getClass().getSimpleName());
+    }
+
+    private <C extends Command<?>, R> void log(String event, String traceId, C command, R result) {
+        System.out.printf("[trace=%s] %s %s with result %s%n", traceId, event, command.getClass().getSimpleName(), result);
     }
 
     private <C extends Command<?>> void log(String event, String traceId, C command, Throwable error) {

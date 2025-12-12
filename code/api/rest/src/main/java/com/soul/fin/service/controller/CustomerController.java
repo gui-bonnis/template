@@ -7,7 +7,8 @@ import com.soul.fin.server.customer.dto.query.CustomerQuery;
 import com.soul.fin.server.customer.ports.input.service.CustomerApplicationService;
 import com.soul.fin.service.dto.CustomerQueryResponse;
 import com.soul.fin.service.dto.CustomerRegisteredResponse;
-import com.soul.fin.service.dto.RegisterCustomer;
+import com.soul.fin.service.dto.GetCustomerRequest;
+import com.soul.fin.service.dto.RegisterCustomerRequest;
 import com.soul.fin.service.mapper.CustomerMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,29 +34,18 @@ public class CustomerController {
     @PreAuthorize("hasAuthority('order.create')")
     public Mono<CustomerQueryResponse> ret(@PathVariable UUID customerId) {
 
-        final var req = new RegisterCustomer(customerId);
+        final var req = new GetCustomerRequest(customerId);
         return Mono.just(req)
                 .map(CustomerMapper::toQuery)
                 .flatMap(queryBus::execute)
-                .map(c -> new CustomerQuery(c.customerId(), c.toString()))
+                .map(c -> new CustomerQuery(c.customerId(), c.name()))
                 .map(CustomerMapper::toQueryResponse);
-
-
-//        Mono.just(req)
-//                .map(CustomerMapper::toCommand)
-//                .as(customerApplicationService::handle)
-//                .map(customerRegisteredResponse ->
-//                        "Customer registered with id: " + customerRegisteredResponse.customerId()
-//                );
-//
-//        return Mono.just("qq coisa");
-
     }
 
     @GetMapping()
     @PreAuthorize("hasAuthority('order.create')")
     public Mono<String> get() {
-        final var req = new RegisterCustomer(UUID.randomUUID());
+        final var req = new RegisterCustomerRequest("Guilherme");
         return Mono.just(req)
                 .map(CustomerMapper::toCommand)
                 .flatMap(commandBus::execute)
@@ -70,7 +60,7 @@ public class CustomerController {
     @PostMapping
     //@PreAuthorize("hasAuthority('order.place')")
     //@PreAuthorize("hasAuthority('order.delete') and @tenantGuard.allowAccess(authentication, #tenantId)")
-    public Mono<CustomerRegisteredResponse> placeOrder(@RequestBody Mono<RegisterCustomer> request) {
+    public Mono<CustomerRegisteredResponse> placeOrder(@RequestBody Mono<RegisterCustomerRequest> request) {
         return request
                 .map(CustomerMapper::toCommand)
                 .as(customerApplicationService::registerCustomer)

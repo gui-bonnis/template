@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 @FunctionalInterface
 public interface CommandMiddleware {
-    <R, C extends Command<R>> Mono<C> invoke(C command, NextCommand next);
+    <R, C extends Command<R>> Mono<R> invoke(C command, NextCommand next);
 }

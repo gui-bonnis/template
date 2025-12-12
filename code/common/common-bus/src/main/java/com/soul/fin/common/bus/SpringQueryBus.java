@@ -31,20 +31,19 @@ public class SpringQueryBus implements QueryBus {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <R, C extends Query<R>> Mono<C> execute(C query) {
+    public <R, C extends Query<R>> Mono<R> execute(C query) {
         NextQuery chain = new NextQuery() {
             @Override
-            public <RO, CO extends Query<RO>> Mono<CO> invoke(CO cmdMono) {
-                return Mono.just(cmdMono)
-                        .flatMap(cmd -> {
+            public <R, C extends Query<R>> Mono<R> invoke(C cmd) {
+                return Mono.just(cmd)
+                        .flatMap(c -> {
                             @SuppressWarnings("unchecked")
-                            var handler = (QueryHandler<CO, RO>) handlers.get(cmd.getClass());
+                            var handler = (QueryHandler<C, R>) handlers.get(c.getClass());
                             if (handler == null) {
-                                return Mono.error(new IllegalArgumentException("No handler for " + cmd.getClass()));
+                                return Mono.error(new IllegalArgumentException("No handler for " + c.getClass()));
                             }
-                            return handler.handle(cmd);
-                        })
-                        .map(result -> (CO) cmdMono);
+                            return handler.handle(c);
+                        });
             }
         };
 
@@ -55,7 +54,7 @@ public class SpringQueryBus implements QueryBus {
             NextQuery nextCopy = chain;
             chain = new NextQuery() {
                 @Override
-                public <R, C extends Query<R>> Mono<C> invoke(C cmd) {
+                public <R, C extends Query<R>> Mono<R> invoke(C cmd) {
                     return mw.invoke(cmd, nextCopy);
                 }
             };
