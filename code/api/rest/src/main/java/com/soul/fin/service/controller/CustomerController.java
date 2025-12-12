@@ -1,9 +1,7 @@
 package com.soul.fin.service.controller;
 
 
-import com.soul.fin.common.bus.SpringCommandBus;
-import com.soul.fin.common.bus.SpringQueryBus;
-import com.soul.fin.server.customer.ports.output.repository.CustomerRepository;
+import com.soul.fin.server.customer.ports.input.service.CustomerApplicationService;
 import com.soul.fin.service.dto.CustomerQueryResponse;
 import com.soul.fin.service.dto.CustomerRegisteredResponse;
 import com.soul.fin.service.dto.GetCustomerRequest;
@@ -20,14 +18,10 @@ import java.util.UUID;
 @RequestMapping("/customers")
 public class CustomerController {
 
-    private final SpringCommandBus commandBus;
-    private final SpringQueryBus queryBus;
-    private final CustomerRepository customerRepository;
+    private final CustomerApplicationService service;
 
-    public CustomerController(SpringCommandBus commandBus, SpringQueryBus queryBus, CustomerRepository customerRepository) {
-        this.commandBus = commandBus;
-        this.queryBus = queryBus;
-        this.customerRepository = customerRepository;
+    public CustomerController(CustomerApplicationService service) {
+        this.service = service;
     }
 
     @GetMapping("/{customerId}")
@@ -35,7 +29,7 @@ public class CustomerController {
 
         return Mono.just(new GetCustomerRequest(customerId))
                 .map(CustomerMapper::toQuery)
-                .flatMap(queryBus::execute)
+                .as(service::getCustomerById)
                 .map(CustomerMapper::toQueryResponse);
 
     }
@@ -43,8 +37,7 @@ public class CustomerController {
     @GetMapping()
     public Flux<CustomerQueryResponse> getAllCustomers() {
 
-        return customerRepository.findAll()
-                .map(CustomerMapper::toQueryResponse);
+        return service.getAllCustomers().map(CustomerMapper::toQueryResponse);
 
     }
 
@@ -55,7 +48,7 @@ public class CustomerController {
 
         return request
                 .map(CustomerMapper::toCommand)
-                .flatMap(commandBus::execute)
+                .as(service::registerCustomer)
                 .map(CustomerMapper::toResponse);
 
     }

@@ -1,7 +1,7 @@
 # TODO
 
-1) Add the repository to save the entities. OK
-2) Make use case transactional. OK
+1) Add the repository to save the entities. ✅
+2) Make use case transactional. ✅
 3) Implement Query side for reading entities. --> Almost done, need to see query bus to flux
 4) Implement tests for all layers.
 
@@ -11,7 +11,7 @@
 - architecture tests
 - add reactive step validation to guarantee reactive flows.
 
-5) Add security layer (authentication and authorization). OK
+5) Add security layer (authentication and authorization). ✅ need to review later
 6) Add kafka integration for event publishing.
 7) Implement OpenTelemetry tracing and metrics.
 8) Add outbox pattern for reliable event delivery.
@@ -49,7 +49,7 @@
 21) Add JavaDoc comments for all public classes and methods.
 22) Set up code quality tools (e.g., SonarQube, Checkstyle).
 23) Set up unified testing framework across all modules.
-24) Set up unified test reporting across all modules.
+24) Set up unified test reporting across all modules. ✅
 25) Add Creating Rest Client and Avro Schemas for external integrations using OpenAPI Generator.
 26) Implement feature toggles for controlled feature releases.
 27) Add data versioning and migration strategy.
