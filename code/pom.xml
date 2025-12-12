@@ -303,6 +303,18 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco.version}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/dto/**</exclude>
+                            <exclude>**/config/**</exclude>
+                            <exclude>**/configuration/**</exclude>
+                            <exclude>**/generated/**</exclude>
+                            <exclude>**/model/**</exclude>
+                            <exclude>**/entity/**</exclude>
+                            <exclude>**/*Application.class</exclude>
+                            <exclude>**/*Config.class</exclude>
+                        </excludes>
+                    </configuration>
 
                     <executions>
                         <!-- Attach JaCoCo agent -->
