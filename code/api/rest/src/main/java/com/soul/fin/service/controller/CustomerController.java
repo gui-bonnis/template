@@ -2,7 +2,10 @@ package com.soul.fin.service.controller;
 
 
 import com.soul.fin.common.bus.SpringCommandBus;
+import com.soul.fin.common.bus.SpringQueryBus;
+import com.soul.fin.server.customer.dto.query.CustomerQuery;
 import com.soul.fin.server.customer.ports.input.service.CustomerApplicationService;
+import com.soul.fin.service.dto.CustomerQueryResponse;
 import com.soul.fin.service.dto.CustomerRegisteredResponse;
 import com.soul.fin.service.dto.RegisterCustomer;
 import com.soul.fin.service.mapper.CustomerMapper;
@@ -14,28 +17,29 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/orders")
-public class OrderController {
+public class CustomerController {
 
     private final CustomerApplicationService customerApplicationService;
     private final SpringCommandBus commandBus;
+    private final SpringQueryBus queryBus;
 
-    public OrderController(CustomerApplicationService customerApplicationService, SpringCommandBus commandBus) {
+    public CustomerController(CustomerApplicationService customerApplicationService, SpringCommandBus commandBus, SpringQueryBus queryBus) {
         this.customerApplicationService = customerApplicationService;
         this.commandBus = commandBus;
+        this.queryBus = queryBus;
     }
 
-
-    @GetMapping("/ret")
+    @GetMapping("/ret/{customerId}")
     @PreAuthorize("hasAuthority('order.create')")
-    public Mono<String> ret() {
+    public Mono<CustomerQueryResponse> ret(@PathVariable UUID customerId) {
 
-        final var req = new RegisterCustomer(UUID.randomUUID());
+        final var req = new RegisterCustomer(customerId);
         return Mono.just(req)
-                .map(CustomerMapper::toCommand)
-                .as(customerApplicationService::handle)
-                .map(customerRegisteredResponse ->
-                        "Customer registered with id: " + customerRegisteredResponse.customerId()
-                );
+                .map(CustomerMapper::toQuery)
+                .flatMap(queryBus::execute)
+                .map(c -> new CustomerQuery(c.customerId(), c.toString()))
+                .map(CustomerMapper::toQueryResponse);
+
 
 //        Mono.just(req)
 //                .map(CustomerMapper::toCommand)
@@ -69,7 +73,7 @@ public class OrderController {
     public Mono<CustomerRegisteredResponse> placeOrder(@RequestBody Mono<RegisterCustomer> request) {
         return request
                 .map(CustomerMapper::toCommand)
-                .as(customerApplicationService::handle)
+                .as(customerApplicationService::registerCustomer)
                 .map(CustomerMapper::toResponse);
     }
 
