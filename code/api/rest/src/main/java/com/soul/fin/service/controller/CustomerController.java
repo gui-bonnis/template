@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/customers")
 public class CustomerController {
 
     private final SpringCommandBus commandBus;
@@ -42,6 +42,7 @@ public class CustomerController {
 
     @GetMapping()
     public Flux<CustomerQueryResponse> getAllCustomers() {
+
         return customerRepository.findAll()
                 .map(CustomerMapper::toQueryResponse);
 
