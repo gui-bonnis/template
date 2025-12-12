@@ -87,15 +87,25 @@
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <executions>
-                    <!--                    <execution>-->
-                    <!--                        <id>pit-aggregate</id>-->
-                    <!--                        <phase>verify</phase>-->
-                    <!--                        <goals>-->
-                    <!--                            <goal>report-aggregate</goal>-->
-                    <!--                        </goals>-->
-                    <!--                    </execution>-->
-                </executions>
+
+                <configuration>
+                    <!-- 👇 CRITICAL -->
+                    <aggregate>true</aggregate>
+
+                    <!-- Merge all mutation data -->
+                    <outputFormats>
+                        <param>HTML</param>
+                        <param>XML</param>
+                    </outputFormats>
+
+                    <reportsDirectory>
+                        ${project.build.directory}/pit-reports
+                    </reportsDirectory>
+
+                    <!--                        <mutationThreshold>70</mutationThreshold>-->
+                    <!--                        <coverageThreshold>80</coverageThreshold>-->
+                </configuration>
+
             </plugin>
         </plugins>
     </build>
