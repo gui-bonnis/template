@@ -1,4 +1,5 @@
-package com.soul.fin.service.config;
+package com.soul.fin.common.api.rest.config;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,3 +63,4 @@ public class SecurityConfig {
         return new JwtAuthenticationToken(jwt, authorities);
     }
 }
+
