@@ -1,4 +1,5 @@
 package com.soul.fin.common.bus.core;
 
-public interface Query<R> {
+public sealed interface Query<R>
+        permits QueryOne, QueryMany {
 }

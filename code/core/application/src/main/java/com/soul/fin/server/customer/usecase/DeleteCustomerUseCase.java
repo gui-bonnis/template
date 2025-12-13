@@ -29,20 +29,20 @@ public class DeleteCustomerUseCase {
         return Mono.just(command)
                 // validate command
                 .transform(DeleteCustomerCommandValidator.validate())
-                // validate entities within command
-                // map to use case input
+                // map command to domain
                 .map(CustomerMapper::toCustomer)
-                // call domain service for any business rules
-                .map(customerDomainService::deleteCustomer)
                 // execute delete
                 .flatMap(this::execute);
     }
 
     private Mono<Void> execute(Customer customer) {
+        // get existing entity
         return customerRepository.findById(customer.getId().value())
                 .switchIfEmpty(CustomerApplicationExceptions.customerNotFound(customer.getId().value()))
-                .flatMap(c ->
-                {
+                // call domain service for any business rules
+                .map(customerDomainService::deleteCustomer)
+                // delete domain
+                .flatMap(c -> {
                     return customerRepository.deleteById(c.getId().value());
                     // call saga orchestrator service if needed (save saga resource)
                     // publish event

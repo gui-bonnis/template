@@ -20,7 +20,7 @@ public class UpdateCustomerCommandValidator {
     }
 
     private static Predicate<UpdateCustomerCommand> hasName() {
-        return dto -> Objects.nonNull(dto.name());
+        return dto -> Objects.nonNull(dto.name()) && !dto.name().isBlank();
     }
 
 //    private static Predicate<CustomerDto> hasValidEmail() {

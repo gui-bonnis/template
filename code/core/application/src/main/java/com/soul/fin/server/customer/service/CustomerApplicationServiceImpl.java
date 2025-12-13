@@ -4,10 +4,10 @@ import com.soul.fin.common.bus.SpringCommandBus;
 import com.soul.fin.common.bus.SpringQueryBus;
 import com.soul.fin.server.customer.dto.command.*;
 import com.soul.fin.server.customer.dto.query.CustomerQuery;
+import com.soul.fin.server.customer.dto.query.GetAllCustomersPaginatedQuery;
+import com.soul.fin.server.customer.dto.query.GetAllCustomersQuery;
 import com.soul.fin.server.customer.dto.query.GetCustomerByIdQuery;
-import com.soul.fin.server.customer.mapper.CustomerMapper;
 import com.soul.fin.server.customer.ports.input.service.CustomerApplicationService;
-import com.soul.fin.server.customer.ports.output.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,22 +17,25 @@ public class CustomerApplicationServiceImpl implements CustomerApplicationServic
 
     private final SpringCommandBus commandBus;
     private final SpringQueryBus queryBus;
-    private final CustomerRepository customerRepository;
 
-    public CustomerApplicationServiceImpl(SpringCommandBus commandBus, SpringQueryBus queryBus, CustomerRepository customerRepository) {
+    public CustomerApplicationServiceImpl(SpringCommandBus commandBus, SpringQueryBus queryBus) {
         this.commandBus = commandBus;
         this.queryBus = queryBus;
-        this.customerRepository = customerRepository;
     }
 
     @Override
     public Mono<CustomerQuery> getCustomerById(Mono<GetCustomerByIdQuery> query) {
-        return query.flatMap(queryBus::execute);
+        return query.flatMap(queryBus::ask);
     }
 
     @Override
-    public Flux<CustomerQuery> getAllCustomers() {
-        return customerRepository.findAll().map(CustomerMapper::toQuery);
+    public Flux<CustomerQuery> getAllCustomers(Flux<GetAllCustomersQuery> query) {
+        return query.flatMap(queryBus::askMany);
+    }
+
+    @Override
+    public Flux<CustomerQuery> getAllCustomersPaginated(Flux<GetAllCustomersPaginatedQuery> query) {
+        return query.flatMap(queryBus::askMany);
     }
 
     @Override

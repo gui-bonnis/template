@@ -1,6 +1,6 @@
 package com.soul.fin.server.customer.dto.query;
 
-import com.soul.fin.common.bus.core.Query;
+import com.soul.fin.common.bus.core.QueryMany;
 
-public record GetAllCustomersQuery() implements Query<CustomersQuery> {
+public record GetAllCustomersQuery() implements QueryMany<CustomerQuery> {
 }

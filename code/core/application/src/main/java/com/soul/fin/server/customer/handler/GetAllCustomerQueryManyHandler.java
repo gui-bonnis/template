@@ -1,25 +1,26 @@
 package com.soul.fin.server.customer.handler;
 
 
-import com.soul.fin.common.bus.core.QueryHandler;
+import com.soul.fin.common.bus.core.QueryManyHandler;
 import com.soul.fin.server.customer.dto.query.CustomerQuery;
-import com.soul.fin.server.customer.dto.query.GetCustomerByIdQuery;
+import com.soul.fin.server.customer.dto.query.GetAllCustomersQuery;
 import com.soul.fin.server.customer.ports.output.repository.CustomerRepository;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @Component
-public class GetCustomerByIdQueryHandler implements QueryHandler<GetCustomerByIdQuery, CustomerQuery> {
+public class GetAllCustomerQueryManyHandler implements QueryManyHandler<GetAllCustomersQuery, CustomerQuery> {
 
     private final CustomerRepository customerRepository;
 
-    public GetCustomerByIdQueryHandler(CustomerRepository customerRepository) {
+    public GetAllCustomerQueryManyHandler(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
     @Override
-    public Mono<CustomerQuery> handle(GetCustomerByIdQuery query) {
-        return customerRepository.findById(query.customerId())
+    public Flux<CustomerQuery> handle(GetAllCustomersQuery query) {
+        return customerRepository.findAll()
                 .map(customer -> new CustomerQuery(customer.getId().value(), customer.getName()));
     }
+
 }

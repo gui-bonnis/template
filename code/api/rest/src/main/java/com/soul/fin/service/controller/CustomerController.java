@@ -2,6 +2,8 @@ package com.soul.fin.service.controller;
 
 
 import com.soul.fin.server.customer.dto.command.CustomerUpdatedResponse;
+import com.soul.fin.server.customer.dto.query.GetAllCustomersPaginatedQuery;
+import com.soul.fin.server.customer.dto.query.GetAllCustomersQuery;
 import com.soul.fin.server.customer.ports.input.service.CustomerApplicationService;
 import com.soul.fin.service.dto.*;
 import com.soul.fin.service.mapper.CustomerMapper;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -34,8 +37,18 @@ public class CustomerController {
 
     @GetMapping()
     public Flux<CustomerQueryResponse> getAllCustomers() {
-        return service.getAllCustomers()
+        return Flux.just(new GetAllCustomersQuery())
+                .as(service::getAllCustomers)
                 .map(CustomerMapper::toQueryResponse);
+    }
+
+    @GetMapping("/paginated")
+    public Mono<List<CustomerQueryResponse>> getAllCustomers(@RequestParam(defaultValue = "1") int page,
+                                                             @RequestParam(defaultValue = "10") int size) {
+        return Flux.just(new GetAllCustomersPaginatedQuery(page, size))
+                .as(service::getAllCustomersPaginated)
+                .map(CustomerMapper::toQueryResponse)
+                .collectList();
     }
 
     @PostMapping

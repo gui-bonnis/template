@@ -4,6 +4,7 @@ import com.soul.fin.server.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.service.customer.entity.Customer;
 import com.soul.fin.service.customer.mapper.CustomerMapper;
 import com.soul.fin.service.customer.repository.CustomerJpaRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -24,6 +25,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Override
     public Mono<Customer> findById(UUID id) {
         return customerJpaRepository.findById(id)
+                .map(mapper::toCustomer);
+    }
+
+    @Override
+    public Flux<Customer> findBy(int page, int size) {
+        return customerJpaRepository.findBy(PageRequest.of(page - 1, size))
                 .map(mapper::toCustomer);
     }
 

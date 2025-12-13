@@ -2,6 +2,7 @@ package com.soul.fin.server.customer.usecase;
 
 import com.soul.fin.server.customer.dto.command.CustomerUpdatedResponse;
 import com.soul.fin.server.customer.dto.command.UpdateCustomerCommand;
+import com.soul.fin.server.customer.exception.CustomerApplicationExceptions;
 import com.soul.fin.server.customer.mapper.CustomerMapper;
 import com.soul.fin.server.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.server.customer.validator.UpdateCustomerCommandValidator;
@@ -26,10 +27,12 @@ public class UpdateCustomerUseCase {
     public Mono<CustomerUpdatedResponse> updatedCustomer(UpdateCustomerCommand command) {
 
         return Mono.just(command)
-                // validate entities within command
+                // validate command
                 .transform(UpdateCustomerCommandValidator.validate())
-
+                // get existing entity
                 .flatMap(cmd -> customerRepository.findById(cmd.customerId()))
+                // throw if not found
+                .switchIfEmpty(CustomerApplicationExceptions.customerNotFound(command.customerId()))
                 // call domain service
                 .map(c -> customerDomainService.updateCustomer(c, CustomerMapper.toCustomer(command)))
                 // save domain

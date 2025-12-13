@@ -26,9 +26,9 @@ public class RegisterCustomerUseCase {
     public Mono<CustomerRegisteredResponse> registerCustomer(RegisterCustomerCommand command) {
 
         return Mono.just(command)
-                // validate entities within command
+                // validate command
                 .transform(RegisterCustomerCommandValidator.validate())
-                // map to use case input
+                // map to domain entity
                 .map(CustomerMapper::toCustomer)
                 // call domain service
                 .map(customerDomainService::registerCustomer)
