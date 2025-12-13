@@ -2,12 +2,11 @@
 
 1) Add the repository to save the entities. ✅
 2) Make use case transactional. ✅
-3) Implement Query side for reading entities. --> Almost done, need to see query bus to flux
+3) Implement Query side for reading entities. ✅
 
-- pagination
+- pagination ✅
 - filtering
 - sorting
-- searching
 
 4) Implement tests for all layers.
 

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.net.URI;
+
 @ControllerAdvice
 public class ApplicationErrorHandler {
 
@@ -36,13 +38,13 @@ public class ApplicationErrorHandler {
         switch (ex.getApplicationError()) {
             case EntityNotFoundException entityNotFound:
                 problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
-//                problem.setType(URI.create("http://example.com/problems/customer-not-found"));
-//                problem.setTitle("Customer Not Found");
+                problem.setType(URI.create("http://example.com/problems/customer-not-found"));
+                problem.setTitle("Entity Not Found");
                 return problem;
             case InvalidInputException invalidInput:
                 problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
-//                problem.setType(URI.create("http://example.com/problems/invalid-input"));
-//                problem.setTitle("Invalid input");
+                problem.setType(URI.create("http://example.com/problems/invalid-input"));
+                problem.setTitle("Invalid input");
                 return problem;
             default:
                 return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getApplicationError().toString());

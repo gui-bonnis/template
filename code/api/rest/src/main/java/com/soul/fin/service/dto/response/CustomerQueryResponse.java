@@ -1,4 +1,4 @@
-package com.soul.fin.service.dto;
+package com.soul.fin.service.dto.response;
 
 import java.util.UUID;
 

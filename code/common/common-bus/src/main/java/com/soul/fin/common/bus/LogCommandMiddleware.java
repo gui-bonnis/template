@@ -9,7 +9,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 @Component
-public final class SimpleTracingMiddleware implements CommandMiddleware {
+public final class LogCommandMiddleware implements CommandMiddleware {
     @Override
     public <R, C extends Command<R>> Function<C, Mono<R>> apply(Function<C, Mono<R>> next) {
         return cmd -> {

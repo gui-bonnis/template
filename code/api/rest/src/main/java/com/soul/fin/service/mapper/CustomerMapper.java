@@ -5,7 +5,12 @@ import com.soul.fin.server.customer.dto.command.DeleteCustomerCommand;
 import com.soul.fin.server.customer.dto.command.RegisterCustomerCommand;
 import com.soul.fin.server.customer.dto.command.UpdateCustomerCommand;
 import com.soul.fin.server.customer.dto.query.GetCustomerByIdQuery;
-import com.soul.fin.service.dto.*;
+import com.soul.fin.service.dto.request.DeleteCustomerRequest;
+import com.soul.fin.service.dto.request.GetCustomerRequest;
+import com.soul.fin.service.dto.request.RegisterCustomerRequest;
+import com.soul.fin.service.dto.request.UpdateCustomerRequest;
+import com.soul.fin.service.dto.response.CustomerQueryResponse;
+import com.soul.fin.service.dto.response.CustomerRegisteredResponse;
 
 import java.util.UUID;
 
