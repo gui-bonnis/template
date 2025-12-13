@@ -1,11 +1,13 @@
 package com.soul.fin.service.mapper;
 
+import com.soul.fin.server.customer.dto.command.CustomerUpdatedResponse;
+import com.soul.fin.server.customer.dto.command.DeleteCustomerCommand;
 import com.soul.fin.server.customer.dto.command.RegisterCustomerCommand;
+import com.soul.fin.server.customer.dto.command.UpdateCustomerCommand;
 import com.soul.fin.server.customer.dto.query.GetCustomerByIdQuery;
-import com.soul.fin.service.dto.CustomerQueryResponse;
-import com.soul.fin.service.dto.CustomerRegisteredResponse;
-import com.soul.fin.service.dto.GetCustomerRequest;
-import com.soul.fin.service.dto.RegisterCustomerRequest;
+import com.soul.fin.service.dto.*;
+
+import java.util.UUID;
 
 public class CustomerMapper {
 
@@ -13,8 +15,20 @@ public class CustomerMapper {
         return new RegisterCustomerCommand(request.name());
     }
 
+    public static UpdateCustomerCommand toCommand(UUID customerId, UpdateCustomerRequest request) {
+        return new UpdateCustomerCommand(customerId, request.name());
+    }
+
+    public static DeleteCustomerCommand toCommand(DeleteCustomerRequest request) {
+        return new DeleteCustomerCommand(request.customerId());
+    }
+
     public static CustomerRegisteredResponse toResponse(com.soul.fin.server.customer.dto.command.CustomerRegisteredResponse response) {
         return new CustomerRegisteredResponse(response.customerId());
+    }
+
+    public static CustomerUpdatedResponse toResponse(com.soul.fin.server.customer.dto.command.CustomerUpdatedResponse response) {
+        return new CustomerUpdatedResponse(response.customerId());
     }
 
     public static GetCustomerByIdQuery toQuery(GetCustomerRequest request) {

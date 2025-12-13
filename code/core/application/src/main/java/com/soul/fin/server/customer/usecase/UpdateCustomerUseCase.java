@@ -1,44 +1,44 @@
 package com.soul.fin.server.customer.usecase;
 
-import com.soul.fin.server.customer.dto.command.CustomerRegisteredResponse;
-import com.soul.fin.server.customer.dto.command.RegisterCustomerCommand;
+import com.soul.fin.server.customer.dto.command.CustomerUpdatedResponse;
+import com.soul.fin.server.customer.dto.command.UpdateCustomerCommand;
 import com.soul.fin.server.customer.mapper.CustomerMapper;
 import com.soul.fin.server.customer.ports.output.repository.CustomerRepository;
-import com.soul.fin.server.customer.validator.RegisterCustomerCommandValidator;
+import com.soul.fin.server.customer.validator.UpdateCustomerCommandValidator;
 import com.soul.fin.service.customer.service.CustomerDomainService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
-public class RegisterCustomerUseCase {
+public class UpdateCustomerUseCase {
 
     private final CustomerDomainService customerDomainService;
     private final CustomerRepository customerRepository;
 
-    public RegisterCustomerUseCase(CustomerDomainService customerDomainService,
-                                   CustomerRepository customerRepository) {
+    public UpdateCustomerUseCase(CustomerDomainService customerDomainService,
+                                 CustomerRepository customerRepository) {
         this.customerDomainService = customerDomainService;
         this.customerRepository = customerRepository;
     }
 
     @Transactional
-    public Mono<CustomerRegisteredResponse> registerCustomer(RegisterCustomerCommand command) {
+    public Mono<CustomerUpdatedResponse> updatedCustomer(UpdateCustomerCommand command) {
 
         return Mono.just(command)
                 // validate entities within command
-                .transform(RegisterCustomerCommandValidator.validate())
-                // map to use case input
-                .map(CustomerMapper::toCustomer)
+                .transform(UpdateCustomerCommandValidator.validate())
+
+                .flatMap(cmd -> customerRepository.findById(cmd.customerId()))
                 // call domain service
-                .map(customerDomainService::registerCustomer)
-                // call saga orchestrator service if needed (save saga resource)
+                .map(c -> customerDomainService.updateCustomer(c, CustomerMapper.toCustomer(command)))
                 // save domain
                 .flatMap(customerRepository::save)
+                // call saga orchestrator service if needed (save saga resource)
                 // publish event
                 // outbox pattern
                 // build return
-                .map(CustomerMapper::toCustomerRegisteredResponse);
+                .map(CustomerMapper::toCustomerUpdatedResponse);
     }
 
 }

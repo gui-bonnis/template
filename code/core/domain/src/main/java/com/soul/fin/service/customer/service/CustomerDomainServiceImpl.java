@@ -10,4 +10,19 @@ public class CustomerDomainServiceImpl implements CustomerDomainService {
                 .withName(customer.getName())
                 .build();
     }
+
+    @Override
+    public Customer updateCustomer(Customer fromDb, Customer fromCmd) {
+        return Customer.builder()
+                .withCustomerId(fromDb.getId())
+                .withName(fromCmd.getName())
+                .build();
+    }
+
+    @Override
+    public Customer deleteCustomer(Customer customer) {
+        return customer;
+    }
+
+
 }

@@ -2,8 +2,7 @@ package com.soul.fin.server.customer.service;
 
 import com.soul.fin.common.bus.SpringCommandBus;
 import com.soul.fin.common.bus.SpringQueryBus;
-import com.soul.fin.server.customer.dto.command.CustomerRegisteredResponse;
-import com.soul.fin.server.customer.dto.command.RegisterCustomerCommand;
+import com.soul.fin.server.customer.dto.command.*;
 import com.soul.fin.server.customer.dto.query.CustomerQuery;
 import com.soul.fin.server.customer.dto.query.GetCustomerByIdQuery;
 import com.soul.fin.server.customer.mapper.CustomerMapper;
@@ -28,24 +27,27 @@ public class CustomerApplicationServiceImpl implements CustomerApplicationServic
 
     @Override
     public Mono<CustomerQuery> getCustomerById(Mono<GetCustomerByIdQuery> query) {
-
         return query.flatMap(queryBus::execute);
-
     }
 
     @Override
     public Flux<CustomerQuery> getAllCustomers() {
-
-        return customerRepository.findAll()
-                .map(CustomerMapper::toQuery);
-
+        return customerRepository.findAll().map(CustomerMapper::toQuery);
     }
 
     @Override
     public Mono<CustomerRegisteredResponse> registerCustomer(Mono<RegisterCustomerCommand> command) {
-
         return command.flatMap(commandBus::execute);
+    }
 
+    @Override
+    public Mono<CustomerUpdatedResponse> updateCustomer(Mono<UpdateCustomerCommand> command) {
+        return command.flatMap(commandBus::execute);
+    }
+
+    @Override
+    public Mono<Void> deleteCustomer(Mono<DeleteCustomerCommand> command) {
+        return command.flatMap(commandBus::execute);
     }
 
 }

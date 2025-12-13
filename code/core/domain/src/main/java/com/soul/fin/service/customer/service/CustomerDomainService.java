@@ -4,5 +4,10 @@ import com.soul.fin.service.customer.entity.Customer;
 
 public interface CustomerDomainService {
 
-    public Customer registerCustomer(Customer customer);
+    Customer registerCustomer(Customer customer);
+
+    Customer updateCustomer(Customer fromDb, Customer fromCmd);
+
+    Customer deleteCustomer(Customer customer);
+
 }

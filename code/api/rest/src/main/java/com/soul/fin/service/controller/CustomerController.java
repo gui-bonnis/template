@@ -1,11 +1,9 @@
 package com.soul.fin.service.controller;
 
 
+import com.soul.fin.server.customer.dto.command.CustomerUpdatedResponse;
 import com.soul.fin.server.customer.ports.input.service.CustomerApplicationService;
-import com.soul.fin.service.dto.CustomerQueryResponse;
-import com.soul.fin.service.dto.CustomerRegisteredResponse;
-import com.soul.fin.service.dto.GetCustomerRequest;
-import com.soul.fin.service.dto.RegisterCustomerRequest;
+import com.soul.fin.service.dto.*;
 import com.soul.fin.service.mapper.CustomerMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -36,22 +34,33 @@ public class CustomerController {
 
     @GetMapping()
     public Flux<CustomerQueryResponse> getAllCustomers() {
-
-        return service.getAllCustomers().map(CustomerMapper::toQueryResponse);
-
+        return service.getAllCustomers()
+                .map(CustomerMapper::toQueryResponse);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('order.create')")
     //@PreAuthorize("hasAuthority('order.delete') and @tenantGuard.allowAccess(authentication, #tenantId)")
     public Mono<CustomerRegisteredResponse> registerCustomer(@RequestBody Mono<RegisterCustomerRequest> request) {
-
         return request
                 .map(CustomerMapper::toCommand)
                 .as(service::registerCustomer)
                 .map(CustomerMapper::toResponse);
-
     }
 
+    @PutMapping("/{customerId}")
+    public Mono<CustomerUpdatedResponse> updateCustomer(@PathVariable UUID customerId, @RequestBody Mono<UpdateCustomerRequest> request) {
+        return request
+                .map(r -> CustomerMapper.toCommand(customerId, r))
+                .as(service::updateCustomer)
+                .map(CustomerMapper::toResponse);
+    }
+
+    @DeleteMapping("/{customerId}")
+    public Mono<Void> deleteCustomer(@PathVariable UUID customerId) {
+        return Mono.just(new DeleteCustomerRequest(customerId))
+                .map(CustomerMapper::toCommand)
+                .as(service::deleteCustomer);
+    }
 
 }

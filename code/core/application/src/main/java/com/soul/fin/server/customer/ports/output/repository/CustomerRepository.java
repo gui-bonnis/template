@@ -15,4 +15,8 @@ public interface CustomerRepository {
     Flux<Customer> findAll();
 
     Mono<Customer> save(Customer customer);
+
+    Mono<Boolean> existsById(UUID id);
+
+    Mono<Void> deleteById(UUID id);
 }

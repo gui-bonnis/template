@@ -40,4 +40,14 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 .flatMap(customerJpaRepository::save)
                 .map(mapper::toCustomer);
     }
+
+    @Override
+    public Mono<Boolean> existsById(UUID id) {
+        return customerJpaRepository.existsById(id);
+    }
+
+    @Override
+    public Mono<Void> deleteById(UUID id) {
+        return customerJpaRepository.deleteById(id);
+    }
 }

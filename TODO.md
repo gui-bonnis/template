@@ -3,6 +3,12 @@
 1) Add the repository to save the entities. ✅
 2) Make use case transactional. ✅
 3) Implement Query side for reading entities. --> Almost done, need to see query bus to flux
+
+- pagination
+- filtering
+- sorting
+- searching
+
 4) Implement tests for all layers.
 
 - unit tests for domain and application layers.
@@ -48,7 +54,7 @@
 20) Add Swagger/OpenAPI documentation for all endpoints.
 21) Add JavaDoc comments for all public classes and methods.
 22) Set up code quality tools (e.g., SonarQube, Checkstyle).
-23) Set up unified testing framework across all modules.
+23) Set up unified testing framework across all modules. ✅
 24) Set up unified test reporting across all modules. ✅
 25) Add Creating Rest Client and Avro Schemas for external integrations using OpenAPI Generator.
 26) Implement feature toggles for controlled feature releases.
@@ -59,7 +65,8 @@
 - key cloak
 - linkerd
 - service mesh
--
+- ci/cd
+- sdlc
 
 30) Program to connect all info, datahub
 
@@ -68,3 +75,11 @@
 8) Add diagrams of how to implement all layers.
 9) Add sequence diagrams for key usecases.
 10) Add technology stack details and versions.
+
+multiple databases connections
+artifactory jfrog
+argo cd
+helm charts
+traefik
+secret vault
+istio

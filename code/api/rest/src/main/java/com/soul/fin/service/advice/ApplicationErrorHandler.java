@@ -1,6 +1,8 @@
 package com.soul.fin.service.advice;
 
 import com.soul.fin.common.core.exception.ApplicationException;
+import com.soul.fin.common.core.exception.EntityNotFoundException;
+import com.soul.fin.common.core.exception.InvalidInputException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,8 +29,24 @@ public class ApplicationErrorHandler {
     }
 
     @ExceptionHandler(ApplicationException.class)
-    public ProblemDetail handle(ApplicationException exception) {
-        log.error("application error", exception);
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getApplicationError().toString());
+    public ProblemDetail handleException(ApplicationException ex) {
+        log.error("application error", ex);
+
+        ProblemDetail problem;
+        switch (ex.getApplicationError()) {
+            case EntityNotFoundException entityNotFound:
+                problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+//                problem.setType(URI.create("http://example.com/problems/customer-not-found"));
+//                problem.setTitle("Customer Not Found");
+                return problem;
+            case InvalidInputException invalidInput:
+                problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+//                problem.setType(URI.create("http://example.com/problems/invalid-input"));
+//                problem.setTitle("Invalid input");
+                return problem;
+            default:
+                return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getApplicationError().toString());
+        }
+
     }
 }
