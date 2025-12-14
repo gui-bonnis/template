@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build:
-      context: ../../code/boot
+      context: ../code
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
@@ -36,7 +36,7 @@ services:
       - ../../code/boot/src/main/resources/sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ../../code/boot/src/main/resources/sql/data.sql:/docker-entrypoint-initdb.d/02-data.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin"]
+      test: [ "CMD-SHELL", "pg_isready -U admin" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -58,7 +58,7 @@ services:
       zookeeper:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      test: [ "CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -72,7 +72,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     healthcheck:
-      test: ["CMD", "bash", "-c", "echo 'ruok' | nc localhost 2181"]
+      test: [ "CMD", "bash", "-c", "echo 'ruok' | nc localhost 2181" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -81,15 +81,17 @@ services:
     restart: unless-stopped
 
   keycloak:
-    image: quay.io/keycloak/keycloak:22.0
+    image: quay.io/keycloak/keycloak:24.0.5
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_PASSWORD:-admin}
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://db:5432/keycloak
-      KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak}
+      KC_DB_URL: jdbc:postgresql://db:5432/admin
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-admin}
       KC_HOSTNAME: localhost
+      KC_HTTP_ENABLED: true  # Allow HTTP
+      KC_HOSTNAME_STRICT: false  # Allow localhost
     command: start-dev
     ports:
       - "7070:8080"
@@ -97,7 +99,7 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e 'GET /health/ready HTTP/1.1\r\nhost: localhost\r\nConnection: close\r\n\r\n' >&3;grep -q '200 OK' <&3"]
+      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e 'GET /health/ready HTTP/1.1\r\nhost: localhost\r\nConnection: close\r\n\r\n' >&3;grep -q '200 OK' <&3" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -111,7 +113,7 @@ services:
     volumes:
       - redis_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -143,7 +145,7 @@ services:
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.133.0
-    command: ["--config=/etc/otel/collector-config.yml"]
+    command: [ "--config=/etc/otel/collector-config.yml" ]
     volumes:
       - ./obs-infrastructure/docker-volume/collector-config.yaml:/etc/otel/collector-config.yml
     ports:
@@ -165,7 +167,7 @@ services:
 
   tempo:
     image: grafana/tempo:2.8.2
-    command: ["-config.file=/etc/tempo.yaml"]
+    command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
       - ./obs-infrastructure/docker-volume/tempo.yaml:/etc/tempo.yaml
     depends_on:

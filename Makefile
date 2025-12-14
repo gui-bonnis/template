@@ -1,8 +1,9 @@
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  build              - Build the project (skip tests and Docker)"
-	@echo "  build-with-tests   - Build the project with tests"
+	@echo "  build              - Build the project JAR (skip tests)"
+	@echo "  build-with-tests   - Build the project JAR with tests"
+	@echo "  docker-build       - Build the Docker image"
 	@echo "  test-unit          - Run unit tests"
 	@echo "  test-integration   - Run integration tests"
 	@echo "  test-mutation      - Run mutation tests"
@@ -25,12 +26,17 @@ help:
 .PHONY: build
 build:
 	cd code && \
-	mvn clean package -pl boot -am -DskipTests -Ddocker.skip=true
+	mvn clean package -pl boot -am -DskipTests
 
 .PHONY: build-with-tests
 build-with-tests:
 	cd code && \
-	mvn clean package -pl boot -am -Ddocker.skip=true
+	mvn clean package -pl boot -am
+
+.PHONY: docker-build
+docker-build:
+	cd code && \
+	docker build -f Dockerfile -t customer-service:latest .
 
 # Test targets
 .PHONY: test-unit

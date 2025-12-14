@@ -1,0 +1,31 @@
+# Exclude build artifacts and unnecessary files
+target/
+**/target/
+**/target/docker/
+
+# But include the boot JAR for Docker build
+!boot/target/*.jar
+
+# Exclude version control
+.git/
+.gitignore
+
+# Exclude IDE files
+.idea/
+*.iml
+
+# Exclude logs and temp files
+*.log
+*.tmp
+
+# Exclude documentation and tools (if not needed in build)
+docs/
+tools/
+
+# Exclude test files (if not needed)
+**/src/test/
+
+# Exclude Maven wrapper if present
+.mvn/
+mvnw
+mvnw.cmd
