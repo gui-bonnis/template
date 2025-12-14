@@ -1,7 +1,6 @@
 package com.soul.fin.server.customer.mapper;
 
 import com.soul.fin.server.customer.dto.command.*;
-import com.soul.fin.server.customer.dto.query.CustomerQuery;
 import com.soul.fin.service.customer.entity.Customer;
 import com.soul.fin.service.customer.vo.CustomerId;
 
@@ -36,10 +35,4 @@ public class CustomerMapper {
         return new CustomerUpdatedResponse(customer.getId().value());
     }
 
-    public static CustomerQuery toQuery(final Customer customer) {
-        return new CustomerQuery(
-                customer.getId().value(),
-                customer.getName()
-        );
-    }
 }

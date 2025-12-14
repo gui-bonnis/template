@@ -1,4 +1,4 @@
-package com.soul.fin.server.customer.handler;
+package com.soul.fin.server.customer.handler.query;
 
 
 import com.soul.fin.common.bus.core.QueryOneHandler;

@@ -29,7 +29,7 @@
 
 
     <properties>
-        <project.groupId.name>service</project.groupId.name>
+        <project.groupId.name>customer</project.groupId.name>
         <java.version>25</java.version>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
@@ -50,6 +50,7 @@
         <jacoco.version>0.8.14</jacoco.version>
         <pitest.version>1.22.0</pitest.version>
         <surefire.version>3.1.2</surefire.version>
+        <docker.maven.plugin.version>0.43.4</docker.maven.plugin.version>
     </properties>
 
 
@@ -489,15 +490,39 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <configuration>
+
                         <jvmArguments>
                             --enable-native-access=ALL-UNNAMED
                         </jvmArguments>
+                        <image>
+                            <name>${project.groupId.name}-service:${version}</name>
+                        </image>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <release>25</release>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${docker.maven.plugin.version}</version>  <!-- Latest; supports arm64 -->
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
 
+        <plugins>
 
         </plugins>
     </build>
