@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  jmeter:
+    image: justb4/jmeter:latest
+    volumes:
+      - ./jmeter-plans:/plans
+    command: -n -t /plans/sample-test.jmx -l /plans/results.jtl -j /plans/jmeter.log
+    networks:
+      - perf-net
+    restart: "no"
+
+  zap:
+    image: owasp/zap2docker-stable:latest
+    ports:
+      - "8090:8090"
+    command: quick-scan -cmd -quickurl http://host.docker.internal:8080 -quickout /zap/results.json
+    volumes:
+      - ./zap-results:/zap/results
+    networks:
+      - perf-net
+    restart: "no"
+
+networks:
+  perf-net:
+    driver: bridge
