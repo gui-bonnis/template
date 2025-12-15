@@ -1,0 +1,14 @@
+apiVersion: v2
+name: databases
+description: Database services (PostgreSQL, Redis) for local apps
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: postgresql
+    version: "18.1.14"
+    repository: "https://charts.bitnami.com/bitnami"
+  - name: redis
+    version: "24.0.7"
+    repository: "https://charts.bitnami.com/bitnami"

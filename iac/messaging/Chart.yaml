@@ -1,0 +1,11 @@
+apiVersion: v2
+name: messaging
+description: Messaging services (Kafka) for local apps
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: kafka
+    version: "32.4.2"
+    repository: "https://charts.bitnami.com/bitnami"

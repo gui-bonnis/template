@@ -1,0 +1,15 @@
+kafka:
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 8Gi
+  zookeeper:
+    persistence:
+      enabled: true
+      size: 8Gi
+  service:
+    type: ClusterIP
+    ports:
+      external: 9094
+  externalAccess:
+    enabled: false

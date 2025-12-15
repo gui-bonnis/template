@@ -1,0 +1,6 @@
+apiVersion: v2
+name: dev
+description: Dev-specific services for development environment
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

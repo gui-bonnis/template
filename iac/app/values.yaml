@@ -1,0 +1,21 @@
+services:
+  microservice1:
+    enabled: true
+  microservice2:
+    enabled: true
+  microservice3:
+    enabled: true
+  microservice4:
+    enabled: true
+  microservice5:
+    enabled: true
+  microservice6:
+    enabled: true
+  microservice7:
+    enabled: true
+  microservice8:
+    enabled: true
+  microservice9:
+    enabled: true
+  microservice10:
+    enabled: true

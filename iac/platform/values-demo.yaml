@@ -1,0 +1,9 @@
+global:
+  profile: demo
+
+traefik:
+  exposeAll: false
+
+services:
+  keycloak:
+    enabled: true

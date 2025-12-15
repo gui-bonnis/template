@@ -1,0 +1,9 @@
+global:
+  profile: dev
+
+traefik:
+  exposeAll: true
+
+services:
+  keycloak:
+    enabled: true

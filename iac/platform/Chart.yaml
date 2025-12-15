@@ -1,0 +1,15 @@
+apiVersion: v2
+name: platform
+description: Umbrella chart for the cloud-native platform with profiles
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: postgresql
+    version: "17.3.17"
+    repository: "https://charts.bitnami.com/bitnami"
+  - name: keycloak
+    version: "26.4.7"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: services.keycloak.enabled

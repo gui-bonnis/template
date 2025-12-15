@@ -1,0 +1,9 @@
+global:
+  profile: quality
+
+traefik:
+  exposeAll: false
+
+services:
+  keycloak:
+    enabled: false

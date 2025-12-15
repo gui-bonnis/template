@@ -1,0 +1,13 @@
+postgresql:
+  auth:
+    postgresPassword: "password"
+  persistence:
+    enabled: true
+    size: 8Gi
+
+redis:
+  auth:
+    password: "password"
+  persistence:
+    enabled: true
+    size: 8Gi

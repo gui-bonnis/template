@@ -1,0 +1,66 @@
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  - name: linkerd
+    url: https://helm.linkerd.io/stable
+
+environments:
+  dev:
+    values:
+      - ./platform/values-dev.yaml
+      - ./app/values.yaml
+      - ./databases/values.yaml
+      - ./messaging/values.yaml
+      - ./registry/values.yaml
+  quality:
+    values:
+      - ./platform/values-quality.yaml
+      - ./app/values.yaml
+      - ./databases/values.yaml
+      - ./messaging/values.yaml
+      - ./registry/values.yaml
+  demo:
+    values:
+      - ./platform/values-demo.yaml
+      - ./databases/values.yaml
+      - ./registry/values.yaml
+---
+releases:
+  # Platform (infra)
+  - name: platform
+    chart: ./platform
+    namespace: platform
+    labels:
+      tier: platform
+    values:
+      - ./platform/values.yaml
+
+  # App (microservices)
+  - name: app
+    chart: ./app
+    namespace: app
+    labels:
+      tier: app
+    values:
+      - ./app/values.yaml
+
+  # Databases
+  - name: databases
+    chart: ./databases
+    namespace: databases
+    labels:
+      tier: databases
+
+  # Messaging
+  - name: messaging
+    chart: ./messaging
+    namespace: messaging
+    labels:
+      tier: messaging
+
+  # Registry
+  - name: registry
+    chart: ./registry
+    namespace: registry
+    labels:
+      tier: registry

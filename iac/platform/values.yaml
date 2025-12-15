@@ -1,0 +1,19 @@
+global:
+  profile: dev
+#  postgresql:
+#    auth:
+#      password: "password"
+
+traefik:
+  exposeAll: true
+
+keycloak:
+  auth:
+    adminPassword: "admin"
+  postgresql:
+    image:
+      tag: "18.1.0"
+
+services:
+  keycloak:
+    enabled: true
