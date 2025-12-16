@@ -3,3 +3,4 @@ modules:
   - 03-datastores
   - 04-messaging
   - 07-platform-tools
+  - 08-apps-core

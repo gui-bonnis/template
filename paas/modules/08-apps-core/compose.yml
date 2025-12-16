@@ -1,0 +1,11 @@
+services:
+  account-service:
+    image: account-service:local
+    profiles: [ "full", "demo", "ci" ]
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-default}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - platform
