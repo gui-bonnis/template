@@ -1,0 +1,48 @@
+services:
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.6.0
+    profiles: [ "full", "demo" ]
+    depends_on:
+      - kafka
+
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+
+      # IMPORTANT: match advertised listener
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:9092
+
+      # REQUIRED for single-node Kafka
+      SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR: 1
+
+    ports:
+      - "8081:8081"
+
+    networks:
+      - platform
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    profiles: [ "full", "demo" ]
+    depends_on:
+      - kafka
+      - schema-registry
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+    ports:
+      - "8085:8080"
+    networks:
+      - platform
+
+#  kafka-tools:
+#    image: apache/kafka:3.7.0
+#    profiles: [ "full", "demo" ]
+#    entrypoint: [ "sleep", "infinity" ]
+#    networks:
+#      - platform
+
+networks:
+  platform:
+    external: true

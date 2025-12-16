@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16
+    profiles: [ "full", "demo", "ci" ]
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    networks: [ platform ]
+
+  redis:
+    image: redis:7
+    profiles: [ "full", "demo", "ci" ]
+    networks: [ platform ]

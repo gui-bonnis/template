@@ -1,0 +1,4 @@
+networks:
+  platform:
+    name: platform
+    driver: bridge

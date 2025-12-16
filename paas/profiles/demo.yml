@@ -1,0 +1,5 @@
+modules:
+  - 00-runtime
+  - 03-datastores
+  - 04-messaging
+  - 07-platform-tools
