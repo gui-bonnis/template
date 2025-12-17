@@ -4,7 +4,7 @@ services:
   #    profiles: [ "full", "demo" ]
   #    command: -conf /Corefile
   #    volumes:
-  #      - ./coredns/Corefile:/Corefile:ro
+  #      - ../01-networking/coredns/Corefile:/Corefile:ro
   #
   #    network_mode: host
 

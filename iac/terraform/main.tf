@@ -18,7 +18,7 @@ resource "null_resource" "docker_compose" {
     command = <<EOF
       mkdir -p ../html
       export DOCKER_HOST=unix://$HOME/.lima/${var.vm_name}/sock/docker.sock
-      docker-compose up -d
+
     EOF
   }
 

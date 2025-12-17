@@ -1,0 +1,93 @@
+version: "3.9"
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  loki-data:
+  tempo-data:
+
+services:
+
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    profiles: [ "full", "demo" ]
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    volumes:
+      - ../05-observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=platform"
+      - "traefik.http.routers.prometheus.entrypoints=web"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.fin.soul.test`)"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+    networks: [ observability, platform ]
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    profiles: [ "full", "demo" ]
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=platform"
+      - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.fin.soul.test`)"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../05-observability/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+      - loki
+      - tempo
+    networks: [ observability, platform ]
+
+  loki:
+    image: grafana/loki:3.0.0
+    profiles: [ "full", "demo" ]
+    command: -config.file=/etc/loki/loki.yml
+    volumes:
+      - ../05-observability/loki/loki.yml:/etc/loki/loki.yml:ro
+      - loki-data:/loki
+    ports:
+      - "3100:3100"
+    networks: [ observability ]
+
+  promtail:
+    image: grafana/promtail:3.0.0
+    profiles: [ "full", "demo" ]
+    command: -config.file=/etc/promtail/promtail.yml
+    volumes:
+      - ../05-observability/promtail/promtail.yml:/etc/promtail/promtail.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks: [ observability ]
+
+  tempo:
+    image: grafana/tempo:2.5.0
+    profiles: [ "full", "demo" ]
+    command: -config.file=/etc/tempo/tempo.yml
+    volumes:
+      - ../05-observability/tempo/tempo.yml:/etc/tempo/tempo.yml:ro
+      - tempo-data:/tmp/tempo
+    ports:
+      - "3200:3200"     # Tempo query
+      - "4317:4317"     # OTLP gRPC
+      - "4318:4318"     # OTLP HTTP
+    networks: [ observability ]
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.104.0
+    container_name: otel-collector
+    profiles: [ "full", "demo" ]
+    command: [ "--config=/etc/otel/config.yml" ]
+    volumes:
+      - ../05-observability/otel/config.yml:/etc/otel/config.yml:ro
+    networks:
+      - platform
+      - observability

@@ -2,3 +2,6 @@ networks:
   platform:
     name: platform
     driver: bridge
+
+  observability:
+    name: observability

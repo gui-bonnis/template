@@ -4,5 +4,6 @@ modules:
   - 03-datastores
   - 02-iam
   - 04-messaging
+  - 05-observability
   - 07-platform-tools
   - 08-apps-core
