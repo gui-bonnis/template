@@ -1,0 +1,11 @@
+.lima:53 {
+    bind 0.0.0.0
+    except lo
+    errors
+    log
+
+    template IN A {
+        match .*\.lima
+        answer "{{ .Name }} 60 IN A 127.0.0.1"
+    }
+}

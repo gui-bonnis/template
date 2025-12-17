@@ -1,0 +1,25 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0
+    command: start-dev --import-realm
+    profiles: [ "full", "demo" ]
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: keycloak.fin.soul.test
+      KC_HOSTNAME_URL: http://keycloak.fin.soul.test
+      KC_HOSTNAME_STRICT: "false"
+      KC_PROXY: edge
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`keycloak.fin.soul.test`)"
+      - "traefik.http.routers.keycloak.entrypoints=web"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+
+    volumes:
+      - ../02-iam/realm:/opt/keycloak/data/import
+    ports:
+      - "8086:8080"
+    networks:
+      - platform

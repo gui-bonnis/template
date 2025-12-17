@@ -29,7 +29,8 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${KEYCLOAK_ISSUER}
-
+          jwk-set-uri: ${KEYCLOAK_JWT}
+          
 management:
   endpoints:
     web:

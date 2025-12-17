@@ -1,6 +1,8 @@
 modules:
   - 00-runtime
+  - 01-networking
   - 03-datastores
+  - 02-iam
   - 04-messaging
   - 07-platform-tools
   - 08-apps-core
