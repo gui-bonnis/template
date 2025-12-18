@@ -1,0 +1,1 @@
+limactl delete k3s

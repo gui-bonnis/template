@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: metrics-server
+  namespace: observability
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: metrics-server
+rules:
+  # Read metrics
+  - apiGroups: [ "" ]
+    resources:
+      - nodes
+      - nodes/stats
+      - pods
+    verbs: [ "get", "list", "watch" ]
+
+  # REQUIRED: access extension-apiserver-authentication
+  - apiGroups: [ "" ]
+    resources:
+      - configmaps
+    resourceNames:
+      - extension-apiserver-authentication
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: metrics-server
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: metrics-server
+subjects:
+  - kind: ServiceAccount
+    name: metrics-server
+    namespace: observability

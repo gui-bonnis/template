@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tempo-config
+  namespace: observability
+data:
+  tempo.yaml: |
+    server:
+      http_listen_port: 3200
+
+    distributor:
+      receivers:
+        jaeger:
+          protocols:
+            thrift_http:
+
+    ingester:
+      lifecycler:
+        ring:
+          replication_factor: 1
+
+    storage:
+      trace:
+        backend: local
+        local:
+          path: /var/tempo/traces

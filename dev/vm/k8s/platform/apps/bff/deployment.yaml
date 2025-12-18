@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bff
+  template:
+    metadata:
+      labels:
+        app: bff
+      annotations:
+        linkerd.io/inject: enabled
+        config.linkerd.io/proxy-cpu-request: "25m"
+        config.linkerd.io/proxy-cpu-limit: "100m"
+        config.linkerd.io/proxy-memory-request: "64Mi"
+        config.linkerd.io/proxy-memory-limit: "128Mi"
+        config.linkerd.io/init-cpu-request: "10m"
+        config.linkerd.io/init-cpu-limit: "50m"
+        config.linkerd.io/init-memory-request: "32Mi"
+        config.linkerd.io/init-memory-limit: "64Mi"
+    spec:
+      containers:
+        - name: bff
+          image: localhost/bff:0.1.0
+          imagePullPolicy: Never
+          args:
+            - "-text=$(MESSAGE)"
+            - "-listen=:8080"
+          envFrom:
+            - configMapRef:
+                name: bff-config
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
