@@ -5,7 +5,7 @@ metadata:
   namespace: observability
 spec:
   rules:
-    - host: grafana.local
+    - host: grafana.fin.soul.test
       http:
         paths:
           - path: /

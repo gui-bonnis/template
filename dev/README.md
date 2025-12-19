@@ -72,3 +72,20 @@ Change it to:
 server: https://localhost:6443
 
 Save and exit.
+
+On MacOs
+dnsmasq wildcard config
+
+Create config file:
+
+sudo nano /etc/dnsmasq.d/fin-soul.conf
+
+Contents (exact):
+
+address=/fin.soul.test/127.0.0.1
+
+Purpose:
+
+Any *.fin.soul.test resolves to localhost
+
+Matches Lima networking model

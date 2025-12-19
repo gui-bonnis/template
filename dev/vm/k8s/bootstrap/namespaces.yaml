@@ -25,7 +25,7 @@ metadata:
   labels:
     linkerd.io/inject: enabled
     pod-security.kubernetes.io/enforce: baseline
-    allow-linkerd.io/init: true
+    allow-linkerd.io/init: "true"
 ---
 apiVersion: v1
 kind: Namespace

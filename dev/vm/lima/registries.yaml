@@ -1,0 +1,4 @@
+mirrors:
+  "registry.platform.svc.cluster.local:5000":
+    endpoint:
+      - "http://registry.platform.svc.cluster.local:5000"

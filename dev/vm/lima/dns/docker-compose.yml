@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  dns:
+    image: ghcr.io/jpillora/dnsmasq
+    container_name: lima-dns
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - ./dnsmasq.conf:/etc/dnsmasq.conf:ro
