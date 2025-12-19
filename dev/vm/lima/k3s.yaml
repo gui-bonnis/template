@@ -4,7 +4,7 @@ base: template:_images/ubuntu-lts
 
 cpus: 4
 memory: "8GiB"
-disk: "40GiB"
+disk: "60GiB"
 
 mounts:
   - location: "~/Projects/fin/soul/bc/template/dev/vm/k8s"
@@ -20,6 +20,9 @@ portForwards:
     hostPort: 80
   - guestPort: 443
     hostPort: 443
+  - guestPort: 30432
+    hostPort: 5432
+    proto: tcp
 
 provision:
   - mode: system

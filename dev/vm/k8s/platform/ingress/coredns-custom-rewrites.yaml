@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  postgres.override: |
+    rewrite name postgres.fin.soul.test postgres.data.svc.cluster.local
+#    rewrite name postgres-fin-soul.fin.soul.test postgres.data.svc.cluster.local

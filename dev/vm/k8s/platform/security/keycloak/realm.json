@@ -1,0 +1,24 @@
+{
+  "realm": "fin-soul",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "account",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "redirectUris": ["*"]
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin"
+        }
+      ]
+    }
+  ]
+}

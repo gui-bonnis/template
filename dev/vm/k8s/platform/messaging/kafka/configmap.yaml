@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-config
+  namespace: messaging
+data:
+  server.properties: |
+    broker.id=1
+    listeners=PLAINTEXT://:9092
+    advertised.listeners=PLAINTEXT://kafka:9092
+    zookeeper.connect=zookeeper:2181
+    log.dirs=/var/lib/kafka/data
+    auto.create.topics.enable=true
