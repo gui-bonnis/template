@@ -6,6 +6,3 @@ stop:
 
 destroy:
 	./scripts/destroy.sh
-
-kubeconfig:
-	./scripts/kubeconfig.sh
