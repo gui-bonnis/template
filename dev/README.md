@@ -89,3 +89,6 @@ Purpose:
 Any *.fin.soul.test resolves to localhost
 
 Matches Lima networking model
+
+#TODO
+Verify NetworkPolicy blocks unauthorized namespaces (postgres phase)

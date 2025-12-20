@@ -6,4 +6,7 @@ metadata:
 data:
   postgres.override: |
     rewrite name postgres.fin.soul.test postgres.data.svc.cluster.local
-#    rewrite name postgres-fin-soul.fin.soul.test postgres.data.svc.cluster.local
+  #    rewrite name postgres-fin-soul.fin.soul.test postgres.data.svc.cluster.local
+
+  kafka.override: |
+    rewrite name kafka.fin.soul.test kafka-0.kafka.messaging.svc.cluster.local

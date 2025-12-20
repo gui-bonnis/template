@@ -16,11 +16,6 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: messaging
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: apps
   labels:
     linkerd.io/inject: enabled

@@ -2,12 +2,12 @@ minimumLimaVersion: 2.0.0
 
 base: template:_images/ubuntu-lts
 
-cpus: 4
-memory: "8GiB"
+cpus: 8
+memory: "14GiB"
 disk: "60GiB"
 
 mounts:
-  - location: "~/Projects/fin/soul/bc/template/dev/vm/k8s"
+  - location: "/Users/gui/Projects/fin/soul/bc/template/dev/vm/k8s"
     mountPoint: /k8s
     writable: true
 
@@ -16,20 +16,26 @@ containerd:
   user: false
 
 portForwards:
-  - guestPort: 80
+  - guestPort: 30080
     hostPort: 80
   - guestPort: 443
     hostPort: 443
   - guestPort: 30432
     hostPort: 5432
     proto: tcp
+  - guestPort: 30092
+    hostPort: 9092
 
 provision:
   - mode: system
     script: |
       #!/bin/sh
       if [ ! -d /var/lib/rancher/k3s ]; then
-          curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode 644" sh -
+          curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server \
+                  --write-kubeconfig-mode 644 \
+                  --flannel-backend=none \
+                  --disable-network-policy=false \
+                  --disable-kube-proxy" sh -
       fi
       sudo mkdir -p /var/lib/rancher/k3s/storage
       sudo chmod 755 /var/lib/rancher/k3s/storage
@@ -39,27 +45,12 @@ provision:
   - mode: user
     script: |
       #!/bin/bash
-      # Install Linkerd CLI
-      curl -fsL https://run.linkerd.io/install | sh
-      export PATH="$PATH:$HOME/.linkerd2/bin"
-      
-      # Set kubeconfig for kubectl
+
       export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-      
-      # Wait for K3s to be ready
-      sleep 10
-      
-      # Install Linkerd CRDs, CNI, and control plane
-      linkerd install --crds | kubectl apply -f -
-      linkerd install-cni | kubectl apply -f -
-      linkerd install | kubectl apply -f -
-      
+
       # Create and annotate namespace
       kubectl create namespace apps --dry-run=client -o yaml | kubectl apply -f -
       kubectl annotate namespace apps linkerd.io/inject=enabled
-
-      # Check (optional, removed to avoid timeout)
-      # linkerd check
 
       # Wait for cluster readiness
       sleep 30
@@ -84,7 +75,7 @@ provision:
       echo "# Log queries (debug-friendly)" >> /k8s/dns/fin-soul.conf
       echo "log-queries" >> /k8s/dns/fin-soul.conf
       echo "log-facility=-" >> /k8s/dns/fin-soul.conf
-      
+
       # Generate dnsmasq.conf dynamically
       echo "# Only handle our local zone" > /k8s/dns/dnsmasq.conf
       echo "interface=eth0" >> /k8s/dns/dnsmasq.conf

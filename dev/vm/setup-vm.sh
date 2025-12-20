@@ -32,34 +32,147 @@ for i in {1..60}; do
     sleep 5
 done || error "K3s not ready within 5 min"
 
-# Phase 2: Install Linkerd
-log "Installing Linkerd..."
-limactl shell "$VM_NAME" -- 'curl -fsL https://run.linkerd.io/install | sh' || error "Linkerd CLI install failed"
-limactl shell "$VM_NAME" -- 'export PATH="$PATH:$HOME/.linkerd2/bin" && export KUBECONFIG=/etc/rancher/k3s/k3s.yaml && linkerd install --crds | kubectl apply -f -' || error "Linkerd CRDs failed"
-limactl shell "$VM_NAME" -- 'export PATH="$PATH:$HOME/.linkerd2/bin" && export KUBECONFIG=/etc/rancher/k3s/k3s.yaml && linkerd install-cni | kubectl apply -f -' || error "Linkerd CNI failed"
-limactl shell "$VM_NAME" -- 'export PATH="$PATH:$HOME/.linkerd2/bin" && export KUBECONFIG=/etc/rancher/k3s/k3s.yaml && linkerd install | kubectl apply -f -' || error "Linkerd control plane failed"
-limactl shell "$VM_NAME" -- 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml && kubectl create namespace apps --dry-run=client -o yaml | kubectl apply -f - && kubectl annotate namespace apps linkerd.io/inject=enabled' || error "Namespace setup failed"
+# Phase 2: Install Cilium
+log "Installing Cilium (v1.14.4)..."
 
-# Phase 3: Install dnsmasq
-log "Installing dnsmasq..."
-GATEWAY_IP=$(limactl shell "$VM_NAME" -- 'ip -4 addr show eth0 | grep -oP "(?<=inet\s)\d+(\.\d+){3}" | head -1' | tr -d '\r') || error "Failed to get VM IP"
-log "Detected VM IP: $GATEWAY_IP"
-limactl shell "$VM_NAME" -- "mkdir -p /vm/lima/dns && echo '# Only handle our local zone' > /vm/lima/dns/dnsmasq.conf && echo 'domain-needed' >> /vm/lima/dns/dnsmasq.conf && echo 'bogus-priv' >> /vm/lima/dns/dnsmasq.conf && echo 'address=/fin.soul.test/$GATEWAY_IP' >> /vm/lima/dns/dnsmasq.conf && echo 'server=1.1.1.1' >> /vm/lima/dns/dnsmasq.conf && echo 'server=8.8.8.8' >> /vm/lima/dns/dnsmasq.conf && echo 'log-queries' >> /vm/lima/dns/dnsmasq.conf && echo 'log-facility=-' >> /vm/lima/dns/dnsmasq.conf" || error "Config generation failed"
-limactl shell "$VM_NAME" -- 'sudo apt update && sudo apt install -y dnsmasq' || error "dnsmasq install failed"
-limactl shell "$VM_NAME" -- 'sudo cp /vm/lima/dns/dnsmasq.conf /etc/dnsmasq.conf && sudo systemctl enable dnsmasq && sudo systemctl start dnsmasq' || error "dnsmasq config/start failed"
+limactl shell "$VM_NAME" -- bash -lc "
+set -e
+cd \"\$HOME\"
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+# Ensure Helm (architecture-aware, pinned v3.14.0)
+ARCH=\$(uname -m)
+case \"\$ARCH\" in
+  x86_64) HELM_ARCH=amd64 ;;
+  aarch64|arm64) HELM_ARCH=arm64 ;;
+  *) echo \"Unsupported architecture: \$ARCH\"; exit 1 ;;
+esac
+
+# Ensure Helm
+command -v helm >/dev/null || (
+  curl -L https://get.helm.sh/helm-v3.14.0-linux-\$HELM_ARCH.tar.gz | tar zx &&
+  sudo mv linux-\$HELM_ARCH/helm /usr/local/bin/helm
+)
+
+helm repo add cilium https://helm.cilium.io
+helm repo update
+
+helm upgrade --install cilium cilium/cilium \
+  --version 1.14.4 \
+  --namespace kube-system \
+  --create-namespace \
+  --wait \
+  --timeout 10m \
+  --set kubeProxyReplacement=partial \
+  --set enablePolicy=true \
+  --set k8sServiceHost=127.0.0.1 \
+  --set k8sServicePort=6443 \
+  --set operator.replicas=1
+
+kubectl rollout status daemonset/cilium -n kube-system --timeout=10m
+kubectl rollout status deployment/cilium-operator -n kube-system --timeout=10m
+
+" || error "Cilium install failed"
+
+# Phase 3: Install Linkerd
+log "Installing Linkerd (stable v2.14.10)..."
+
+limactl shell "$VM_NAME" -- bash -lc "
+set -e
+cd \"\$HOME\"
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+# Install Linkerd CLI (stable)
+LINKERD_VERSION=stable-2.14.10
+curl -fsL https://run.linkerd.io/install | sh
+export PATH=\"\$HOME/.linkerd2/bin:\$PATH\"
+
+# Install Linkerd CRDs and control plane
+linkerd install --crds | kubectl apply -f -
+linkerd install | kubectl apply -f -
+
+kubectl create namespace apps --dry-run=client -o yaml | kubectl apply -f -
+kubectl annotate namespace apps linkerd.io/inject=enabled
+
+kubectl rollout status deployment/linkerd-destination -n linkerd --timeout=10m
+kubectl rollout status deployment/linkerd-identity -n linkerd --timeout=10m
+kubectl rollout status deployment/linkerd-proxy-injector -n linkerd --timeout=10m
+
+" || error "Linkerd install failed"
 
 # Phase 4: Final Validation
 log "Validating setup..."
-if limactl shell "$VM_NAME" -- 'export PATH="$PATH:$HOME/.linkerd2/bin" && linkerd check' | grep -q "success"; then
-    log "Linkerd check passed"
+# Validate Cilium
+if limactl shell "$VM_NAME" -- bash -lc "
+set -e
+cd \"\$HOME\"
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+kubectl rollout status daemonset/cilium -n kube-system --timeout=10m
+kubectl rollout status deployment/cilium-operator -n kube-system --timeout=10m
+! kubectl get pods -n kube-system | grep -q kube-proxy
+! kubectl get pods -n kube-system | grep -q flannel
+
+# Deploy test pods for connectivity check
+kubectl run test-pod1 --image=busybox --restart=Never -- sleep 3600
+kubectl run test-pod2 --image=busybox --restart=Never -- sleep 3600
+sleep 10
+kubectl exec test-pod1 -- ping -c 2 \$(kubectl get pod test-pod2 -o jsonpath='{.status.podIP}')
+"; then
+    log "Cilium validation passed"
+else
+    error "Cilium validation failed"
+fi
+
+# Validate Linkerd
+if limactl shell "$VM_NAME" -- bash -lc "
+set -e
+cd \"\$HOME\"
+export PATH=\"\$HOME/.linkerd2/bin:\$PATH\"
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+kubectl get ns linkerd
+kubectl rollout status deployment/linkerd-destination -n linkerd --timeout=10m
+kubectl rollout status deployment/linkerd-identity -n linkerd --timeout=10m
+kubectl rollout status deployment/linkerd-proxy-injector -n linkerd --timeout=10m
+
+# Deploy test app with Linkerd injection
+kubectl create namespace test-linkerd --dry-run=client -o yaml | kubectl apply -f -
+kubectl annotate namespace test-linkerd linkerd.io/inject=enabled
+kubectl run test-linkerd-app --image=nginx --namespace=test-linkerd --port=80
+sleep 10
+kubectl get pods -n test-linkerd
+"; then
+    log "Linkerd validation passed"
 else
     error "Linkerd validation failed"
 fi
-if limactl shell "$VM_NAME" -- 'sudo systemctl is-active dnsmasq' | grep -q "active"; then
-    log "dnsmasq is active"
-else
-    error "dnsmasq validation failed"
+
+# Cleanup Linkerd test resources
+limactl shell "$VM_NAME" -- bash -lc "
+set -e
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+kubectl delete namespace test-linkerd --ignore-not-found=true
+";
+
+# Validate dnsmasq with timeout
+TIMEOUT=30
+for i in $(seq 1 $((TIMEOUT / 2))); do
+    if limactl shell "$VM_NAME" -- sudo systemctl is-active dnsmasq | grep -q "active"; then
+        log "dnsmasq is active"
+        break
+    fi
+    sleep 2
+done
+if ! limactl shell "$VM_NAME" -- sudo systemctl is-active dnsmasq | grep -q "active"; then
+    error "dnsmasq validation failed within $TIMEOUT seconds"
 fi
 
-log "Setup complete! VM IP: $GATEWAY_IP"
-log "Update macOS /etc/resolver/fin.soul.test with nameserver $GATEWAY_IP"
+# Final summary
+limactl shell "$VM_NAME" -- bash -lc "
+cd \"\$HOME\"
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+kubectl get pods -n kube-system | grep cilium
+kubectl get pods -n linkerd | head -5
+"
