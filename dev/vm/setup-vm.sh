@@ -75,16 +75,16 @@ kubectl rollout status deployment/cilium-operator -n kube-system --timeout=10m
 " || error "Cilium install failed"
 
 # Phase 3: Install Linkerd
-log "Installing Linkerd (stable v2.14.10)..."
+log "Installing Linkerd (edge-25.12.3)..."
 
 limactl shell "$VM_NAME" -- bash -lc "
 set -e
 cd \"\$HOME\"
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
-# Install Linkerd CLI (stable)
-LINKERD_VERSION=stable-2.14.10
-curl -fsL https://run.linkerd.io/install | sh
+# Install Linkerd CLI (edge)
+LINKERD_VERSION=edge-25.12.3
+curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install-edge | sh
 export PATH=\"\$HOME/.linkerd2/bin:\$PATH\"
 
 # Install Linkerd CRDs and control plane
@@ -101,11 +101,13 @@ kubectl rollout status deployment/linkerd-proxy-injector -n linkerd --timeout=10
 " || error "Linkerd install failed"
 
 # Install CLI
+export CILIUM_CLI_VERSION=v0.15.14
+export CLI_ARCH=amd64
+if [ "$(uname -m)" = "aarch64" ] || [ "$(uname -m)" = "arm64" ]; then export CLI_ARCH=arm64; fi
 log "installing Cilium CLI..."
 if limactl shell "$VM_NAME" -- bash -lc "
-export CILIUM_CLI_VERSION=v0.18.9
-export CLI_ARCH=amd64
-if [ "$(uname -m)" = "aarch64" ]; then CLI_ARCH=arm64; fi
+export CILIUM_CLI_VERSION=\$CILIUM_CLI_VERSION
+export CLI_ARCH=\$CLI_ARCH
 curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
@@ -120,7 +122,7 @@ log "installing Linker CLI..."
 if limactl shell "$VM_NAME" -- bash -lc "
 export LINKERD2_VERSION=edge-25.12.3
 curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install-edge | sh
-export PATH=$PATH:/home/gui.linux/.linkerd2/bin
+export PATH=\$HOME/.linkerd2/bin:\$PATH
 "; then
     log "Linkerd CLI validation passed"
 else

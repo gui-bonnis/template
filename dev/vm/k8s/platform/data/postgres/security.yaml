@@ -1,0 +1,6 @@
+kind: CiliumNetworkPolicy
+spec:
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app: account
