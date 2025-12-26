@@ -1,0 +1,44 @@
+package com.soul.fin.accounting.customer.usecase;
+
+import com.soul.fin.accounting.customer.dto.command.CustomerRegisteredResponse;
+import com.soul.fin.accounting.customer.dto.command.RegisterCustomerCommand;
+import com.soul.fin.accounting.customer.mapper.CustomerMapper;
+import com.soul.fin.accounting.customer.ports.output.repository.CustomerRepository;
+import com.soul.fin.accounting.customer.validator.RegisterCustomerCommandValidator;
+import com.soul.fin.accounting.customer.service.CustomerDomainService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
+
+@Service
+public class RegisterCustomerUseCase {
+
+    private final CustomerDomainService customerDomainService;
+    private final CustomerRepository customerRepository;
+
+    public RegisterCustomerUseCase(CustomerDomainService customerDomainService,
+                                   CustomerRepository customerRepository) {
+        this.customerDomainService = customerDomainService;
+        this.customerRepository = customerRepository;
+    }
+
+    @Transactional
+    public Mono<CustomerRegisteredResponse> registerCustomer(RegisterCustomerCommand command) {
+
+        return Mono.just(command)
+                // validate command
+                .transform(RegisterCustomerCommandValidator.validate())
+                // map to domain entity
+                .map(CustomerMapper::toCustomer)
+                // call domain service
+                .map(customerDomainService::registerCustomer)
+                // call saga orchestrator service if needed (save saga resource)
+                // save domain
+                .flatMap(customerRepository::save)
+                // publish event
+                // outbox pattern
+                // build return
+                .map(CustomerMapper::toCustomerRegisteredResponse);
+    }
+
+}

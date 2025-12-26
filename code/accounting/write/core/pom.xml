@@ -5,26 +5,33 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.soul.fin</groupId>
-        <artifactId>code</artifactId>
+        <groupId>com.soul.fin.accounting.write</groupId>
+        <artifactId>write</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>common</artifactId>
+    <artifactId>core</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Implementation of the domain layer</description>
     <modules>
-        <module>common-domain</module>
-        <module>common-msg</module>
-        <module>common-bus</module>
-        <module>common-observability</module>
-        <module>common-security</module>
-        <module>common-api-rest</module>
+        <module>domain</module>
+        <module>application</module>
     </modules>
 
-    <properties>
-    </properties>
+
+    <dependencies>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}/${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
