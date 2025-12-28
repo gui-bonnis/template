@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>common-domain</artifactId>
+    <artifactId>common-core</artifactId>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Common Core Domain Module</description>

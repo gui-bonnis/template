@@ -28,11 +28,11 @@ public class CustomerMapper {
 
 
     public static CustomerRegisteredResponse toCustomerRegisteredResponse(final Customer customer) {
-        return new CustomerRegisteredResponse(customer.getId().value());
+        return new CustomerRegisteredResponse(customer.getId().getValue());
     }
 
     public static CustomerUpdatedResponse toCustomerUpdatedResponse(final Customer customer) {
-        return new CustomerUpdatedResponse(customer.getId().value());
+        return new CustomerUpdatedResponse(customer.getId().getValue());
     }
 
 }

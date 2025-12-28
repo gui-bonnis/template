@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.soul.fin</groupId>
-            <artifactId>common-domain</artifactId>
+            <artifactId>common-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 

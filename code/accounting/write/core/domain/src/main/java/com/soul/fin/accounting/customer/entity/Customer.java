@@ -1,11 +1,14 @@
 package com.soul.fin.accounting.customer.entity;
 
-import com.soul.fin.common.core.entity.AggregateRoot;
+import com.soul.fin.accounting.customer.event.CustomerRegisteredEvent;
 import com.soul.fin.accounting.customer.vo.CustomerId;
+import com.soul.fin.common.core.entity.BaseAggregateRoot;
+import com.soul.fin.common.core.event.DomainEvent;
 
-public class Customer extends AggregateRoot<CustomerId> {
-    private final String name;
-
+public class Customer extends BaseAggregateRoot<CustomerId> {
+    private static final Integer CURRENT_SHEMA_VERSION = 1;
+    //private final String name;
+    private String name;
 
     public String getName() {
         return name;
@@ -13,8 +16,8 @@ public class Customer extends AggregateRoot<CustomerId> {
 
     private Customer(Builder builder) {
         super.setId(builder.customerId);
+        super.setAggregateVersion(builder.aggregateVersion);
         name = builder.name;
-        //failureMessages = builder.failureMessages;
     }
 
     public static Builder builder() {
@@ -23,17 +26,19 @@ public class Customer extends AggregateRoot<CustomerId> {
 
     public static final class Builder {
         private CustomerId customerId;
+        private long aggregateVersion;
         private String name;
 
         private Builder() {
         }
 
-        public static Builder aCustomer() {
-            return new Builder();
-        }
-
         public Builder withCustomerId(CustomerId customerId) {
             this.customerId = customerId;
+            return this;
+        }
+
+        public Builder withAggregateVersion(long aggregateVersion) {
+            this.aggregateVersion = aggregateVersion;
             return this;
         }
 
@@ -44,6 +49,21 @@ public class Customer extends AggregateRoot<CustomerId> {
 
         public Customer build() {
             return new Customer(this);
+        }
+    }
+
+    public void when(DomainEvent event) {
+        switch (event) {
+            case CustomerRegisteredEvent e -> {
+                this.setId(new CustomerId(e.aggregateId()));
+                this.name = e.aggregateId().toString();
+                this.setAggregateVersion(e.aggregateVersion());
+            }
+//            case CustomerRenamed e -> {
+//                this.name = e.newName();
+//                this.version = e.version();
+//            }
+            default -> throw new IllegalStateException("Unexpected value: " + event);
         }
     }
 }

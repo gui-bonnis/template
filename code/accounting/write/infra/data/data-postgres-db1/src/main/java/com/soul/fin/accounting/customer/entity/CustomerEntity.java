@@ -15,13 +15,15 @@ public class CustomerEntity {
 
     @Id
     private UUID id;
+    private long version;
     private String name;
 
     public CustomerEntity() {
     }
 
-    public CustomerEntity(UUID id, String name) {
+    public CustomerEntity(UUID id, long version, String name) {
         this.id = id;
+        this.version = version;
         this.name = name;
     }
 
@@ -31,6 +33,14 @@ public class CustomerEntity {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     public String getName() {

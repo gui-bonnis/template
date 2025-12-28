@@ -22,6 +22,10 @@
             <artifactId>common-bus</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.soul.fin</groupId>
+            <artifactId>common-application</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.soul.fin.accounting.write</groupId>
             <artifactId>core-domain</artifactId>
         </dependency>

@@ -5,4 +5,5 @@ import com.soul.fin.common.bus.core.Command;
 import java.util.UUID;
 
 public record DeleteCustomerCommand(UUID customerId) implements Command<Void> {
+    //TODO: add commandId and correlationId
 }

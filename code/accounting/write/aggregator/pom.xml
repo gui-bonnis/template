@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>com.soul.fin</groupId>
-            <artifactId>common-domain</artifactId>
+            <artifactId>common-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.soul.fin.accounting.write</groupId>
