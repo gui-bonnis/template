@@ -57,7 +57,8 @@
 24) Set up unified test reporting across all modules. ✅
 25) Add Creating Rest Client and Avro Schemas for external integrations using OpenAPI Generator.
 26) Implement feature toggles for controlled feature releases.
-27) Add data versioning and migration strategy.
+27) Add data versioning and migration strategy. ✅ (from event store)
+28) Implement full Event Sourcing
 28) Add Elastic Search as CQRS read model.
 29) Infra full cloud native
 
