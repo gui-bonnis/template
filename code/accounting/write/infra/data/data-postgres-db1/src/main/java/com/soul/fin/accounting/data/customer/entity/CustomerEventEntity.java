@@ -20,23 +20,14 @@ public class CustomerEventEntity {
     @Column("global_position")
     private Long id;
 
-    @Column("aggregate_id")
     private UUID aggregateId;
-    @Column("aggregate_type")
     private String aggregateType;
-    @Column("aggregate_version")
     private Long aggregateVersion;
-    @Column("event_id")
     private UUID eventId;
-    @Column("event_type")
     private String eventType;
-    @Column("event_shema_version")
     private Long eventSchemaVersion;
-    @Column("payload")
     private String payload;
-    @Column("metadata")
     private String metadata;
-    @Column("occurred_at")
     private Instant occurredAt;
 
     public CustomerEventEntity() {

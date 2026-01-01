@@ -12,4 +12,5 @@ import java.util.UUID;
 public interface CustomerReactiveRepository extends ReactiveCrudRepository<CustomerEntity, UUID> {
 
     Flux<CustomerEntity> findBy(Pageable pageable);
+
 }

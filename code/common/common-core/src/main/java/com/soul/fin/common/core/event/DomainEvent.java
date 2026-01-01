@@ -9,6 +9,8 @@ public interface DomainEvent extends Message {
 
     long aggregateVersion();
 
+    UUID eventId();
+
     long eventSchemaVersion();
 
     Instant occurredAt();

@@ -75,6 +75,7 @@
 8) Add diagrams of how to implement all layers.
 9) Add sequence diagrams for key usecases.
 10) Add technology stack details and versions.
+11) Equalize all errors and exceptions through the application (polices, invariants, domain, events)
 
 multiple databases connections
 artifactory jfrog

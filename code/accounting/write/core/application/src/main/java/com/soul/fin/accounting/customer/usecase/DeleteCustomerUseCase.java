@@ -6,7 +6,6 @@ import com.soul.fin.accounting.customer.exception.CustomerApplicationExceptions;
 import com.soul.fin.accounting.customer.mapper.CustomerMapper;
 import com.soul.fin.accounting.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.accounting.customer.service.CustomerDomainService;
-import com.soul.fin.accounting.customer.validator.DeleteCustomerCommandValidator;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
@@ -26,8 +25,6 @@ public class DeleteCustomerUseCase {
     public Mono<Void> deleteCustomer(DeleteCustomerCommand command) {
 
         return Mono.just(command)
-                // validate command
-                .transform(DeleteCustomerCommandValidator.validate())
                 // map command to domain
                 .map(CustomerMapper::toCustomer)
                 // execute delete

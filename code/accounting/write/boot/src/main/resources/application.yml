@@ -7,9 +7,9 @@
 spring:
 
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/admin
-    username: admin
-    password: admin
+    url: r2dbc:postgresql://localhost:5432/fin_arch
+    username: fin_user
+    password: fin_pass
     initialization-mode: always
 
   security:

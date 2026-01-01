@@ -118,13 +118,13 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
                 exec.events().stream()
                         .map(event ->
                                 new EventEnvelope(
-                                        UUID.randomUUID(),
+                                        event.eventId(),
                                         event.getClass().getSimpleName(),
                                         event.aggregateId(),
                                         exec.aggregate().getClass().getSimpleName(),
                                         exec.aggregate().getAggregateVersion(),
                                         event,
-                                        buildMetadata(command, event.eventSchemaVersion())
+                                        buildMetadata(command, event.eventId(), event.eventSchemaVersion())
                                 ))
                         .toList()
         );
@@ -132,9 +132,9 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
         return Mono.just(executionContext);
     }
 
-    private EventMetadata buildMetadata(Command<?> command, long eventSchemaVersion) {
+    private EventMetadata buildMetadata(Command<?> command, UUID eventId, long eventSchemaVersion) {
         var metadata = new EventMetadata();
-        metadata.setEventId(UUID.randomUUID());
+        metadata.setEventId(eventId);
         metadata.setCorrelationId(command.metadata().getCorrelationId());
         metadata.setCausationId(command.metadata().getCausationId());
         metadata.setCommandId(command.metadata().getCommandId());
@@ -148,7 +148,7 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
     protected Mono<ExecutionContext<A>> save(ExecutionContext<A> exec, Command<?> command) {
         return this.getEventSourcedService()
                 .save(exec.envelopes())
-                .thenReturn(exec);
+                .then(Mono.just(exec));
     }
 
     protected Mono<ExecutionContext<A>> publish(ExecutionContext<A> exec, Command<?> command) {

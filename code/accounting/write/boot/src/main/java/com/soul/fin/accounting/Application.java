@@ -1,4 +1,4 @@
-package com.soul.accounting;
+package com.soul.fin.accounting;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

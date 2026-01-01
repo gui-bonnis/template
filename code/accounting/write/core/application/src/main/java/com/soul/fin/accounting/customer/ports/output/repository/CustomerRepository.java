@@ -19,4 +19,8 @@ public interface CustomerRepository {
     Mono<Boolean> existsById(UUID id);
 
     Mono<Void> deleteById(UUID id);
+
+    Mono<Customer> insert(Customer aggregate);
+
+    Mono<Customer> update(Customer aggregate);
 }

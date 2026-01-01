@@ -2,6 +2,7 @@ package com.soul.fin.accounting.data.customer.adapter;
 
 import com.soul.fin.accounting.customer.entity.Customer;
 import com.soul.fin.accounting.customer.ports.output.repository.CustomerRepository;
+import com.soul.fin.accounting.data.customer.entity.CustomerEntity;
 import com.soul.fin.accounting.data.customer.mapper.CustomerMapper;
 import com.soul.fin.accounting.data.customer.repository.CustomerReactiveRepository;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +45,24 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public Mono<Customer> save(Customer customer) {
         return Mono.just(customer)
                 .map(mapper::toCustomerEntity)
+                .flatMap(customerReactiveRepository::save)
+                .map(mapper::toCustomer);
+    }
+
+    @Override
+    public Mono<Customer> insert(Customer customer) {
+        return Mono.just(customer)
+                .map(mapper::toCustomerEntity)
+                .map(CustomerEntity::insert)
+                .flatMap(customerReactiveRepository::save)
+                .map(mapper::toCustomer);
+    }
+
+    @Override
+    public Mono<Customer> update(Customer customer) {
+        return Mono.just(customer)
+                .map(mapper::toCustomerEntity)
+                .map(CustomerEntity::update)
                 .flatMap(customerReactiveRepository::save)
                 .map(mapper::toCustomer);
     }

@@ -23,6 +23,7 @@ public class CustomerRegisteredUpCaster implements CustomerUpCaster {
                 yield new CustomerRegisteredEvent(
                         old.aggregateId(),
                         old.aggregateVersion(),
+                        old.eventId(),
                         old.occurredAt()
                 );
             }

@@ -33,10 +33,9 @@ public class EventSourcedService<T extends BaseId<?>, A extends BaseAggregateRoo
 //                .then();  // Convert to Mono<Void> after all are processed
 //    }
 
-    public Mono<Void> save(List<EventEnvelope> eventEnvelopes) {
+    public Flux<EventEnvelope> save(List<EventEnvelope> eventEnvelopes) {
         return Flux.fromIterable(eventEnvelopes)
-                .map(eventRepository::append)// not sure if they are processed sequentially
-                .then();  // Convert to Mono<Void> after all are processed
+                .flatMap(eventRepository::append);
     }
 
 }

@@ -1,12 +1,13 @@
 package com.soul.fin.common.application.policy.engine;
 
 import com.soul.fin.common.application.policy.*;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-@org.springframework.stereotype.Component
+@Component
 public final class DefaultSyncPolicyEngine
         implements SyncPolicyEngine {
 

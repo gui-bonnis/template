@@ -6,27 +6,13 @@ import java.time.Instant;
 import java.util.UUID;
 
 public record CustomerRegisteredEvent(UUID aggregateId,
-                                      long version,
+                                      long aggregateVersion,
+                                      UUID eventId,
                                       Instant occurredAt) implements DomainEvent {
 
 
     @Override
-    public UUID aggregateId() {
-        return aggregateId;
-    }
-
-    @Override
-    public long aggregateVersion() {
-        return version;
-    }
-
-    @Override
     public long eventSchemaVersion() {
         return 1L;
-    }
-
-    @Override
-    public Instant occurredAt() {
-        return occurredAt;
     }
 }

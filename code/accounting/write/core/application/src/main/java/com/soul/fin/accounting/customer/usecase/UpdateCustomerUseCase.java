@@ -7,7 +7,6 @@ import com.soul.fin.accounting.customer.exception.CustomerApplicationExceptions;
 import com.soul.fin.accounting.customer.mapper.CustomerMapper;
 import com.soul.fin.accounting.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.accounting.customer.service.CustomerDomainService;
-import com.soul.fin.accounting.customer.validator.UpdateCustomerCommandValidator;
 import com.soul.fin.accounting.customer.vo.CustomerId;
 import com.soul.fin.common.application.dto.AggregateExecution;
 import com.soul.fin.common.application.invariants.InvariantGuard;
@@ -45,12 +44,15 @@ public class UpdateCustomerUseCase extends UseCase<CustomerId, Customer> {
     public Mono<CustomerUpdatedResponse> updatedCustomer(UpdateCustomerCommand command) {
 
         return Mono.just(command)
-                // validate command
-                .transform(UpdateCustomerCommandValidator.validate())
                 // get existing entity
                 .flatMap(cmd -> this.load(new CustomerId(cmd.customerId())))
                 // throw if not found
                 .switchIfEmpty(CustomerApplicationExceptions.customerNotFound(command.customerId()))
+                // evaluate sync polices
+                .map(aggregate -> {
+                    evaluatePolicies(command);
+                    return aggregate;
+                })
                 // call domain service
                 .map(c -> customerDomainService.updateCustomer(c, CustomerMapper.toCustomer(command)))
                 // pull events
@@ -60,7 +62,7 @@ public class UpdateCustomerUseCase extends UseCase<CustomerId, Customer> {
                 //build envelop
                 .flatMap(exec -> this.buildEnvelopes(exec, command))
                 // save domain
-                .flatMap(exec -> customerRepository.save(exec.aggregate())
+                .flatMap(exec -> customerRepository.update(exec.aggregate())
                         .thenReturn(exec))
                 // call saga orchestrator service
                 // save saga resource

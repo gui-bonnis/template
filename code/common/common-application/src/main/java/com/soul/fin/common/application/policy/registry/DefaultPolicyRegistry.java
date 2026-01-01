@@ -2,13 +2,14 @@ package com.soul.fin.common.application.policy.registry;
 
 import com.soul.fin.common.application.policy.AsyncPolicy;
 import com.soul.fin.common.application.policy.Policy;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@org.springframework.stereotype.Component
+@Component
 public final class DefaultPolicyRegistry implements PolicyRegistry {
 
     private final Map<Class<?>, List<Policy<?>>> registry = new HashMap<>();

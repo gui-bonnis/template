@@ -1,22 +1,26 @@
 package com.soul.fin.accounting.data.outbox.publisher;
 
 import com.soul.fin.accounting.data.outbox.entity.OutboxEntity;
-import com.soul.fin.accounting.data.outbox.repository.OutboxRepository;
+import com.soul.fin.accounting.data.outbox.writer.PostgresOutboxWriter;
 import com.soul.fin.common.application.dto.EventEnvelope;
 import com.soul.fin.common.application.ports.output.publisher.EventPublisher;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import tools.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
 import java.util.List;
 
-@org.springframework.stereotype.Component
+@Component
 public class OutboxEventPublisher implements EventPublisher {
 
-    private final OutboxRepository outboxRepository;
+    private final ObjectMapper objectMapper;
+    private final PostgresOutboxWriter writer;
 
-    public OutboxEventPublisher(OutboxRepository outboxRepository) {
-        this.outboxRepository = outboxRepository;
+    public OutboxEventPublisher(ObjectMapper objectMapper, PostgresOutboxWriter writer) {
+        this.objectMapper = objectMapper;
+        this.writer = writer;
     }
 
 //    @Override
@@ -47,14 +51,14 @@ public class OutboxEventPublisher implements EventPublisher {
                             eventEnvelope.aggregateId(),
                             eventEnvelope.eventId(),
                             eventEnvelope.eventType(),
-                            eventEnvelope.payload().toString(),
-                            eventEnvelope.metadata().toString(),
+                            objectMapper.writeValueAsString(eventEnvelope.payload()),
+                            objectMapper.writeValueAsString(eventEnvelope.metadata()),
                             Instant.now(),
                             null,
                             "PENDENT"
                     );
                 })
-                .flatMap(outboxRepository::save)
+                .flatMap(writer::append)
                 .then();
 
     }

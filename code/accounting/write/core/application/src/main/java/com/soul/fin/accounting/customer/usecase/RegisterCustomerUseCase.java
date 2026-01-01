@@ -6,7 +6,6 @@ import com.soul.fin.accounting.customer.entity.Customer;
 import com.soul.fin.accounting.customer.mapper.CustomerMapper;
 import com.soul.fin.accounting.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.accounting.customer.service.CustomerDomainService;
-import com.soul.fin.accounting.customer.validator.RegisterCustomerCommandValidator;
 import com.soul.fin.accounting.customer.vo.CustomerId;
 import com.soul.fin.common.application.dto.AggregateExecution;
 import com.soul.fin.common.application.invariants.InvariantGuard;
@@ -45,11 +44,9 @@ public class RegisterCustomerUseCase extends UseCase<CustomerId, Customer> {
     public Mono<CustomerRegisteredResponse> registerCustomer(RegisterCustomerCommand command) {
 
         return Mono.just(command)
-                // validate command
-                .transform(RegisterCustomerCommandValidator.validate())
                 // map to domain entity
                 .map(CustomerMapper::toCustomer)
-                // evaluat sync polices
+                // evaluate sync polices
                 .map(aggregate -> {
                     evaluatePolicies(command);
                     return aggregate;
@@ -63,7 +60,7 @@ public class RegisterCustomerUseCase extends UseCase<CustomerId, Customer> {
                 //build envelop
                 .flatMap(exec -> this.buildEnvelopes(exec, command))
                 // save domain
-                .flatMap(exec -> customerRepository.save(exec.aggregate())
+                .flatMap(exec -> customerRepository.insert(exec.aggregate())
                         .thenReturn(exec))
                 // call saga orchestrator service
                 // save saga resource
@@ -74,6 +71,7 @@ public class RegisterCustomerUseCase extends UseCase<CustomerId, Customer> {
                 .flatMap(exec -> this.publish(exec, command))
                 // build return
                 .map(exec -> CustomerMapper.toCustomerRegisteredResponse(exec.aggregate()))
+                // Error handling
                 .onErrorResume(InvariantViolationException.class, ex ->
                         Mono.error(
                                 //new BusinessRuleViolationException(ex.violations())
