@@ -6,7 +6,7 @@ import com.soul.fin.common.core.entity.BaseAggregateRoot;
 import com.soul.fin.common.core.event.DomainEvent;
 
 public class Customer extends BaseAggregateRoot<CustomerId> {
-    private static final Integer CURRENT_SHEMA_VERSION = 1;
+    static final Integer CURRENT_SHEMA_VERSION = 1;
     //private final String name;
     private String name;
 

@@ -2,12 +2,14 @@ package com.soul.fin.common.bus;
 
 import com.soul.fin.common.bus.core.Command;
 import com.soul.fin.common.bus.middleware.CommandMiddleware;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 import java.util.function.Function;
 
+@Order(20)
 @Component
 public final class LogCommandMiddleware implements CommandMiddleware {
     @Override

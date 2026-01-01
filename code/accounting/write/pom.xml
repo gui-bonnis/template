@@ -16,11 +16,11 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Accounting module</description>
     <modules>
-        <module>aggregator</module>
-        <module>api</module>
-        <module>boot</module>
         <module>core</module>
+        <module>api</module>
         <module>infra</module>
+        <module>boot</module>
+        <module>aggregator</module>
     </modules>
 
 

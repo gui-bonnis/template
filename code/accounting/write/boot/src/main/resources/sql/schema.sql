@@ -2,8 +2,42 @@ CREATE SCHEMA IF NOT EXISTS customer;
 
 CREATE TABLE IF NOT EXISTS customer.customer (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255)
+    name VARCHAR(255),
+    version BIGINT      NOT NULL
 );
+
+
+CREATE TABLE IF NOT EXISTS customer.event_store_customer (
+    global_position      BIGSERIAL PRIMARY KEY,
+
+    -- Aggregate identity
+    aggregate_id         UUID        NOT NULL,
+    aggregate_type       TEXT        NOT NULL,
+
+    -- Versioning (per aggregate)
+    aggregate_version    BIGINT      NOT NULL,
+
+    -- Event identity
+    event_id             UUID        NOT NULL,
+    event_type           TEXT        NOT NULL,
+
+    -- Versioning (event schema)
+    event_schema_version BIGINT      NOT NULL,
+
+    -- Event payload
+    payload              JSONB       NOT NULL,
+    metadata             JSONB       NOT NULL,
+
+    -- Time & tracing
+    occurred_at          TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+    -- Safety
+    UNIQUE (aggregate_id, aggregate_version),
+    UNIQUE (event_id)
+);
+
+
+
 
 -- Insert test customer data
 -- INSERT INTO customer.customer (id, name) VALUES

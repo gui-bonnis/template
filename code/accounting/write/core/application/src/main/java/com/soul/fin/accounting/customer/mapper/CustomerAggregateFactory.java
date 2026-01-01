@@ -1,7 +1,7 @@
 package com.soul.fin.accounting.customer.mapper;
 
 import com.soul.fin.accounting.customer.entity.Customer;
-import com.soul.fin.common.application.AggregateFactory;
+import com.soul.fin.common.application.mapper.AggregateFactory;
 import com.soul.fin.common.core.event.DomainEvent;
 import reactor.core.publisher.Flux;
 

@@ -1,0 +1,147 @@
+package com.soul.fin.accounting.data.customer.entity;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+import java.time.Instant;
+import java.util.UUID;
+
+//@Getter
+//@Setter
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
+// check postgres connection to see if is direct to a database, if so, we can change schema and table naming
+@Table(name = "event_store_customer", schema = "customer")
+public class CustomerEventEntity {
+
+    @Id
+    @Column("global_position")
+    private Long id;
+
+    @Column("aggregate_id")
+    private UUID aggregateId;
+    @Column("aggregate_type")
+    private String aggregateType;
+    @Column("aggregate_version")
+    private Long aggregateVersion;
+    @Column("event_id")
+    private UUID eventId;
+    @Column("event_type")
+    private String eventType;
+    @Column("event_shema_version")
+    private Long eventSchemaVersion;
+    @Column("payload")
+    private String payload;
+    @Column("metadata")
+    private String metadata;
+    @Column("occurred_at")
+    private Instant occurredAt;
+
+    public CustomerEventEntity() {
+    }
+
+    public CustomerEventEntity(Long id,
+                               UUID aggregateId,
+                               String aggregateType,
+                               Long aggregateVersion,
+                               UUID eventId,
+                               String eventType,
+                               Long eventSchemaVersion,
+                               String payload,
+                               String metadata,
+                               Instant occurredAt) {
+        this.id = id;
+        this.aggregateId = aggregateId;
+        this.aggregateType = aggregateType;
+        this.aggregateVersion = aggregateVersion;
+        this.eventId = eventId;
+        this.eventType = eventType;
+        this.eventSchemaVersion = eventSchemaVersion;
+        this.payload = payload;
+        this.metadata = metadata;
+        this.occurredAt = occurredAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public UUID getAggregateId() {
+        return aggregateId;
+    }
+
+    public void setAggregateId(UUID aggregateId) {
+        this.aggregateId = aggregateId;
+    }
+
+    public String getAggregateType() {
+        return aggregateType;
+    }
+
+    public void setAggregateType(String aggregateType) {
+        this.aggregateType = aggregateType;
+    }
+
+    public Long getAggregateVersion() {
+        return aggregateVersion;
+    }
+
+    public void setAggregateVersion(Long aggregateVersion) {
+        this.aggregateVersion = aggregateVersion;
+    }
+
+    public UUID getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(UUID eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public Long getEventSchemaVersion() {
+        return eventSchemaVersion;
+    }
+
+    public void setEventSchemaVersion(Long eventSchemaVersion) {
+        this.eventSchemaVersion = eventSchemaVersion;
+    }
+
+    public String getPayload() {
+        return payload;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
+    }
+
+    public Instant getOccurredAt() {
+        return occurredAt;
+    }
+
+    public void setOccurredAt(Instant occurredAt) {
+        this.occurredAt = occurredAt;
+    }
+}
+

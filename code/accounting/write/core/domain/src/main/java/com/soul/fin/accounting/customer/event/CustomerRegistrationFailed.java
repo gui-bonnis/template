@@ -22,6 +22,11 @@ public record CustomerRegistrationFailed(UUID aggregateId,
     }
 
     @Override
+    public long eventSchemaVersion() {
+        return 1L;
+    }
+
+    @Override
     public Instant occurredAt() {
         return occurredAt;
     }

@@ -1,5 +1,7 @@
 package com.soul.fin.common.core.event;
 
+import com.soul.fin.common.core.entity.Metadata;
+
 import java.time.Instant;
 import java.util.UUID;
 

@@ -26,6 +26,11 @@
             <groupId>com.soul.fin</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.soul.fin</groupId>
+            <artifactId>common-bus</artifactId>
+        </dependency>
+
 
     </dependencies>
 

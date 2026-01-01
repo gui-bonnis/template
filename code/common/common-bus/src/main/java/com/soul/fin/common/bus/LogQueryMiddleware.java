@@ -3,6 +3,7 @@ package com.soul.fin.common.bus;
 import com.soul.fin.common.bus.core.QueryMany;
 import com.soul.fin.common.bus.core.QueryOne;
 import com.soul.fin.common.bus.middleware.QueryMiddleware;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -10,6 +11,7 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 import java.util.function.Function;
 
+@Order(20)
 @Component
 public final class LogQueryMiddleware implements QueryMiddleware {
     @Override

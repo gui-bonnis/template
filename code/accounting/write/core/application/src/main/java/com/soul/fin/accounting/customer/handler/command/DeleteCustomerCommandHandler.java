@@ -1,13 +1,12 @@
 package com.soul.fin.accounting.customer.handler.command;
 
 
-import com.soul.fin.common.bus.core.CommandHandler;
 import com.soul.fin.accounting.customer.dto.command.DeleteCustomerCommand;
 import com.soul.fin.accounting.customer.usecase.DeleteCustomerUseCase;
-import org.springframework.stereotype.Component;
+import com.soul.fin.common.bus.core.CommandHandler;
 import reactor.core.publisher.Mono;
 
-@Component
+//@Component
 public class DeleteCustomerCommandHandler implements CommandHandler<DeleteCustomerCommand, Void> {
 
     private final DeleteCustomerUseCase deleteCustomerUseCase;

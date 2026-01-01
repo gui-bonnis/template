@@ -1,4 +1,11 @@
+logging:
+  level:
+    org.springframework.beans: DEBUG
+    org.springframework.context.annotation: DEBUG
+    org.springframework.jdbc.datasource.init: DEBUG
+
 spring:
+
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/admin
     username: admin

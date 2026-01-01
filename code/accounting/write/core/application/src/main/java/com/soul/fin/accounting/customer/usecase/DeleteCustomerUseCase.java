@@ -7,11 +7,10 @@ import com.soul.fin.accounting.customer.mapper.CustomerMapper;
 import com.soul.fin.accounting.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.accounting.customer.service.CustomerDomainService;
 import com.soul.fin.accounting.customer.validator.DeleteCustomerCommandValidator;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
-@Service
+//@Service
 public class DeleteCustomerUseCase {
 
     private final CustomerDomainService customerDomainService;

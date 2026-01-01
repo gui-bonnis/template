@@ -4,7 +4,9 @@ import com.soul.fin.accounting.customer.entity.Customer;
 
 
 public class CustomerDomainServiceImpl implements CustomerDomainService {
-    @Override
+
+    //private static final Logger log = LoggerFactory.getLogger(CustomerDomainServiceImpl.class);
+
     public Customer registerCustomer(Customer customer) {
         return Customer.builder()
                 .withName(customer.getName())
@@ -23,6 +25,4 @@ public class CustomerDomainServiceImpl implements CustomerDomainService {
     public Customer deleteCustomer(Customer customer) {
         return customer;
     }
-
-
 }

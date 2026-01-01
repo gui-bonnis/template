@@ -19,7 +19,7 @@
 5) Add security layer (authentication and authorization). ✅ need to review later
 6) Add kafka integration for event publishing.
 7) Implement OpenTelemetry tracing and metrics.
-8) Add outbox pattern for reliable event delivery.
+8) Add outbox pattern for reliable event delivery. ✅
 9) Add cache layer for frequently accessed data.
 10) Add configuration management (e.g., Spring Cloud Config).
 11) Add cross-cutting extensions
@@ -58,7 +58,7 @@
 25) Add Creating Rest Client and Avro Schemas for external integrations using OpenAPI Generator.
 26) Implement feature toggles for controlled feature releases.
 27) Add data versioning and migration strategy. ✅ (from event store)
-28) Implement full Event Sourcing
+28) Implement full Event Sourcing ✅
 28) Add Elastic Search as CQRS read model.
 29) Infra full cloud native
 

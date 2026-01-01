@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>infra-security</artifactId>
+    <artifactId>infra-sec</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
