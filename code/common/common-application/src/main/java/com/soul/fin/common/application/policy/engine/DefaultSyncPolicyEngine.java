@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+@org.springframework.stereotype.Component
 public final class DefaultSyncPolicyEngine
         implements SyncPolicyEngine {
 

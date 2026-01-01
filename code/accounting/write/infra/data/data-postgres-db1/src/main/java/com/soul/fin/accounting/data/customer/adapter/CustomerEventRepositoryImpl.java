@@ -28,7 +28,7 @@ public class CustomerEventRepositoryImpl implements CustomerEventRepository {
     @Override
     public Flux<DomainEvent> load(CustomerId customerId) {
         return repository
-                .findByCustomerIdOrderByAggregateVersion(customerId.getValue())
+                .findByAggregateIdOrderByAggregateVersion(customerId.getValue())
                 .map(upCaster::upcast);
     }
 

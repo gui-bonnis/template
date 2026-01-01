@@ -1,8 +1,8 @@
-logging:
-  level:
-    org.springframework.beans: DEBUG
-    org.springframework.context.annotation: DEBUG
-    org.springframework.jdbc.datasource.init: DEBUG
+#logging:
+#  level:
+#    org.springframework.beans: DEBUG
+#    org.springframework.context.annotation: DEBUG
+#    org.springframework.jdbc.datasource.init: DEBUG
 
 spring:
 

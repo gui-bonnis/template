@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 import java.time.Instant;
 import java.util.List;
 
+@org.springframework.stereotype.Component
 public class OutboxEventPublisher implements EventPublisher {
 
     private final OutboxRepository outboxRepository;

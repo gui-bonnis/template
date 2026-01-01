@@ -2,9 +2,9 @@ package com.soul.accounting;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.persistence.autoconfigure.EntityScan;
+import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
-@EntityScan(basePackages = {"com.soul.fin.accounting.data", "com.soul.fin.accounting.data"})
+@EnableR2dbcRepositories(basePackages = "com.soul.fin.accounting.data")
 @SpringBootApplication(scanBasePackages = "com.soul.fin")
 public class Application {
 

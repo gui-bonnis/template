@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 import java.time.Instant;
 import java.util.List;
 
-@Component
+//@Component
 public final class PolicyAwareEventPublisher implements EventPublisher {
 
     private final EventPublisher delegate;

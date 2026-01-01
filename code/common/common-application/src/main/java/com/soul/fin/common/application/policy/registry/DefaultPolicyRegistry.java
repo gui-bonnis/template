@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@org.springframework.stereotype.Component
 public final class DefaultPolicyRegistry implements PolicyRegistry {
 
     private final Map<Class<?>, List<Policy<?>>> registry = new HashMap<>();

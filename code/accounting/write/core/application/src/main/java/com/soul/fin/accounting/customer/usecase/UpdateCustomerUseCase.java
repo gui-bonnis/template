@@ -17,10 +17,11 @@ import com.soul.fin.common.application.policy.risk.RiskService;
 import com.soul.fin.common.application.ports.output.publisher.EventPublisher;
 import com.soul.fin.common.application.service.EventSourcedService;
 import com.soul.fin.common.application.usecase.UseCase;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
-//@Service
+@Service
 public class UpdateCustomerUseCase extends UseCase<CustomerId, Customer> {
 
     private final CustomerDomainService customerDomainService;

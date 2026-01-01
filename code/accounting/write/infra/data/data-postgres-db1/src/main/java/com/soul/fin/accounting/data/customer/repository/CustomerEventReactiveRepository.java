@@ -10,6 +10,6 @@ import java.util.UUID;
 @Repository
 public interface CustomerEventReactiveRepository extends ReactiveCrudRepository<CustomerEventEntity, Long> {
 
-    Flux<CustomerEventEntity> findByCustomerIdOrderByAggregateVersion(UUID customerId);
+    Flux<CustomerEventEntity> findByAggregateIdOrderByAggregateVersion(UUID aggregateId);
 }
 

@@ -13,5 +13,5 @@ public class BeanConfiguration {
     public CustomerDomainService customerDomainService() {
         return new CustomerDomainServiceImpl();
     }
-    
+
 }
