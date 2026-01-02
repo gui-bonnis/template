@@ -1,5 +1,6 @@
 package com.soul.fin.accounting.advice;
 
+import com.soul.fin.common.application.invariants.InvariantViolationException;
 import com.soul.fin.common.core.exception.ApplicationException;
 import com.soul.fin.common.core.exception.EntityNotFoundException;
 import com.soul.fin.common.core.exception.InvalidInputException;
@@ -27,6 +28,12 @@ public class ApplicationErrorHandler {
     @ExceptionHandler(Exception.class)
     public ProblemDetail handle(Exception exception) {
         log.error("unhandled error", exception);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+    }
+
+    @ExceptionHandler(InvariantViolationException.class)
+    public ProblemDetail handle(InvariantViolationException exception) {
+        log.error("Invariant error", exception);
         return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
     }
 

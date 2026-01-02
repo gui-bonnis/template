@@ -1,6 +1,5 @@
-package com.soul.fin.accounting.customer.invariants;
+package com.soul.fin.common.application.invariants;
 
-import com.soul.fin.common.application.invariants.*;
 import com.soul.fin.common.core.event.DomainEvent;
 import org.springframework.stereotype.Service;
 

@@ -13,7 +13,9 @@ import com.soul.fin.common.application.invariants.InvariantGuard;
 import com.soul.fin.common.application.policy.engine.DefaultSyncPolicyEngine;
 import com.soul.fin.common.application.policy.registry.PolicyRegistry;
 import com.soul.fin.common.application.policy.risk.RiskService;
+import com.soul.fin.common.application.policy.service.PolicyServices;
 import com.soul.fin.common.application.ports.output.publisher.EventPublisher;
+import com.soul.fin.common.application.ports.output.publisher.MessagePublisher;
 import com.soul.fin.common.application.service.EventSourcedService;
 import com.soul.fin.common.application.usecase.UseCase;
 import org.springframework.stereotype.Service;
@@ -27,15 +29,18 @@ public class UpdateCustomerUseCase extends UseCase<CustomerId, Customer> {
     private final CustomerRepository customerRepository;
 
     public UpdateCustomerUseCase(EventSourcedService<CustomerId, Customer> eventSourcedService,
-                                 EventPublisher publisher,
+                                 EventPublisher eventPublisher,
+                                 MessagePublisher messagePublisher,
                                  InvariantGuard invariantGuard,
                                  DefaultSyncPolicyEngine policyEngine,
                                  PolicyRegistry policyRegistry,
+                                 PolicyServices policyServices,
                                  RiskService riskService,
                                  CustomerDomainService customerDomainService,
                                  CustomerRepository customerRepository
     ) {
-        super(eventSourcedService, publisher, invariantGuard, policyEngine, policyRegistry, riskService);
+        super(eventSourcedService, eventPublisher, messagePublisher, invariantGuard,
+                policyEngine, policyRegistry, policyServices, riskService);
         this.customerDomainService = customerDomainService;
         this.customerRepository = customerRepository;
     }
@@ -49,10 +54,7 @@ public class UpdateCustomerUseCase extends UseCase<CustomerId, Customer> {
                 // throw if not found
                 .switchIfEmpty(CustomerApplicationExceptions.customerNotFound(command.customerId()))
                 // evaluate sync polices
-                .map(aggregate -> {
-                    evaluatePolicies(command);
-                    return aggregate;
-                })
+                .flatMap(aggregate -> evaluatePolicies(aggregate, command))
                 // call domain service
                 .map(c -> customerDomainService.updateCustomer(c, CustomerMapper.toCustomer(command)))
                 // pull events
@@ -68,9 +70,9 @@ public class UpdateCustomerUseCase extends UseCase<CustomerId, Customer> {
                 // save saga resource
                 //.flatMap(customerRepository::save)
                 // save event at event store
-                .flatMap(exec -> this.save(exec, command))
+                .flatMap(this::saveEvent)
                 // publish event
-                .flatMap(exec -> this.publish(exec, command))
+                .flatMap(this::publishEvent)
                 // build return
                 .map(exec -> CustomerMapper.toCustomerUpdatedResponse(exec.aggregate()));
     }

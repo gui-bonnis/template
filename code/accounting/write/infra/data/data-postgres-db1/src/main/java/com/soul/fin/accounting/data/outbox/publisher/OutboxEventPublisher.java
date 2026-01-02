@@ -3,17 +3,16 @@ package com.soul.fin.accounting.data.outbox.publisher;
 import com.soul.fin.accounting.data.outbox.entity.OutboxEntity;
 import com.soul.fin.accounting.data.outbox.writer.PostgresOutboxWriter;
 import com.soul.fin.common.application.dto.EventEnvelope;
-import com.soul.fin.common.application.ports.output.publisher.EventPublisher;
+import com.soul.fin.common.application.ports.output.publisher.MessagePublisher;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import tools.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
 import java.util.List;
 
 @Component
-public class OutboxEventPublisher implements EventPublisher {
+public class OutboxEventPublisher implements MessagePublisher {
 
     private final ObjectMapper objectMapper;
     private final PostgresOutboxWriter writer;
@@ -23,31 +22,11 @@ public class OutboxEventPublisher implements EventPublisher {
         this.writer = writer;
     }
 
-//    @Override
-//    public Mono<Void> publish(Flux<EventEnvelope> events) {
-//        return events
-//                .map(eventEnvelope -> {
-//                    return new OutboxEntity(
-//                            eventEnvelope.aggregateId(),
-//                            eventEnvelope.eventId(),
-//                            eventEnvelope.eventType(),
-//                            eventEnvelope.payload().toString(),
-//                            eventEnvelope.metadata().toString(),
-//                            Instant.now(),
-//                            null,
-//                            "PENDENT"
-//                    );
-//                })
-//                .flatMap(outboxRepository::save)
-//                .then();
-//
-//    }
-
     @Override
-    public Mono<Void> publish(List<EventEnvelope> events) {
+    public Flux<EventEnvelope> publish(List<EventEnvelope> events) {
         return Flux.fromIterable(events)
-                .map(eventEnvelope -> {
-                    return new OutboxEntity(
+                .flatMap(eventEnvelope -> {
+                    var outboxEntity = new OutboxEntity(
                             eventEnvelope.aggregateId(),
                             eventEnvelope.eventId(),
                             eventEnvelope.eventType(),
@@ -57,9 +36,9 @@ public class OutboxEventPublisher implements EventPublisher {
                             null,
                             "PENDENT"
                     );
-                })
-                .flatMap(writer::append)
-                .then();
+                    return this.writer.append(outboxEntity)
+                            .thenReturn(eventEnvelope);
+                });
 
     }
 

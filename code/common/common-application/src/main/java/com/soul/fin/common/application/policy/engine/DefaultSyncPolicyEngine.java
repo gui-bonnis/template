@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public final class DefaultSyncPolicyEngine
-        implements SyncPolicyEngine {
+public final class DefaultSyncPolicyEngine implements SyncPolicyEngine {
 
     @Override
     @SuppressWarnings("unchecked")

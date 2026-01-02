@@ -1,7 +1,5 @@
-package com.soul.fin.accounting.customer.invariants;
+package com.soul.fin.common.application.invariants;
 
-import com.soul.fin.common.application.invariants.AggregateCandidate;
-import com.soul.fin.common.application.invariants.AggregateCandidateFactory;
 import com.soul.fin.common.core.event.DomainEvent;
 import com.soul.fin.common.core.vo.BaseId;
 import org.springframework.stereotype.Component;

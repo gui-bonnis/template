@@ -23,7 +23,7 @@ public final class AmlMonitoringPolicy
                     new PolicyAlert(
                             "AML_HIGH_RISK",
                             "High AML risk on account " + event.aggregateId(),
-                            Severity.OBSERVATION,
+                            Severity.HARD_BLOCK,
                             ctx.now()
                     )
             );

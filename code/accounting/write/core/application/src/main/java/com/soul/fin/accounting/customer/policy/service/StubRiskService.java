@@ -10,7 +10,7 @@ public final class StubRiskService implements RiskService {
 
     @Override
     public RiskScore evaluate(Object input) {
-        return new RiskScore(0, RiskLevel.LOW);
+        return new RiskScore(0, RiskLevel.HIGH);
     }
 }
 

@@ -1,7 +1,10 @@
 package com.soul.fin.common.application.policy.feature;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Set;
 
+@Component
 public final class InMemoryFeatureFlags implements FeatureFlags {
 
     private final Set<String> enabled;

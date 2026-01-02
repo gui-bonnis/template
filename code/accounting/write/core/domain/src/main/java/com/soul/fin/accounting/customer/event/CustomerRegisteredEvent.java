@@ -13,6 +13,6 @@ public record CustomerRegisteredEvent(UUID aggregateId,
 
     @Override
     public long eventSchemaVersion() {
-        return 1L;
+        return 2L;
     }
 }

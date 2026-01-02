@@ -9,22 +9,23 @@ import com.soul.fin.common.application.policy.engine.AsyncPolicyEngine;
 import com.soul.fin.common.application.policy.registry.PolicyRegistry;
 import com.soul.fin.common.application.policy.service.PolicyServices;
 import com.soul.fin.common.application.ports.output.publisher.EventPublisher;
+import com.soul.fin.common.core.event.DomainEvent;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 import java.util.List;
 
-//@Component
+@Component
 public final class PolicyAwareEventPublisher implements EventPublisher {
 
-    private final EventPublisher delegate;
     private final AsyncPolicyEngine policyEngine;
     private final PolicyRegistry registry;
     private final PolicyServices policyServices;
 
-    public PolicyAwareEventPublisher(EventPublisher delegate, AsyncPolicyEngine policyEngine, PolicyRegistry registry, PolicyServices policyServices) {
-        this.delegate = delegate;
+    public PolicyAwareEventPublisher(
+            AsyncPolicyEngine policyEngine,
+            PolicyRegistry registry, PolicyServices policyServices) {
         this.policyEngine = policyEngine;
         this.registry = registry;
         this.policyServices = policyServices;
@@ -32,25 +33,24 @@ public final class PolicyAwareEventPublisher implements EventPublisher {
 
     @Override
     public Mono<Void> publish(List<EventEnvelope> events) {
-
-        delegate.publish(events);
-
         for (EventEnvelope event : events) {
             List<AsyncPolicy<?>> policies =
-                    registry.policiesForEvent(event.getClass());
+                    registry.policiesForEvent(event.payload().getClass());
 
-            PolicyContext<EventEnvelope> context =
+            if (policies.isEmpty())
+                continue;
+
+            PolicyContext<DomainEvent> context =
                     new PolicyContext<>(
-                            event,
+                            event.payload(),
                             Instant.now(),
                             PolicyExecutionMode.ASYNC,
                             policyServices,
                             new NoOpPolicyEffects()
                     );
 
-            policyEngine.dispatch(event, policies, context);
+            policyEngine.dispatch(event.payload(), policies, context);
         }
-
         return Mono.empty();
     }
 }

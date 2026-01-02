@@ -1,10 +1,10 @@
 package com.soul.fin.common.application.ports.output.publisher;
 
 import com.soul.fin.common.application.dto.EventEnvelope;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
-public interface EventPublisher {
-    Mono<Void> publish(List<EventEnvelope> events);
+public interface MessagePublisher {
+    Flux<EventEnvelope> publish(List<EventEnvelope> events);
 }

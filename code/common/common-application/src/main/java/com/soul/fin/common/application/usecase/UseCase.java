@@ -14,12 +14,11 @@ import com.soul.fin.common.application.policy.PolicyExecutionMode;
 import com.soul.fin.common.application.policy.effects.NoOpPolicyEffects;
 import com.soul.fin.common.application.policy.engine.DefaultSyncPolicyEngine;
 import com.soul.fin.common.application.policy.exception.PolicyViolationException;
-import com.soul.fin.common.application.policy.feature.FeatureFlags;
 import com.soul.fin.common.application.policy.registry.PolicyRegistry;
 import com.soul.fin.common.application.policy.risk.RiskService;
-import com.soul.fin.common.application.policy.service.DefaultPolicyServices;
 import com.soul.fin.common.application.policy.service.PolicyServices;
 import com.soul.fin.common.application.ports.output.publisher.EventPublisher;
+import com.soul.fin.common.application.ports.output.publisher.MessagePublisher;
 import com.soul.fin.common.application.service.EventSourcedService;
 import com.soul.fin.common.bus.core.Command;
 import com.soul.fin.common.core.entity.BaseAggregateRoot;
@@ -27,7 +26,6 @@ import com.soul.fin.common.core.event.EventMetadata;
 import com.soul.fin.common.core.vo.BaseId;
 import reactor.core.publisher.Mono;
 
-import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -35,28 +33,33 @@ import java.util.UUID;
 public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T>> {
 
     private final EventSourcedService<T, A> eventSourcedService;
-    private final EventPublisher publisher;
+    private final EventPublisher eventPublisher;
+    private final MessagePublisher messagePublisher;
     private final InvariantGuard invariantGuard;
-    //private final InvariantRegistry invariantRegistry;
     private final DefaultSyncPolicyEngine policyEngine;
     private final PolicyRegistry policyRegistry;
-
-    private final FeatureFlags featureFlags = key -> true; // everything enabled for now
+    private final PolicyServices policyServices;
     private final RiskService riskService;
 
     protected EventSourcedService<T, A> getEventSourcedService() {
         return eventSourcedService;
     }
 
-    protected UseCase(EventSourcedService<T, A> eventSourcedService, EventPublisher publisher,
+    protected UseCase(EventSourcedService<T, A> eventSourcedService,
+                      EventPublisher eventPublisher,
+                      MessagePublisher messagePublisher,
                       InvariantGuard invariantGuard,
-                      DefaultSyncPolicyEngine policyEngine, PolicyRegistry policyRegistry,
+                      DefaultSyncPolicyEngine policyEngine,
+                      PolicyRegistry policyRegistry,
+                      PolicyServices policyServices,
                       RiskService riskService) {
         this.eventSourcedService = eventSourcedService;
-        this.publisher = publisher;
+        this.eventPublisher = eventPublisher;
+        this.messagePublisher = messagePublisher;
         this.invariantGuard = invariantGuard;
         this.policyEngine = policyEngine;
         this.policyRegistry = policyRegistry;
+        this.policyServices = policyServices;
         this.riskService = riskService;
     }
 
@@ -64,7 +67,7 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
         return eventSourcedService.load(id);
     }
 
-    protected <C> void evaluatePolicies(C command) {
+    protected <C> Mono<A> evaluatePolicies(A aggregate, C command) {
 
         List<Policy<?>> policies =
                 policyRegistry.policiesFor(command.getClass());
@@ -74,7 +77,7 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
                         command,
                         Instant.now(),
                         PolicyExecutionMode.SYNC,
-                        buildPolicyServices(),
+                        this.policyServices,
                         new NoOpPolicyEffects()
                 );
 
@@ -84,15 +87,8 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
         if (!result.allowed()) {
             throw new PolicyViolationException(result);
         }
-    }
 
-    protected PolicyServices buildPolicyServices() {
-        return new DefaultPolicyServices(
-                //readModels(),
-                featureFlags,
-                riskService,
-                Clock.systemUTC()
-        );
+        return Mono.just(aggregate);
     }
 
     protected Mono<AggregateExecution<A>> validateInvariants(AggregateExecution<A> execution) {
@@ -140,48 +136,23 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
         metadata.setCommandId(command.metadata().getCommandId());
         metadata.setActor(command.metadata().getActor());
         metadata.setTenantId(command.metadata().getTenantId());
-        metadata.setSchemaVersion(eventSchemaVersion); //TODO: add version to EventFromStore, check if it is aggSchema or version
+        metadata.setSchemaVersion(eventSchemaVersion);
         metadata.setOccurredAt(Instant.now());
         return metadata;
     }
 
-    protected Mono<ExecutionContext<A>> save(ExecutionContext<A> exec, Command<?> command) {
+    protected Mono<ExecutionContext<A>> saveEvent(ExecutionContext<A> exec) {
         return this.getEventSourcedService()
                 .save(exec.envelopes())
                 .then(Mono.just(exec));
     }
 
-    protected Mono<ExecutionContext<A>> publish(ExecutionContext<A> exec, Command<?> command) {
-        return this.publisher
-                .publish(exec.envelopes())
+    protected Mono<ExecutionContext<A>> publishEvent(ExecutionContext<A> exec) {
+        return Mono.just(exec)
+                .map(e -> this.eventPublisher.publish(e.envelopes()))
+                .thenReturn(exec)
+                .map(e -> this.messagePublisher.publish(e.envelopes()))
                 .thenReturn(exec);
     }
-
-//    protected Mono<AggregateExecution<A>> save(AggregateExecution<A> exec, Command<?> command) {
-//        return this.getEventSourcedService()
-//                .save(buildEnvelopes(exec.aggregate(), command))
-//                .thenReturn(exec);
-//    }
-
-//    protected Flux<EventEnvelope> buildEnvelopes(A aggregateRoot, Command<?> command) {
-//        return Flux.fromIterable(aggregateRoot.pullEvents())
-//                .map(event ->
-//                        new EventEnvelope(
-//                                UUID.randomUUID(),
-//                                event.getClass().getSimpleName(),
-//                                event.aggregateId(),
-//                                aggregateRoot.getClass().getSimpleName(),
-//                                aggregateRoot.getAggregateVersion(),
-//                                event,
-//                                buildMetadata(command, event.eventSchemaVersion())
-//                        ));
-//    }
-
-//
-//    protected Mono<AggregateExecution<A>> publish(AggregateExecution<A> exec, Command<?> command) {
-//        return this.publisher
-//                .publish(buildEnvelopes(exec.aggregate(), command))
-//                .thenReturn(exec);
-//    }
 
 }

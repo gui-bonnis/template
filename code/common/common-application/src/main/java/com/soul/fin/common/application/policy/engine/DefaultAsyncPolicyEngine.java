@@ -2,9 +2,11 @@ package com.soul.fin.common.application.policy.engine;
 
 import com.soul.fin.common.application.policy.AsyncPolicy;
 import com.soul.fin.common.application.policy.PolicyContext;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public final class DefaultAsyncPolicyEngine implements AsyncPolicyEngine {
 
     @Override

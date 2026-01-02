@@ -76,6 +76,7 @@
 9) Add sequence diagrams for key usecases.
 10) Add technology stack details and versions.
 11) Equalize all errors and exceptions through the application (polices, invariants, domain, events)
+12) Implement Async PolicyAlert Severity and error handling
 
 multiple databases connections
 artifactory jfrog
