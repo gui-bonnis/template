@@ -149,9 +149,9 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
 
     protected Mono<ExecutionContext<A>> publishEvent(ExecutionContext<A> exec) {
         return Mono.just(exec)
-                .map(e -> this.eventPublisher.publish(e.envelopes()))
+                .flatMap(e -> this.eventPublisher.publish(e.envelopes()))
                 .thenReturn(exec)
-                .map(e -> this.messagePublisher.publish(e.envelopes()))
+                .flatMap(e -> this.messagePublisher.publish(e.envelopes()).then())
                 .thenReturn(exec);
     }
 
