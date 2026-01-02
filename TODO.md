@@ -77,6 +77,19 @@
 10) Add technology stack details and versions.
 11) Equalize all errors and exceptions through the application (polices, invariants, domain, events)
 12) Implement Async PolicyAlert Severity and error handling
+13) Implement kafka and outbox IntegrationEventDispatcher's to turn on/off using
+    @Profile("outbox")
+    @Component
+    public class OutboxIntegrationDispatcher
+    implements IntegrationEventDispatcher { ... }
+
+    @Profile("direct-kafka")
+    @Component
+    public class KafkaIntegrationDispatcher
+    implements IntegrationEventDispatcher { ... }
+
+    SPRING_PROFILES_ACTIVE=outbox
+14)
 
 multiple databases connections
 artifactory jfrog
