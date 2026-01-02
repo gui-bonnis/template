@@ -3,6 +3,7 @@ package com.soul.fin.common.application.usecase;
 import com.soul.fin.common.application.dto.AggregateExecution;
 import com.soul.fin.common.application.dto.EventEnvelope;
 import com.soul.fin.common.application.dto.ExecutionContext;
+import com.soul.fin.common.application.event.EventPipeline;
 import com.soul.fin.common.application.invariants.InvariantGuard;
 import com.soul.fin.common.application.invariants.InvariantViolationException;
 import com.soul.fin.common.application.invariants.ValidationResult;
@@ -15,10 +16,7 @@ import com.soul.fin.common.application.policy.effects.NoOpPolicyEffects;
 import com.soul.fin.common.application.policy.engine.DefaultSyncPolicyEngine;
 import com.soul.fin.common.application.policy.exception.PolicyViolationException;
 import com.soul.fin.common.application.policy.registry.PolicyRegistry;
-import com.soul.fin.common.application.policy.risk.RiskService;
 import com.soul.fin.common.application.policy.service.PolicyServices;
-import com.soul.fin.common.application.ports.output.publisher.EventPublisher;
-import com.soul.fin.common.application.ports.output.publisher.MessagePublisher;
 import com.soul.fin.common.application.service.EventSourcedService;
 import com.soul.fin.common.bus.core.Command;
 import com.soul.fin.common.core.entity.BaseAggregateRoot;
@@ -33,34 +31,28 @@ import java.util.UUID;
 public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T>> {
 
     private final EventSourcedService<T, A> eventSourcedService;
-    private final EventPublisher eventPublisher;
-    private final MessagePublisher messagePublisher;
     private final InvariantGuard invariantGuard;
     private final DefaultSyncPolicyEngine policyEngine;
     private final PolicyRegistry policyRegistry;
     private final PolicyServices policyServices;
-    private final RiskService riskService;
+    private final EventPipeline eventPipeline;
 
     protected EventSourcedService<T, A> getEventSourcedService() {
         return eventSourcedService;
     }
 
     protected UseCase(EventSourcedService<T, A> eventSourcedService,
-                      EventPublisher eventPublisher,
-                      MessagePublisher messagePublisher,
+                      EventPipeline eventPipeline,
                       InvariantGuard invariantGuard,
                       DefaultSyncPolicyEngine policyEngine,
                       PolicyRegistry policyRegistry,
-                      PolicyServices policyServices,
-                      RiskService riskService) {
+                      PolicyServices policyServices) {
         this.eventSourcedService = eventSourcedService;
-        this.eventPublisher = eventPublisher;
-        this.messagePublisher = messagePublisher;
+        this.eventPipeline = eventPipeline;
         this.invariantGuard = invariantGuard;
         this.policyEngine = policyEngine;
         this.policyRegistry = policyRegistry;
         this.policyServices = policyServices;
-        this.riskService = riskService;
     }
 
     protected Mono<A> load(T id) {
@@ -141,18 +133,24 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
         return metadata;
     }
 
+    protected Mono<ExecutionContext<A>> publishEvent(ExecutionContext<A> exec) {
+        return eventPipeline.execute(exec.envelopes())
+                .thenReturn(exec);
+    }
+
+
     protected Mono<ExecutionContext<A>> saveEvent(ExecutionContext<A> exec) {
         return this.getEventSourcedService()
                 .save(exec.envelopes())
                 .then(Mono.just(exec));
     }
-
-    protected Mono<ExecutionContext<A>> publishEvent(ExecutionContext<A> exec) {
-        return Mono.just(exec)
-                .flatMap(e -> this.eventPublisher.publish(e.envelopes()))
-                .thenReturn(exec)
-                .flatMap(e -> this.messagePublisher.publish(e.envelopes()).then())
-                .thenReturn(exec);
-    }
+//
+//    protected Mono<ExecutionContext<A>> publishEvent(ExecutionContext<A> exec) {
+//        return Mono.just(exec)
+//                .flatMap(e -> this.eventPublisher.publish(e.envelopes()))
+//                .thenReturn(exec)
+//                .flatMap(e -> this.messagePublisher.publish(e.envelopes()).then())
+//                .thenReturn(exec);
+//    }
 
 }

@@ -8,13 +8,11 @@ import com.soul.fin.accounting.customer.ports.output.repository.CustomerReposito
 import com.soul.fin.accounting.customer.service.CustomerDomainService;
 import com.soul.fin.accounting.customer.vo.CustomerId;
 import com.soul.fin.common.application.dto.AggregateExecution;
+import com.soul.fin.common.application.event.EventPipeline;
 import com.soul.fin.common.application.invariants.InvariantGuard;
 import com.soul.fin.common.application.policy.engine.DefaultSyncPolicyEngine;
 import com.soul.fin.common.application.policy.registry.PolicyRegistry;
-import com.soul.fin.common.application.policy.risk.RiskService;
 import com.soul.fin.common.application.policy.service.PolicyServices;
-import com.soul.fin.common.application.ports.output.publisher.EventPublisher;
-import com.soul.fin.common.application.ports.output.publisher.MessagePublisher;
 import com.soul.fin.common.application.service.EventSourcedService;
 import com.soul.fin.common.application.usecase.UseCase;
 import org.springframework.stereotype.Service;
@@ -28,18 +26,16 @@ public class RegisterCustomerUseCase extends UseCase<CustomerId, Customer> {
     private final CustomerRepository customerRepository;
 
     public RegisterCustomerUseCase(EventSourcedService<CustomerId, Customer> eventSourcedService,
-                                   EventPublisher eventPublisher,
-                                   MessagePublisher messagePublisher,
+                                   EventPipeline eventPipeline,
                                    InvariantGuard invariantGuard,
                                    DefaultSyncPolicyEngine policyEngine,
                                    PolicyRegistry policyRegistry,
                                    PolicyServices policyServices,
-                                   RiskService riskService,
                                    CustomerDomainService customerDomainService,
                                    CustomerRepository customerRepository
     ) {
-        super(eventSourcedService, eventPublisher, messagePublisher, invariantGuard,
-                policyEngine, policyRegistry, policyServices, riskService);
+        super(eventSourcedService, eventPipeline, invariantGuard,
+                policyEngine, policyRegistry, policyServices);
         this.customerDomainService = customerDomainService;
         this.customerRepository = customerRepository;
     }
@@ -71,7 +67,7 @@ public class RegisterCustomerUseCase extends UseCase<CustomerId, Customer> {
                 // customerSagaRepository.save(exec.aggregate());
                 // return exec;
                 // })
-                // save event at event store
+//                // save event at event store
                 .flatMap(this::saveEvent)
                 // publish event
                 .flatMap(this::publishEvent)
