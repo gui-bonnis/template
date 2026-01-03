@@ -5,6 +5,27 @@
     <file url="file://$PROJECT_DIR$/code/accounting/accounting-bom/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/aggregator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/aggregator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/api/rest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/boot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/client/client-rest-app1/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/data/data-postgres-db1/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/data/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/data/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/msg/msg-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/msg/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/msg/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/obs/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/obs/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/security/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/infra/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/src/main/java" charset="UTF-8" />

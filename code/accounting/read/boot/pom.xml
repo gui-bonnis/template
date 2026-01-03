@@ -6,11 +6,11 @@
 
     <parent>
         <groupId>com.soul.fin.accounting</groupId>
-        <artifactId>accounting-write</artifactId>
+        <artifactId>accounting-read</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>accounting-write-boot</artifactId>
+    <artifactId>accounting-read-boot</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -33,17 +33,17 @@
 
         <dependency>
             <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-write-core-application</artifactId>
+            <artifactId>accounting-read-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-write-api-rest</artifactId>
+            <artifactId>accounting-read-api-rest</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-write-infra-data-postgres-db1</artifactId>
+            <artifactId>accounting-read-infra-data-postgres-db1</artifactId>
         </dependency>
 
         <dependency>
@@ -112,7 +112,7 @@
                 <configuration>
                     <images>
                         <image>
-                            <name>${project.groupId}-write-service:${project.version}</name>
+                            <name>${project.groupId}-read-service:${project.version}</name>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>

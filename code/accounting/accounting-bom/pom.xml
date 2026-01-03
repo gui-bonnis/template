@@ -18,6 +18,31 @@
         <dependencies>
             <dependency>
                 <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-read-aggregator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-read-api-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-read-boot</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-read-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-read-infra-data-postgres-db1</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
                 <artifactId>accounting-write-aggregator</artifactId>
                 <version>${project.version}</version>
             </dependency>

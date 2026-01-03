@@ -3,24 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.soul.fin.accounting</groupId>
-        <artifactId>accounting</artifactId>
+        <artifactId>accounting-read</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>accounting-read</artifactId>
+    <artifactId>accounting-read-api</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>Accounting module</description>
+    <description>Adapter module</description>
     <modules>
-        <module>aggregator</module>
-        <module>api</module>
-        <module>boot</module>
-        <module>core</module>
-        <module>infra</module>
+        <module>rest</module>
     </modules>
+
+    <properties>
+    </properties>
 
 
     <build>
@@ -30,7 +30,7 @@
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>ban-write-deps-from-read</id>
+                        <id>ban-infra-deps-from-api</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>enforce</goal>
@@ -40,11 +40,11 @@
                                 <bannedDependencies>
                                     <searchTransitive>true</searchTransitive>
                                     <excludes>
-                                        <exclude>com.soul.fin.*:*-write-*</exclude>
+                                        <exclude>com.soul.fin.*:*-infra-*</exclude>
                                     </excludes>
                                     <message>
-                                        ❌ CQRS violation:
-                                        Read-side modules must NOT depend on write-side modules.
+                                        ❌ Hexagonal violation:
+                                        API modules must NOT depend on infrastructure modules.
                                     </message>
                                 </bannedDependencies>
                             </rules>
@@ -55,5 +55,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
