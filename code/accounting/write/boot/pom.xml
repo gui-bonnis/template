@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.soul.fin.accounting.write</groupId>
-        <artifactId>write</artifactId>
+        <groupId>com.soul.fin.accounting</groupId>
+        <artifactId>accounting-write</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>boot</artifactId>
+    <artifactId>accounting-write-boot</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -32,18 +32,18 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.soul.fin.accounting.write</groupId>
-            <artifactId>core-application</artifactId>
+            <groupId>com.soul.fin.accounting</groupId>
+            <artifactId>accounting-write-core-application</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.soul.fin.accounting.write</groupId>
-            <artifactId>api-rest</artifactId>
+            <groupId>com.soul.fin.accounting</groupId>
+            <artifactId>accounting-write-api-rest</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.soul.fin.accounting.write</groupId>
-            <artifactId>infra-data-postgres-db1</artifactId>
+            <groupId>com.soul.fin.accounting</groupId>
+            <artifactId>accounting-write-infra-data-postgres-db1</artifactId>
         </dependency>
 
         <dependency>
@@ -87,7 +87,7 @@
             <!--                <groupId>com.spotify</groupId>-->
             <!--                <artifactId>docker-maven-plugin</artifactId>-->
             <!--                <configuration>-->
-            <!--                    <imageName>${project.groupId.name}-service:${version}</imageName>-->
+            <!--                    <imageName>${project.groupId.name}-service:${project.version}</imageName>-->
             <!--                    <dockerDirectory>${project.basedir}</dockerDirectory>-->
             <!--                    <resources>-->
             <!--                        <resource>-->
@@ -112,7 +112,7 @@
                 <configuration>
                     <images>
                         <image>
-                            <name>${project.groupId}-service:${version}</name>
+                            <name>${project.groupId}-service:${project.version}</name>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>

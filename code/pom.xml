@@ -19,6 +19,7 @@
     <name>${project.groupId}:${project.artifactId}</name>
 
     <modules>
+        <module>platform-bom</module>
         <module>common</module>
         <module>accounting</module>
     </modules>
@@ -83,13 +84,19 @@
     </dependencies>
 
     <dependencyManagement>
-        <!--        Project Dependencies-->
+
+
         <dependencies>
-            <!--            <dependency>-->
-            <!--                <groupId>com.soul</groupId>-->
-            <!--                <artifactId>on-demand-observability</artifactId>-->
-            <!--                <version>${project.version}</version>-->
-            <!--            </dependency>-->
+            <!-- Platform tech stack -->
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Common Project Dependencies-->
             <dependency>
                 <groupId>com.soul.fin</groupId>
                 <artifactId>common-api-rest</artifactId>
@@ -110,192 +117,6 @@
                 <artifactId>common-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.soul.fin.accounting.write</groupId>
-                <artifactId>aggregator</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.soul.fin.accounting.write</groupId>
-                <artifactId>api-rest</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.soul.fin.accounting.write</groupId>
-                <artifactId>boot</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.soul.fin.accounting.write</groupId>
-                <artifactId>core-application</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.soul.fin.accounting.write</groupId>
-                <artifactId>core-domain</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.soul.fin.accounting.write</groupId>
-                <artifactId>infra-data-postgres-db1</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-
-            <!--        Project Dependencies-->
-
-            <!--        Spring Dependencies-->
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-webflux</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-tx</artifactId>
-                <version>${spring-tx.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-security</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <!-- Resource Server (JWT) -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <!-- For method security -->
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-config</artifactId>
-                <version>${spring-boot.security.config.version}</version>
-            </dependency>
-
-            <!--        Spring Dependencies-->
-
-            <dependency>
-                <groupId>io.projectreactor</groupId>
-                <artifactId>reactor-core</artifactId>
-                <version>${reactor.version}</version>
-            </dependency>
-
-            <!--        DB Dependencies-->
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-r2dbc</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.postgresql</groupId>
-                <artifactId>r2dbc-postgresql</artifactId>
-                <scope>runtime</scope>
-                <version>${spring-data-r2dbc.version}</version>
-            </dependency>
-
-            <!--        DB Dependencies-->
-
-            <!--        Log & Monitoring Dependencies-->
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.opentelemetry.instrumentation</groupId>
-                <artifactId>opentelemetry-logback-appender-1.0</artifactId>
-                <version>${logback.appender.version}</version>
-            </dependency>
-
-            <!--            <dependency>-->
-            <!--                <groupId>io.opentelemetry.instrumentation</groupId>-->
-            <!--                <artifactId>opentelemetry-instrumentation-bom</artifactId>-->
-            <!--                <version>${otel.version}</version>-->
-            <!--                <type>pom</type>-->
-            <!--                <scope>import</scope>-->
-            <!--            </dependency>-->
-
-
-            <!--        Log & Monitoring Dependencies-->
-
-
-            <!--        Test Dependencies-->
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-webflux-test</artifactId>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>io.projectreactor</groupId>
-                <artifactId>reactor-test</artifactId>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-r2dbc-test</artifactId>
-                <version>${spring-boot.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson-core.version}</version>
-            </dependency>
-
-            <!--        Test Dependencies-->
-
-
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter</artifactId>
-                <version>${junit-jupiter.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <!--            <dependency>-->
-            <!--                <groupId>org.pitest</groupId>-->
-            <!--                <artifactId>pitest-aggregator</artifactId>-->
-            <!--                <version>${pitest.version}</version>-->
-            <!--            </dependency>-->
 
         </dependencies>
     </dependencyManagement>
@@ -417,6 +238,7 @@
                         </includes>
                     </configuration>
                 </plugin>
+
                 <!-- PIT plugin default configuration (inherits in modules) -->
                 <plugin>
                     <groupId>org.pitest</groupId>
@@ -502,6 +324,7 @@
                         </image>
                     </configuration>
                 </plugin>
+
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
@@ -522,11 +345,15 @@
                         </execution>
                     </executions>
                 </plugin>
+
             </plugins>
         </pluginManagement>
 
         <plugins>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 

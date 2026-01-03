@@ -5,12 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.soul.fin.accounting</groupId>
-        <artifactId>accounting-write</artifactId>
+        <artifactId>accounting-read</artifactId>
         <version>1.0-SNAPSHOT</version>
-
     </parent>
 
-    <artifactId>accounting-write-aggregator</artifactId>
+    <artifactId>accounting-read-aggregator</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -29,26 +28,26 @@
             <groupId>com.soul.fin</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-write-api-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-write-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-write-core-application</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-write-core-domain</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-write-infra-data-postgres-db1</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.soul.fin.accounting.read</groupId>-->
+        <!--            <artifactId>api-rest</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.soul.fin.accounting</groupId>-->
+        <!--            <artifactId>accounting-write-boot</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.soul.fin.accounting.read</groupId>-->
+        <!--            <artifactId>core-application</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.soul.fin.accounting.read</groupId>-->
+        <!--            <artifactId>core-domain</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.soul.fin.accounting.read</groupId>-->
+        <!--            <artifactId>infra-data-postgres-db1</artifactId>-->
+        <!--        </dependency>-->
 
     </dependencies>
 

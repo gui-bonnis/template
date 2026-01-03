@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.soul.fin.accounting.write</groupId>
-        <artifactId>infra</artifactId>
+        <groupId>com.soul.fin.accounting</groupId>
+        <artifactId>accounting-write-infra</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>infra-obs</artifactId>
+    <artifactId>accounting-write-infra-obs</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>

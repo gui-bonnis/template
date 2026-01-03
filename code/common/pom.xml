@@ -28,4 +28,39 @@
     <properties>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>ban-BC-deps-from-common</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                    <searchTransitive>true</searchTransitive>
+                                    <excludes>
+                                        <exclude>com.soul.fin.*:*</exclude>
+                                        <!--                                        <exclude>com.soul.fin.identity:*</exclude> example of full name if needed-->
+                                    </excludes>
+                                    <message>
+                                        ❌ Architecture violation:
+                                        common-* modules must NOT depend on any bounded context.
+                                        Common is infrastructure-only.
+                                    </message>
+                                </bannedDependencies>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
