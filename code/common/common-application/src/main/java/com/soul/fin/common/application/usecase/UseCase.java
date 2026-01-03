@@ -107,6 +107,7 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
                         .map(event ->
                                 new EventEnvelope(
                                         event.eventId(),
+                                        -1,
                                         event.getClass().getSimpleName(),
                                         event.aggregateId(),
                                         exec.aggregate().getClass().getSimpleName(),
@@ -138,19 +139,16 @@ public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T
                 .thenReturn(exec);
     }
 
-
     protected Mono<ExecutionContext<A>> saveEvent(ExecutionContext<A> exec) {
         return this.getEventSourcedService()
                 .save(exec.envelopes())
-                .then(Mono.just(exec));
+                .collectList()
+                .map(savedEnvelopes ->
+                        new ExecutionContext<>(
+                                exec.aggregate(),
+                                savedEnvelopes
+                        )
+                );
     }
-//
-//    protected Mono<ExecutionContext<A>> publishEvent(ExecutionContext<A> exec) {
-//        return Mono.just(exec)
-//                .flatMap(e -> this.eventPublisher.publish(e.envelopes()))
-//                .thenReturn(exec)
-//                .flatMap(e -> this.messagePublisher.publish(e.envelopes()).then())
-//                .thenReturn(exec);
-//    }
 
 }

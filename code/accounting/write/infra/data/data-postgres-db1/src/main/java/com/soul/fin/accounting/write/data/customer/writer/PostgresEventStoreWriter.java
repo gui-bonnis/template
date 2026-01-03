@@ -5,6 +5,8 @@ import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 @Component
 public class PostgresEventStoreWriter implements EventStoreWriter {
 
@@ -15,7 +17,7 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
     }
 
     @Override
-    public Mono<Void> append(CustomerEventEntity entity) {
+    public Mono<Long> append(CustomerEventEntity entity) {
         return client.sql("""
                             INSERT INTO customer.event_store_customer (
                                 aggregate_id,
@@ -37,6 +39,7 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
                                 CAST(:payload AS jsonb),
                                 CAST(:metadata AS jsonb)
                             )
+                            RETURNING event_position6
                         """)
                 .bind("aggregateId", entity.getAggregateId())
                 .bind("aggregateType", entity.getAggregateType())
@@ -46,7 +49,8 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
                 .bind("eventSchemaVersion", entity.getEventSchemaVersion())
                 .bind("payload", entity.getPayload())
                 .bind("metadata", entity.getMetadata())
-                .then();
+                .map(row -> Objects.requireNonNull(row.get("event_position", Long.class)))
+                .one();
     }
 }
 

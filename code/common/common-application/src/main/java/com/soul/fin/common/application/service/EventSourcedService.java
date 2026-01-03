@@ -27,12 +27,6 @@ public class EventSourcedService<T extends BaseId<?>, A extends BaseAggregateRoo
                 .rehydrate(eventRepository.load(id)));
     }
 
-//    public Mono<Void> save(Flux<EventEnvelope> eventEnvelopes) {
-//        return eventEnvelopes
-//                .concatMap(eventRepository::append)  // Process each envelope sequentially, calling append(EventEnvelope) -> Mono<Void>
-//                .then();  // Convert to Mono<Void> after all are processed
-//    }
-
     public Flux<EventEnvelope> save(List<EventEnvelope> eventEnvelopes) {
         return Flux.fromIterable(eventEnvelopes)
                 .flatMap(eventRepository::append);

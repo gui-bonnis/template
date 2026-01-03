@@ -29,6 +29,7 @@ public class OutboxEventPublisher implements MessagePublisher {
                     var outboxEntity = new OutboxEntity(
                             eventEnvelope.aggregateId(),
                             eventEnvelope.eventId(),
+                            eventEnvelope.eventPosition(),
                             eventEnvelope.eventType(),
                             objectMapper.writeValueAsString(eventEnvelope.payload()),
                             objectMapper.writeValueAsString(eventEnvelope.metadata()),

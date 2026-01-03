@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS customer.customer (
 );
 
 CREATE TABLE IF NOT EXISTS customer.event_store_customer (
-    global_position BIGSERIAL PRIMARY KEY,
+    event_position BIGSERIAL PRIMARY KEY,
 
     -- Aggregate identity
     aggregate_id UUID NOT NULL,
@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS outbox.customer (
     id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     aggregate_id        UUID NOT NULL,
     event_id            UUID NOT NULL,
+    event_position      BIGSERIAL NOT NULL,
     type                VARCHAR(50) NOT NULL,
     payload             JSONB NOT NULL,
     metadata            JSONB NOT NULL,

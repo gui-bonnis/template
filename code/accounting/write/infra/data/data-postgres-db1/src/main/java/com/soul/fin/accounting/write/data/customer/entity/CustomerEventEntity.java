@@ -17,7 +17,7 @@ import java.util.UUID;
 public class CustomerEventEntity {
 
     @Id
-    @Column("global_position")
+    @Column("event_position")
     private Long id;
 
     private UUID aggregateId;

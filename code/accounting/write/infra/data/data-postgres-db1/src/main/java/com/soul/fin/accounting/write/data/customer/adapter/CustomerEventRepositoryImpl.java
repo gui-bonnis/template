@@ -47,7 +47,17 @@ public class CustomerEventRepositoryImpl implements CustomerEventRepository {
                                 eventEnvelope.payload()
                         )
                 )
-                .thenReturn(eventEnvelope);
+                .map(event_position ->
+                        new EventEnvelope(
+                                eventEnvelope.eventId(),
+                                event_position,
+                                eventEnvelope.eventType(),
+                                eventEnvelope.aggregateId(),
+                                eventEnvelope.aggregateType(),
+                                eventEnvelope.aggregateVersion(),
+                                eventEnvelope.payload(),
+                                eventEnvelope.metadata()
+                        ));
     }
 
 }

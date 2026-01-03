@@ -20,6 +20,7 @@ public class PostgresOutboxWriter implements OutboxWriter {
                             INSERT INTO outbox.customer (
                                 aggregate_id,
                                 event_id,
+                                event_position,
                                 type,
                                 payload,
                                 metadata,
@@ -29,6 +30,7 @@ public class PostgresOutboxWriter implements OutboxWriter {
                             VALUES (
                                 :aggregateId,
                                 :eventId,
+                                :eventPosition,
                                 :type,
                                 CAST(:payload AS jsonb),
                                 CAST(:metadata AS jsonb),
@@ -38,6 +40,7 @@ public class PostgresOutboxWriter implements OutboxWriter {
                         """)
                 .bind("aggregateId", entity.getAggregateId())
                 .bind("eventId", entity.getEventId())
+                .bind("eventPosition", entity.getEventPosition())
                 .bind("type", entity.getType())
                 .bind("payload", entity.getPayload())
                 .bind("metadata", entity.getMetadata())

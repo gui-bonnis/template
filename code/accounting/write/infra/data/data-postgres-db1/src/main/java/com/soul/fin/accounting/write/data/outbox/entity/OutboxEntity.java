@@ -18,6 +18,7 @@ public class OutboxEntity {
     private UUID id;
     private UUID aggregateId;
     private UUID eventId;
+    private long eventPosition;
     private String type;
     private String payload;
     private String metadata;
@@ -28,9 +29,10 @@ public class OutboxEntity {
     public OutboxEntity() {
     }
 
-    public OutboxEntity(UUID aggregateId, UUID eventId, String type, String payload, String metadata, Instant createdAt, Instant processedAt, String status) {
+    public OutboxEntity(UUID aggregateId, UUID eventId, long eventPosition, String type, String payload, String metadata, Instant createdAt, Instant processedAt, String status) {
         this.aggregateId = aggregateId;
         this.eventId = eventId;
+        this.eventPosition = eventPosition;
         this.type = type;
         this.payload = payload;
         this.metadata = metadata;
@@ -61,6 +63,14 @@ public class OutboxEntity {
 
     public void setEventId(UUID eventId) {
         this.eventId = eventId;
+    }
+
+    public long getEventPosition() {
+        return eventPosition;
+    }
+
+    public void setEventPosition(long eventPosition) {
+        this.eventPosition = eventPosition;
     }
 
     public String getType() {

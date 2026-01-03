@@ -4,5 +4,5 @@ import com.soul.fin.accounting.write.data.customer.entity.CustomerEventEntity;
 import reactor.core.publisher.Mono;
 
 public interface EventStoreWriter {
-    Mono<Void> append(CustomerEventEntity entity);
+    Mono<Long> append(CustomerEventEntity entity);
 }
