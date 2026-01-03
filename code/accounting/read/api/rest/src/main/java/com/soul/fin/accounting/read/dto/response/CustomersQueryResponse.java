@@ -1,4 +1,4 @@
-package com.soul.fin.accouting.read.dto.response;
+package com.soul.fin.accounting.read.dto.response;
 
 import java.util.List;
 

@@ -1,12 +1,12 @@
-package com.soul.fin.accouting.read.controller;
+package com.soul.fin.accounting.read.controller;
 
 
 import com.soul.fin.accounting.read.customer.dto.query.GetAllCustomersPaginatedQuery;
 import com.soul.fin.accounting.read.customer.dto.query.GetAllCustomersQuery;
 import com.soul.fin.accounting.read.customer.ports.input.service.CustomerApplicationService;
-import com.soul.fin.accouting.read.dto.request.GetCustomerRequest;
-import com.soul.fin.accouting.read.dto.response.CustomerQueryResponse;
-import com.soul.fin.accouting.read.mapper.CustomerMapper;
+import com.soul.fin.accounting.read.dto.request.GetCustomerRequest;
+import com.soul.fin.accounting.read.dto.response.CustomerQueryResponse;
+import com.soul.fin.accounting.read.mapper.CustomerMapper;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

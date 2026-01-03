@@ -1,4 +1,4 @@
-package com.soul.fin.accouting.read.advice;
+package com.soul.fin.accounting.read.advice;
 
 import com.soul.fin.common.core.exception.ApplicationException;
 import com.soul.fin.common.core.exception.EntityNotFoundException;

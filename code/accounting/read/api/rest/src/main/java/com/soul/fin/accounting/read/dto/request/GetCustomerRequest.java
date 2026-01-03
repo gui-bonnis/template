@@ -1,4 +1,4 @@
-package com.soul.fin.accouting.read.dto.request;
+package com.soul.fin.accounting.read.dto.request;
 
 import java.util.UUID;
 

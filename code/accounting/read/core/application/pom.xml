@@ -21,10 +21,10 @@
             <groupId>com.soul.fin</groupId>
             <artifactId>common-bus</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.soul.fin</groupId>-->
-        <!--            <artifactId>common-application</artifactId>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.soul.fin</groupId>
+            <artifactId>common-application</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.soul.fin.accounting</groupId>
             <artifactId>accounting-read-core-domain</artifactId>

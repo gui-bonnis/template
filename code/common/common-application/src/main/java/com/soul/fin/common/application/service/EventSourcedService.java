@@ -2,7 +2,7 @@ package com.soul.fin.common.application.service;
 
 import com.soul.fin.common.application.dto.EventEnvelope;
 import com.soul.fin.common.application.mapper.AggregateFactory;
-import com.soul.fin.common.application.ports.output.repository.AggregateEventRepository;
+import com.soul.fin.common.application.ports.output.repository.EventRepository;
 import com.soul.fin.common.core.entity.BaseAggregateRoot;
 import com.soul.fin.common.core.vo.BaseId;
 import org.springframework.stereotype.Component;
@@ -14,10 +14,10 @@ import java.util.List;
 @Component
 public class EventSourcedService<T extends BaseId<?>, A extends BaseAggregateRoot<T>> {
 
-    private final AggregateEventRepository<T> eventRepository;
+    private final EventRepository<T> eventRepository;
     private final AggregateFactory<A> factory;
 
-    public EventSourcedService(AggregateEventRepository<T> eventRepository, AggregateFactory<A> factory) {
+    public EventSourcedService(EventRepository<T> eventRepository, AggregateFactory<A> factory) {
         this.eventRepository = eventRepository;
         this.factory = factory;
     }

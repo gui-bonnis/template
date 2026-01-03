@@ -1,9 +1,9 @@
-package com.soul.fin.accouting.read.mapper;
+package com.soul.fin.accounting.read.mapper;
 
 import com.soul.fin.accounting.read.customer.dto.query.CustomerQuery;
 import com.soul.fin.accounting.read.customer.dto.query.GetCustomerByIdQuery;
-import com.soul.fin.accouting.read.dto.request.GetCustomerRequest;
-import com.soul.fin.accouting.read.dto.response.CustomerQueryResponse;
+import com.soul.fin.accounting.read.dto.request.GetCustomerRequest;
+import com.soul.fin.accounting.read.dto.response.CustomerQueryResponse;
 
 public class CustomerMapper {
 
