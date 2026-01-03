@@ -23,7 +23,12 @@
 
         <dependency>
             <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-read-core</artifactId>
+            <artifactId>accounting-read-core-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.soul.fin.accounting</groupId>
+            <artifactId>accounting-read-core-application</artifactId>
         </dependency>
 
         <dependency>

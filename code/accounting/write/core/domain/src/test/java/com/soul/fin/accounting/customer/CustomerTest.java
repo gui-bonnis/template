@@ -1,7 +1,7 @@
 package com.soul.fin.accounting.customer;
 
-import com.soul.fin.accounting.customer.entity.Customer;
-import com.soul.fin.accounting.customer.vo.CustomerId;
+import com.soul.fin.accounting.write.customer.entity.Customer;
+import com.soul.fin.accounting.write.customer.vo.CustomerId;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

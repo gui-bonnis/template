@@ -9,6 +9,8 @@
     <file url="file://$PROJECT_DIR$/code/accounting/read/api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/boot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/core/application/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/core/domain/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/core/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/infra/client/client-rest-app1/src/main/java" charset="UTF-8" />

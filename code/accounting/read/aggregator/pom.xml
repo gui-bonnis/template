@@ -28,26 +28,26 @@
             <groupId>com.soul.fin</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.soul.fin.accounting.read</groupId>-->
-        <!--            <artifactId>api-rest</artifactId>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.soul.fin.accounting</groupId>-->
-        <!--            <artifactId>accounting-write-boot</artifactId>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.soul.fin.accounting.read</groupId>-->
-        <!--            <artifactId>core-application</artifactId>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.soul.fin.accounting.read</groupId>-->
-        <!--            <artifactId>core-domain</artifactId>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.soul.fin.accounting.read</groupId>-->
-        <!--            <artifactId>infra-data-postgres-db1</artifactId>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.soul.fin.accounting</groupId>
+            <artifactId>accounting-read-api-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin.accounting</groupId>
+            <artifactId>accounting-read-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin.accounting</groupId>
+            <artifactId>accounting-read-core-application</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin.accounting</groupId>
+            <artifactId>accounting-read-core-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin.accounting</groupId>
+            <artifactId>accounting-read-infra-data-postgres-db1</artifactId>
+        </dependency>
 
     </dependencies>
 

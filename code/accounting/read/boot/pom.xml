@@ -33,7 +33,7 @@
 
         <dependency>
             <groupId>com.soul.fin.accounting</groupId>
-            <artifactId>accounting-read-core</artifactId>
+            <artifactId>accounting-read-core-application</artifactId>
         </dependency>
 
         <dependency>
@@ -59,7 +59,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.soul.fin.accounting.Application</mainClass>
+                    <mainClass>com.soul.fin.accounting.read.Application</mainClass>
                 </configuration>
             </plugin>
             <plugin>
