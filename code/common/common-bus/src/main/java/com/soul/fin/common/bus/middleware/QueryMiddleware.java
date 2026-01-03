@@ -1,7 +1,7 @@
 package com.soul.fin.common.bus.middleware;
 
-import com.soul.fin.common.bus.core.QueryMany;
-import com.soul.fin.common.bus.core.QueryOne;
+import com.soul.fin.common.bus.core.query.QueryMany;
+import com.soul.fin.common.bus.core.query.QueryOne;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

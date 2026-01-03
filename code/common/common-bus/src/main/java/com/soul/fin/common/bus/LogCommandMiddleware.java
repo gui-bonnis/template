@@ -1,6 +1,6 @@
 package com.soul.fin.common.bus;
 
-import com.soul.fin.common.bus.core.Command;
+import com.soul.fin.common.bus.core.command.Command;
 import com.soul.fin.common.bus.middleware.CommandMiddleware;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

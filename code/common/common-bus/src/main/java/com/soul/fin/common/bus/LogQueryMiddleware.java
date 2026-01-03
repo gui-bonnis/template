@@ -1,7 +1,7 @@
 package com.soul.fin.common.bus;
 
-import com.soul.fin.common.bus.core.QueryMany;
-import com.soul.fin.common.bus.core.QueryOne;
+import com.soul.fin.common.bus.core.query.QueryMany;
+import com.soul.fin.common.bus.core.query.QueryOne;
 import com.soul.fin.common.bus.middleware.QueryMiddleware;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

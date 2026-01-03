@@ -5,7 +5,7 @@ import com.soul.fin.accounting.read.customer.dto.query.CustomerQuery;
 import com.soul.fin.accounting.read.customer.dto.query.GetCustomerByIdQuery;
 import com.soul.fin.accounting.read.customer.exception.CustomerApplicationExceptions;
 import com.soul.fin.accounting.read.customer.ports.output.repository.CustomerRepository;
-import com.soul.fin.common.bus.core.QueryOneHandler;
+import com.soul.fin.common.bus.core.query.QueryOneHandler;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 

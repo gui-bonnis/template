@@ -1,6 +1,6 @@
 package com.soul.fin.common.bus.middleware;
 
-import com.soul.fin.common.bus.core.Command;
+import com.soul.fin.common.bus.core.command.Command;
 import reactor.core.publisher.Mono;
 
 import java.util.function.Function;

@@ -18,7 +18,7 @@ import com.soul.fin.common.application.policy.exception.PolicyViolationException
 import com.soul.fin.common.application.policy.registry.PolicyRegistry;
 import com.soul.fin.common.application.policy.service.PolicyServices;
 import com.soul.fin.common.application.service.EventSourcedService;
-import com.soul.fin.common.bus.core.Command;
+import com.soul.fin.common.bus.core.command.Command;
 import com.soul.fin.common.core.entity.BaseAggregateRoot;
 import com.soul.fin.common.core.event.EventMetadata;
 import com.soul.fin.common.core.vo.BaseId;

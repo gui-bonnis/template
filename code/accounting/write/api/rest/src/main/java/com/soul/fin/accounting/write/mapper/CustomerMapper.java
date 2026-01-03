@@ -8,7 +8,7 @@ import com.soul.fin.accounting.write.dto.request.DeleteCustomerRequest;
 import com.soul.fin.accounting.write.dto.request.RegisterCustomerRequest;
 import com.soul.fin.accounting.write.dto.request.UpdateCustomerRequest;
 import com.soul.fin.accounting.write.dto.response.CustomerRegisteredResponse;
-import com.soul.fin.common.bus.core.CommandMetadata;
+import com.soul.fin.common.bus.core.command.CommandMetadata;
 
 import java.util.UUID;
 

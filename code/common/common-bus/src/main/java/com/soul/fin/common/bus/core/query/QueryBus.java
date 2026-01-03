@@ -1,4 +1,4 @@
-package com.soul.fin.common.bus.core;
+package com.soul.fin.common.bus.core.query;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

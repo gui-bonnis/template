@@ -4,7 +4,7 @@ package com.soul.fin.accounting.write.customer.handler.command;
 import com.soul.fin.accounting.write.customer.dto.command.CustomerRegisteredResponse;
 import com.soul.fin.accounting.write.customer.dto.command.RegisterCustomerCommand;
 import com.soul.fin.accounting.write.customer.usecase.RegisterCustomerUseCase;
-import com.soul.fin.common.bus.core.CommandHandler;
+import com.soul.fin.common.bus.core.command.CommandHandler;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 

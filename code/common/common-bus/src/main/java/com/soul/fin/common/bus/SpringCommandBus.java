@@ -1,16 +1,16 @@
 package com.soul.fin.common.bus;
 
-import com.soul.fin.common.bus.core.Command;
-import com.soul.fin.common.bus.core.CommandBus;
-import com.soul.fin.common.bus.core.CommandHandler;
+import com.soul.fin.common.bus.core.command.Command;
+import com.soul.fin.common.bus.core.command.CommandBus;
+import com.soul.fin.common.bus.core.command.CommandHandler;
 import com.soul.fin.common.bus.middleware.CommandMiddleware;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 @Component
 public class SpringCommandBus implements CommandBus {

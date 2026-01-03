@@ -1,4 +1,4 @@
-package com.soul.fin.common.bus.core;
+package com.soul.fin.common.bus.core.command;
 
 import reactor.core.publisher.Mono;
 

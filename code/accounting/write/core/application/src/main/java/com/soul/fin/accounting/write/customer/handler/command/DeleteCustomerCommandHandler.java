@@ -3,7 +3,7 @@ package com.soul.fin.accounting.write.customer.handler.command;
 
 import com.soul.fin.accounting.write.customer.dto.command.DeleteCustomerCommand;
 import com.soul.fin.accounting.write.customer.usecase.DeleteCustomerUseCase;
-import com.soul.fin.common.bus.core.CommandHandler;
+import com.soul.fin.common.bus.core.command.CommandHandler;
 import reactor.core.publisher.Mono;
 
 //@Component

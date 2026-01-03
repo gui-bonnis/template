@@ -1,6 +1,8 @@
 package com.soul.fin.accounting.write.data.customer.writer;
 
 import com.soul.fin.accounting.write.data.customer.entity.CustomerEventEntity;
+import com.soul.fin.common.core.exception.OptimisticConcurrencyException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -50,7 +52,15 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
                 .bind("payload", entity.getPayload())
                 .bind("metadata", entity.getMetadata())
                 .map(row -> Objects.requireNonNull(row.get("event_position", Long.class)))
-                .one();
+                .one()
+                .onErrorMap(
+                        DuplicateKeyException.class,
+                        ex -> new OptimisticConcurrencyException(
+                                entity.getAggregateId(),
+                                entity.getAggregateVersion(),
+                                ex
+                        )
+                );
     }
 }
 

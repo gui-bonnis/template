@@ -4,7 +4,7 @@ package com.soul.fin.accounting.read.customer.handler.query;
 import com.soul.fin.accounting.read.customer.dto.query.CustomerQuery;
 import com.soul.fin.accounting.read.customer.dto.query.GetAllCustomersPaginatedQuery;
 import com.soul.fin.accounting.read.customer.ports.output.repository.CustomerRepository;
-import com.soul.fin.common.bus.core.QueryManyHandler;
+import com.soul.fin.common.bus.core.query.QueryManyHandler;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 

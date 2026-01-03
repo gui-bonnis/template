@@ -4,6 +4,7 @@ import com.soul.fin.common.application.invariants.InvariantViolationException;
 import com.soul.fin.common.core.exception.ApplicationException;
 import com.soul.fin.common.core.exception.EntityNotFoundException;
 import com.soul.fin.common.core.exception.InvalidInputException;
+import com.soul.fin.common.core.exception.OptimisticConcurrencyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,19 @@ public class ApplicationErrorHandler {
     public ProblemDetail handle(InvariantViolationException exception) {
         log.error("Invariant error", exception);
         return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+    }
+
+    @ExceptionHandler(OptimisticConcurrencyException.class)
+    public ProblemDetail handle(OptimisticConcurrencyException exception) {
+        log.error("Concurrency aggregation mutation error", exception);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, exception.getMessage());
+//        return ResponseEntity
+//                .status(HttpStatus.CONFLICT)
+//                .body(Map.of(
+//                        "error", "CONCURRENT_MODIFICATION",
+//                        "aggregateId", ex.getAggregateId(),
+//                        "expectedVersion", ex.getExpectedVersion()
+//                ));
     }
 
     @ExceptionHandler(ApplicationException.class)

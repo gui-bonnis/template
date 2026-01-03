@@ -1,7 +1,7 @@
 package com.soul.fin.accounting.write.customer.dto.command;
 
-import com.soul.fin.common.bus.core.Command;
-import com.soul.fin.common.bus.core.CommandMetadata;
+import com.soul.fin.common.bus.core.command.Command;
+import com.soul.fin.common.bus.core.command.CommandMetadata;
 
 import java.util.UUID;
 
