@@ -17,7 +17,7 @@ public class PostgresOutboxWriter implements OutboxWriter {
     @Override
     public Mono<Void> append(OutboxEntity entity) {
         return client.sql("""
-                            INSERT INTO outbox.customer (
+                            INSERT INTO accounting_integrations.customer_outbox (
                                 aggregate_id,
                                 event_id,
                                 event_position,

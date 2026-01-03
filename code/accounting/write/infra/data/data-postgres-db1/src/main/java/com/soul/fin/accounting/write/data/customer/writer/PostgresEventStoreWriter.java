@@ -21,7 +21,7 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
     @Override
     public Mono<Long> append(CustomerEventEntity entity) {
         return client.sql("""
-                            INSERT INTO customer.event_store_customer (
+                            INSERT INTO accounting_events_store.customer (
                                 aggregate_id,
                                 aggregate_type,
                                 aggregate_version,

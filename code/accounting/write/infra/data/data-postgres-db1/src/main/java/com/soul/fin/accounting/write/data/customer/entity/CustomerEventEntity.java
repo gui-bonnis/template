@@ -13,7 +13,7 @@ import java.util.UUID;
 //@NoArgsConstructor
 //@AllArgsConstructor
 // check postgres connection to see if is direct to a database, if so, we can change schema and table naming
-@Table(name = "event_store_customer", schema = "customer")
+@Table(name = "customer", schema = "accounting_states")
 public class CustomerEventEntity {
 
     @Id

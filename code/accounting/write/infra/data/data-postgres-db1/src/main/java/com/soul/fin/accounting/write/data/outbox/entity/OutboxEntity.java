@@ -11,7 +11,7 @@ import java.util.UUID;
 //@Builder
 //@NoArgsConstructor
 //@AllArgsConstructor
-@Table(name = "customer", schema = "outbox")
+@Table(name = "customer_outbox", schema = "accounting_integrations")
 public class OutboxEntity {
 
     @Id
