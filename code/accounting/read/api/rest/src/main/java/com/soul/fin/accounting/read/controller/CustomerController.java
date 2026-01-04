@@ -24,10 +24,10 @@ public class CustomerController {
         this.service = service;
     }
 
-    @GetMapping("/{customerId}")
-    public Mono<CustomerQueryResponse> getCustomerById(@PathVariable UUID customerId) {
+    @GetMapping("/{id}")
+    public Mono<CustomerQueryResponse> getCustomerById(@PathVariable UUID id) {
 
-        return Mono.just(new GetCustomerRequest(customerId))
+        return Mono.just(new GetCustomerRequest(id))
                 .map(CustomerMapper::toQuery)
                 .as(service::getCustomerById)
                 .map(CustomerMapper::toQueryResponse);
@@ -48,6 +48,17 @@ public class CustomerController {
                 .as(service::getAllCustomersPaginated)
                 .map(CustomerMapper::toQueryResponse)
                 .collectList();
+    }
+
+
+    @GetMapping("/{id}/summary")
+    public Mono<CustomerQueryResponse> getCustomerSummary(@PathVariable UUID id) {
+
+        return Mono.just(new GetCustomerRequest(id))
+                .map(CustomerMapper::summaryRequestToQuery)
+                .as(service::getCustomerSummary)
+                .map(CustomerMapper::toQueryResponse);
+
     }
 
 }

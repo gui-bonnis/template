@@ -77,6 +77,13 @@ CREATE TABLE accounting_projections.projection_offset (
     last_position   BIGINT NOT NULL
 );
 
+CREATE VIEW accounting_projections.customer_summary_current AS
+SELECT
+    id,
+    name,
+    version
+FROM accounting_projections.customer_summary_v1;
+
 
 CREATE TABLE accounting_projections.poison_event (
     projection_name   TEXT NOT NULL,

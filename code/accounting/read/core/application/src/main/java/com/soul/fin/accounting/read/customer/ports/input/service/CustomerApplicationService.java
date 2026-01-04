@@ -1,9 +1,6 @@
 package com.soul.fin.accounting.read.customer.ports.input.service;
 
-import com.soul.fin.accounting.read.customer.dto.query.CustomerQuery;
-import com.soul.fin.accounting.read.customer.dto.query.GetAllCustomersPaginatedQuery;
-import com.soul.fin.accounting.read.customer.dto.query.GetAllCustomersQuery;
-import com.soul.fin.accounting.read.customer.dto.query.GetCustomerByIdQuery;
+import com.soul.fin.accounting.read.customer.dto.query.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -14,6 +11,8 @@ public interface CustomerApplicationService {
     Flux<CustomerQuery> getAllCustomers(Flux<GetAllCustomersQuery> query);
 
     Flux<CustomerQuery> getAllCustomersPaginated(Flux<GetAllCustomersPaginatedQuery> query);
+
+    Mono<CustomerQuery> getCustomerSummary(Mono<GetCustomerSummaryQuery> query);
 
 
 }

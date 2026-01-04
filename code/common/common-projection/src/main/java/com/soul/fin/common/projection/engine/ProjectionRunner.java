@@ -23,7 +23,7 @@ public final class ProjectionRunner {
     private final TransactionManager txManager;
     private final ProjectionErrorHandler errorHandler;
 
-    ProjectionRunner(
+    public ProjectionRunner(
             EventStream eventStream,
             ProjectionOffsetStore offsetStore,
             TransactionManager txManager, ProjectionErrorHandler errorHandler

@@ -5,6 +5,7 @@ import com.soul.fin.common.projection.model.EventEnvelope;
 import com.soul.fin.common.projection.ports.PoisonEventRepository;
 import reactor.core.publisher.Mono;
 
+
 public class ProjectionErrorHandler {
 
     private final PoisonEventRepository poisonRepo;

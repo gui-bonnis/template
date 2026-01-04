@@ -2,6 +2,7 @@ package com.soul.fin.accounting.read.mapper;
 
 import com.soul.fin.accounting.read.customer.dto.query.CustomerQuery;
 import com.soul.fin.accounting.read.customer.dto.query.GetCustomerByIdQuery;
+import com.soul.fin.accounting.read.customer.dto.query.GetCustomerSummaryQuery;
 import com.soul.fin.accounting.read.dto.request.GetCustomerRequest;
 import com.soul.fin.accounting.read.dto.response.CustomerQueryResponse;
 
@@ -14,6 +15,10 @@ public class CustomerMapper {
 
     public static CustomerQueryResponse toQueryResponse(CustomerQuery query) {
         return new CustomerQueryResponse(query.customerId(), query.name());
+    }
+
+    public static GetCustomerSummaryQuery summaryRequestToQuery(GetCustomerRequest request) {
+        return new GetCustomerSummaryQuery(request.customerId());
     }
 
 

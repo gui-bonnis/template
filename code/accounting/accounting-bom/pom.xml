@@ -16,6 +16,34 @@
     <dependencyManagement>
         <!--        Project Dependencies-->
         <dependencies>
+
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-projection-api-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-projection-core-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-projection-core-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-projection-infra-data-postgres-db1</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin.accounting</groupId>
+                <artifactId>accounting-projection</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.soul.fin.accounting</groupId>
                 <artifactId>accounting-read-aggregator</artifactId>

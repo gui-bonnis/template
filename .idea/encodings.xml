@@ -3,6 +3,24 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/code/accounting/accounting-bom/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/accounting-bom/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/event-store/boot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/event-store/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/event-store/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/api/rest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/boot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/core/application/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/core/domain/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/infra/data/data-postgres-db1/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/infra/data/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/infra/data/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/infra/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/infra/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/projection/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/aggregator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/aggregator/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/api/rest/src/main/java" charset="UTF-8" />
@@ -28,9 +46,9 @@
     <file url="file://$PROJECT_DIR$/code/accounting/read/infra/security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/infra/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/infra/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/code/accounting/read/projection/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/shared/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/write/aggregator/src/main/java" charset="UTF-8" />

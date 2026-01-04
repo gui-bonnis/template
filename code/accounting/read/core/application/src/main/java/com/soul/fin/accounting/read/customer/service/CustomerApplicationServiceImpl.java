@@ -1,9 +1,6 @@
 package com.soul.fin.accounting.read.customer.service;
 
-import com.soul.fin.accounting.read.customer.dto.query.CustomerQuery;
-import com.soul.fin.accounting.read.customer.dto.query.GetAllCustomersPaginatedQuery;
-import com.soul.fin.accounting.read.customer.dto.query.GetAllCustomersQuery;
-import com.soul.fin.accounting.read.customer.dto.query.GetCustomerByIdQuery;
+import com.soul.fin.accounting.read.customer.dto.query.*;
 import com.soul.fin.accounting.read.customer.ports.input.service.CustomerApplicationService;
 import com.soul.fin.common.bus.SpringQueryBus;
 import org.springframework.stereotype.Service;
@@ -32,6 +29,11 @@ public class CustomerApplicationServiceImpl implements CustomerApplicationServic
     @Override
     public Flux<CustomerQuery> getAllCustomersPaginated(Flux<GetAllCustomersPaginatedQuery> query) {
         return query.flatMap(queryBus::askMany);
+    }
+
+    @Override
+    public Mono<CustomerQuery> getCustomerSummary(Mono<GetCustomerSummaryQuery> query) {
+        return query.flatMap(queryBus::ask);
     }
 
 }

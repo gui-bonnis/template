@@ -29,7 +29,8 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
                                 event_type,
                                 event_schema_version,
                                 payload,
-                                metadata
+                                metadata,
+                                occurred_at
                             )
                             VALUES (
                                 :aggregateId,
@@ -39,7 +40,8 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
                                 :eventType,
                                 :eventSchemaVersion,
                                 CAST(:payload AS jsonb),
-                                CAST(:metadata AS jsonb)
+                                CAST(:metadata AS jsonb),
+                                :occurredAt
                             )
                             RETURNING global_position
                         """)
@@ -51,6 +53,7 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
                 .bind("eventSchemaVersion", entity.getEventSchemaVersion())
                 .bind("payload", entity.getPayload())
                 .bind("metadata", entity.getMetadata())
+                .bind("occurredAt", entity.getOccurredAt())
                 .map(row -> Objects.requireNonNull(row.get("global_position", Long.class)))
                 .one()
                 .onErrorMap(

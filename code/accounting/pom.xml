@@ -17,8 +17,11 @@
     <description>Accounting module</description>
     <modules>
         <module>accounting-bom</module>
+        <module>projection</module>
         <module>read</module>
+        <module>shared</module>
         <module>write</module>
+        <module>event-store</module>
     </modules>
 
     <properties>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.soul.fin.accounting</groupId>
+        <artifactId>accounting-projection</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>accounting-projection-core</artifactId>
+    <packaging>pom</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Implementation of the domain layer</description>
+
+    <modules>
+        <module>domain</module>
+        <module>application</module>
+    </modules>
+
+    <dependencies>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}/${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <!--                    <execution>-->
+                    <!--                        <id>ban-infra-deps-from-core</id>-->
+                    <!--                        <phase>validate</phase>-->
+                    <!--                        <goals>-->
+                    <!--                            <goal>enforce</goal>-->
+                    <!--                        </goals>-->
+                    <!--                        <configuration>-->
+                    <!--                            <rules>-->
+                    <!--                                <bannedDependencies>-->
+                    <!--                                    <searchTransitive>true</searchTransitive>-->
+                    <!--                                    <excludes>-->
+                    <!--                                        <exclude>com.soul.fin.*:*-infra-*</exclude>-->
+                    <!--                                    </excludes>-->
+                    <!--                                    <message>-->
+                    <!--                                        ❌ Hexagonal violation:-->
+                    <!--                                        Core modules must NOT depend on infrastructure modules.-->
+                    <!--                                    </message>-->
+                    <!--                                </bannedDependencies>-->
+                    <!--                            </rules>-->
+                    <!--                            <fail>true</fail>-->
+                    <!--                        </configuration>-->
+                    <!--                    </execution>-->
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>
