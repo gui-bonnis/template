@@ -1,6 +1,6 @@
-package com.soul.fin.accounting.write.data.customer.writer;
+package com.soul.fin.accounting.write.data.events.writer;
 
-import com.soul.fin.accounting.write.data.customer.entity.CustomerEventEntity;
+import com.soul.fin.accounting.write.data.events.entity.EventsEntity;
 import com.soul.fin.common.core.exception.OptimisticConcurrencyException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.r2dbc.core.DatabaseClient;
@@ -19,9 +19,9 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
     }
 
     @Override
-    public Mono<Long> append(CustomerEventEntity entity) {
+    public Mono<Long> append(EventsEntity entity) {
         return client.sql("""
-                            INSERT INTO accounting_events_store.customer (
+                            INSERT INTO accounting_events_store.events (
                                 aggregate_id,
                                 aggregate_type,
                                 aggregate_version,

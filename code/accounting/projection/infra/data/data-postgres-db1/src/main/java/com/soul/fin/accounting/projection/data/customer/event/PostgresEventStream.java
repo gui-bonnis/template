@@ -20,7 +20,7 @@ class PostgresEventStream implements EventStream {
     public Flux<EventEnvelope> streamFrom(long positionExclusive) {
         return db.sql("""
                             SELECT *
-                            FROM accounting_events_store.customer
+                            FROM accounting_events_store.events
                             WHERE global_position > :pos
                             ORDER BY global_position
                         """)

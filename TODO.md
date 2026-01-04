@@ -125,3 +125,7 @@ observability
 write tests*
 
 review architecture components places / structure / modularity (what should be where in which way (code))
+
+# Tech Debits
+
+1) Create a specific module for event-store

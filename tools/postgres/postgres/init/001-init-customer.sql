@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS accounting_states.customer (
     version BIGINT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS accounting_events_store.customer (
+CREATE TABLE IF NOT EXISTS accounting_events_store.events (
     global_position BIGSERIAL PRIMARY KEY,
 
     -- Aggregate identity

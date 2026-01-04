@@ -1,6 +1,6 @@
-package com.soul.fin.accounting.write.data.customer.serializer;
+package com.soul.fin.accounting.write.data.events.serializer;
 
-import com.soul.fin.accounting.write.data.customer.entity.CustomerEventEntity;
+import com.soul.fin.accounting.write.data.events.entity.EventsEntity;
 import com.soul.fin.common.core.entity.Metadata;
 import com.soul.fin.common.core.event.DomainEvent;
 import org.springframework.stereotype.Component;
@@ -11,19 +11,19 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Component
-public class CustomerEventSerializer implements EventSerializer {
+public class EventsSerializer implements EventSerializer {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Override
-    public CustomerEventEntity serialize(UUID aggregateId,
-                                         String aggregateType,
-                                         long aggregateVersion,
-                                         UUID eventId,
-                                         Metadata metadata,
-                                         DomainEvent event,
-                                         Instant occurredAt) {
-        return new CustomerEventEntity(
+    public EventsEntity serialize(UUID aggregateId,
+                                  String aggregateType,
+                                  long aggregateVersion,
+                                  UUID eventId,
+                                  Metadata metadata,
+                                  DomainEvent event,
+                                  Instant occurredAt) {
+        return new EventsEntity(
                 null,
                 aggregateId,
                 aggregateType,
@@ -38,7 +38,7 @@ public class CustomerEventSerializer implements EventSerializer {
     }
 
     @Override
-    public <T extends DomainEvent> T deserialize(CustomerEventEntity entity, Class<? extends T> clazz) {
+    public <T extends DomainEvent> T deserialize(EventsEntity entity, Class<? extends T> clazz) {
 
         try {
             return OBJECT_MAPPER.readValue(entity.getPayload(), clazz);

@@ -17,10 +17,6 @@ public class CustomerMapper {
     }
 
     public CustomerEntity toCustomerEntity(Customer customer) {
-//        return CustomerEntity.builder()
-//                .id(customer.getId().value())
-//                .name(customer.getName())
-//                .build();
         final var customerId = customer.getId() != null ? customer.getId().getValue() : null;
         return new CustomerEntity(customerId, customer.getAggregateVersion(), customer.getName());
     }

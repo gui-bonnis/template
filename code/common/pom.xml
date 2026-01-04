@@ -26,6 +26,7 @@
         <module>common-application-command</module>
         <module>common-application-query</module>
         <module>common-projection</module>
+        <module>common-event-store</module>
     </modules>
 
     <properties>

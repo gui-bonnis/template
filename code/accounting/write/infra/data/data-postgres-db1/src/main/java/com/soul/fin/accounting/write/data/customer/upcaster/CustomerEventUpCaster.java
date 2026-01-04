@@ -1,20 +1,20 @@
 package com.soul.fin.accounting.write.data.customer.upcaster;
 
-import com.soul.fin.accounting.write.data.customer.entity.CustomerEventEntity;
-import com.soul.fin.accounting.write.data.customer.serializer.CustomerEventSerializer;
+import com.soul.fin.accounting.write.data.events.entity.EventsEntity;
+import com.soul.fin.accounting.write.data.events.serializer.EventsSerializer;
 import com.soul.fin.common.core.event.DomainEvent;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerEventUpCaster {
 
-    private final CustomerEventSerializer serializer;
+    private final EventsSerializer serializer;
 
-    public CustomerEventUpCaster(CustomerEventSerializer serializer) {
+    public CustomerEventUpCaster(EventsSerializer serializer) {
         this.serializer = serializer;
     }
 
-    public DomainEvent upcast(CustomerEventEntity entity) {
+    public DomainEvent upcast(EventsEntity entity) {
 
         CustomerUpCaster upCaster;
 

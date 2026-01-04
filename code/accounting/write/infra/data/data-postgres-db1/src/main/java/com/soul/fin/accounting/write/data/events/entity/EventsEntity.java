@@ -1,4 +1,4 @@
-package com.soul.fin.accounting.write.data.customer.entity;
+package com.soul.fin.accounting.write.data.events.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -12,8 +12,8 @@ import java.util.UUID;
 //@NoArgsConstructor
 //@AllArgsConstructor
 // check postgres connection to see if is direct to a database, if so, we can change schema and table naming
-@Table(name = "customer", schema = "accounting_events_store")
-public class CustomerEventEntity {
+@Table(name = "events", schema = "accounting_events_store")
+public class EventsEntity {
 
     @Id
     private Long globalPosition;
@@ -27,19 +27,19 @@ public class CustomerEventEntity {
     private String metadata;
     private Instant occurredAt;
 
-    public CustomerEventEntity() {
+    public EventsEntity() {
     }
 
-    public CustomerEventEntity(Long globalPosition,
-                               UUID aggregateId,
-                               String aggregateType,
-                               Long aggregateVersion,
-                               UUID eventId,
-                               String eventType,
-                               Long eventSchemaVersion,
-                               String payload,
-                               String metadata,
-                               Instant occurredAt) {
+    public EventsEntity(Long globalPosition,
+                        UUID aggregateId,
+                        String aggregateType,
+                        Long aggregateVersion,
+                        UUID eventId,
+                        String eventType,
+                        Long eventSchemaVersion,
+                        String payload,
+                        String metadata,
+                        Instant occurredAt) {
         this.globalPosition = globalPosition;
         this.aggregateId = aggregateId;
         this.aggregateType = aggregateType;

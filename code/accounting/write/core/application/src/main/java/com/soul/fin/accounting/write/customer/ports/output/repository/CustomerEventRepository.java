@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 public interface CustomerEventRepository extends EventRepository<CustomerId> {
 
-    Flux<DomainEvent> load(CustomerId customerId);
+    Flux<DomainEvent> load(CustomerId aggregateId);
 
     Mono<EventEnvelope> append(EventEnvelope eventEnvelope);
 

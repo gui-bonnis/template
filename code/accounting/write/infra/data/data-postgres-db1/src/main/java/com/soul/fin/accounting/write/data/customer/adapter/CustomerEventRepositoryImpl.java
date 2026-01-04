@@ -3,10 +3,10 @@ package com.soul.fin.accounting.write.data.customer.adapter;
 
 import com.soul.fin.accounting.write.customer.ports.output.repository.CustomerEventRepository;
 import com.soul.fin.accounting.write.customer.vo.CustomerId;
-import com.soul.fin.accounting.write.data.customer.repository.CustomerEventReactiveRepository;
-import com.soul.fin.accounting.write.data.customer.serializer.CustomerEventSerializer;
 import com.soul.fin.accounting.write.data.customer.upcaster.CustomerEventUpCaster;
-import com.soul.fin.accounting.write.data.customer.writer.PostgresEventStoreWriter;
+import com.soul.fin.accounting.write.data.events.repository.EventsReactiveRepository;
+import com.soul.fin.accounting.write.data.events.serializer.EventsSerializer;
+import com.soul.fin.accounting.write.data.events.writer.PostgresEventStoreWriter;
 import com.soul.fin.common.application.dto.EventEnvelope;
 import com.soul.fin.common.core.event.DomainEvent;
 import org.springframework.stereotype.Component;
@@ -16,12 +16,15 @@ import reactor.core.publisher.Mono;
 @Component
 public class CustomerEventRepositoryImpl implements CustomerEventRepository {
 
-    private final CustomerEventReactiveRepository repository;
+    private final EventsReactiveRepository repository;
     private final PostgresEventStoreWriter writer;
-    private final CustomerEventSerializer serializer;
+    private final EventsSerializer serializer;
     private final CustomerEventUpCaster upCaster;
 
-    public CustomerEventRepositoryImpl(CustomerEventReactiveRepository repository, PostgresEventStoreWriter writer, CustomerEventSerializer serializer, CustomerEventUpCaster upCaster) {
+    public CustomerEventRepositoryImpl(EventsReactiveRepository repository,
+                                       PostgresEventStoreWriter writer,
+                                       EventsSerializer serializer,
+                                       CustomerEventUpCaster upCaster) {
         this.repository = repository;
         this.writer = writer;
         this.serializer = serializer;
@@ -29,9 +32,9 @@ public class CustomerEventRepositoryImpl implements CustomerEventRepository {
     }
 
     @Override
-    public Flux<DomainEvent> load(CustomerId customerId) {
+    public Flux<DomainEvent> load(CustomerId aggregateId) {
         return repository
-                .findByAggregateIdOrderByAggregateVersion(customerId.getValue())
+                .findByAggregateIdOrderByAggregateVersion(aggregateId.getValue())
                 .map(upCaster::upcast);
     }
 
