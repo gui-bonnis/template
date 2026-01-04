@@ -19,11 +19,11 @@
     <dependencies>
         <dependency>
             <groupId>com.soul.fin</groupId>
-            <artifactId>common-bus</artifactId>
+            <artifactId>common-application-command</artifactId>
         </dependency>
         <dependency>
             <groupId>com.soul.fin</groupId>
-            <artifactId>common-application</artifactId>
+            <artifactId>common-bus</artifactId>
         </dependency>
         <dependency>
             <groupId>com.soul.fin.accounting</groupId>

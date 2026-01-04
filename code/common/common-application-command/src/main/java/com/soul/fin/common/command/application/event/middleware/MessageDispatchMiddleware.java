@@ -1,9 +1,9 @@
-package com.soul.fin.common.query.application.event.middleware;
+package com.soul.fin.common.command.application.event.middleware;
 
 import com.soul.fin.common.application.dto.EventEnvelope;
 import com.soul.fin.common.application.event.EventMiddleware;
 import com.soul.fin.common.application.event.EventMiddlewareChain;
-import com.soul.fin.common.query.application.ports.output.publisher.MessagePublisher;
+import com.soul.fin.common.command.application.ports.output.publisher.MessagePublisher;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 

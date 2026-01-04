@@ -20,6 +20,7 @@
         <module>boot</module>
         <module>core</module>
         <module>infra</module>
+        <module>projection</module>
     </modules>
 
 

@@ -98,3 +98,30 @@ helm charts
 traefik
 secret vault
 istio
+
+# Nest steps
+
+Phase 1
+create projections from events
+read projections based on event schema
+create views and different table schemas?? (Versioning Read Models (You WILL Need This) what about 8️⃣ Versioning read
+projections)
+save projections at DB
+Adjust gets to reflect the projections created
+
+Outbox module, read from table, create kafka message and send it.
+consume kafka on read side
+check best practices from read side, overall architecture
+
+Phase 2
+create client/server pattern to consume read on write (inside policies)
+check rehydrate feature
+implement replay events feature
+check other ES features like snapshot, etc...
+review all code to be fully reactive, no blocking
+
+observability
+
+write tests*
+
+review architecture components places / structure / modularity (what should be where in which way (code))

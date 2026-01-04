@@ -1,7 +1,7 @@
 package com.soul.fin.accounting.write.customer.policy;
 
 import com.soul.fin.accounting.write.customer.dto.command.RegisterCustomerCommand;
-import com.soul.fin.common.application.policy.*;
+import com.soul.fin.common.command.application.policy.*;
 
 public class CustomerNameAlreadyRegistered implements Policy<RegisterCustomerCommand> {
 

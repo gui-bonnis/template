@@ -1,6 +1,6 @@
 package com.soul.fin.accounting.write.advice;
 
-import com.soul.fin.common.application.invariants.InvariantViolationException;
+import com.soul.fin.common.command.application.invariants.InvariantViolationException;
 import com.soul.fin.common.core.exception.ApplicationException;
 import com.soul.fin.common.core.exception.EntityNotFoundException;
 import com.soul.fin.common.core.exception.InvalidInputException;

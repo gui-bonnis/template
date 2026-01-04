@@ -1,4 +1,4 @@
-package com.soul.fin.common.query.application.ports.output.publisher;
+package com.soul.fin.common.command.application.ports.output.publisher;
 
 import com.soul.fin.common.application.dto.EventEnvelope;
 import reactor.core.publisher.Flux;

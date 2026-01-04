@@ -7,16 +7,13 @@ import org.springframework.stereotype.Component;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Component
 public class CustomerEventSerializer implements EventSerializer {
 
-    private final ObjectMapper objectMapper;
-
-    public CustomerEventSerializer(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Override
     public CustomerEventEntity serialize(UUID aggregateId,
@@ -24,7 +21,8 @@ public class CustomerEventSerializer implements EventSerializer {
                                          long aggregateVersion,
                                          UUID eventId,
                                          Metadata metadata,
-                                         DomainEvent event) {
+                                         DomainEvent event,
+                                         Instant occurredAt) {
         return new CustomerEventEntity(
                 null,
                 aggregateId,
@@ -33,9 +31,9 @@ public class CustomerEventSerializer implements EventSerializer {
                 eventId,
                 event.getClass().getSimpleName(),
                 event.eventSchemaVersion(),
-                objectMapper.writeValueAsString(event),
-                objectMapper.writeValueAsString(metadata),
-                event.occurredAt()
+                OBJECT_MAPPER.writeValueAsString(event),
+                OBJECT_MAPPER.writeValueAsString(metadata),
+                occurredAt
         );
     }
 
@@ -43,7 +41,7 @@ public class CustomerEventSerializer implements EventSerializer {
     public <T extends DomainEvent> T deserialize(CustomerEventEntity entity, Class<? extends T> clazz) {
 
         try {
-            return objectMapper.readValue(entity.getPayload(), clazz);
+            return OBJECT_MAPPER.readValue(entity.getPayload(), clazz);
         } catch (JacksonException e) {
             throw new RuntimeException(e);
         }

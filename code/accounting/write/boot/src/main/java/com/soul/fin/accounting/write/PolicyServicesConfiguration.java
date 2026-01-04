@@ -1,9 +1,9 @@
 package com.soul.fin.accounting.write;
 
-import com.soul.fin.common.application.policy.feature.FeatureFlags;
-import com.soul.fin.common.application.policy.risk.RiskService;
-import com.soul.fin.common.application.policy.service.DefaultPolicyServices;
-import com.soul.fin.common.application.policy.service.PolicyServices;
+import com.soul.fin.common.command.application.policy.feature.FeatureFlags;
+import com.soul.fin.common.command.application.policy.risk.RiskService;
+import com.soul.fin.common.command.application.policy.service.DefaultPolicyServices;
+import com.soul.fin.common.command.application.policy.service.PolicyServices;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

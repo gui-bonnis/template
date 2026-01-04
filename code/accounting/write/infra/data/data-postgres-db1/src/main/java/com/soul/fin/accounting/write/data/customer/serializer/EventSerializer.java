@@ -4,6 +4,7 @@ import com.soul.fin.accounting.write.data.customer.entity.CustomerEventEntity;
 import com.soul.fin.common.core.entity.Metadata;
 import com.soul.fin.common.core.event.DomainEvent;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public interface EventSerializer {
@@ -14,7 +15,8 @@ public interface EventSerializer {
             long aggregateVersion,
             UUID eventId,
             Metadata metadata,
-            DomainEvent event
+            DomainEvent event,
+            Instant occurredAt
     );
 
     <T extends DomainEvent> T deserialize(CustomerEventEntity entity, Class<? extends T> clazz);

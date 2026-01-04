@@ -1,10 +1,10 @@
 package com.soul.fin.accounting.write.customer.invariants;
 
 import com.soul.fin.accounting.write.customer.entity.Customer;
-import com.soul.fin.common.application.invariants.AggregateCandidate;
-import com.soul.fin.common.application.invariants.InvariantValidator;
-import com.soul.fin.common.application.invariants.ValidationResult;
-import com.soul.fin.common.application.invariants.Violation;
+import com.soul.fin.common.command.application.invariants.AggregateCandidate;
+import com.soul.fin.common.command.application.invariants.InvariantValidator;
+import com.soul.fin.common.command.application.invariants.ValidationResult;
+import com.soul.fin.common.command.application.invariants.Violation;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.soul.fin.common.query.application.event.middleware;
+package com.soul.fin.common.command.application.event.middleware;
 
 import com.soul.fin.common.application.dto.EventEnvelope;
 import reactor.core.publisher.Mono;

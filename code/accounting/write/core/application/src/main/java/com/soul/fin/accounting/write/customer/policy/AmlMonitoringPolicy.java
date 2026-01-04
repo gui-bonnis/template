@@ -1,11 +1,11 @@
 package com.soul.fin.accounting.write.customer.policy;
 
 import com.soul.fin.accounting.write.customer.event.CustomerRegisteredEvent;
-import com.soul.fin.common.application.policy.AsyncPolicy;
-import com.soul.fin.common.application.policy.PolicyContext;
-import com.soul.fin.common.application.policy.Severity;
-import com.soul.fin.common.application.policy.effects.PolicyAlert;
-import com.soul.fin.common.application.policy.risk.RiskScore;
+import com.soul.fin.common.command.application.policy.AsyncPolicy;
+import com.soul.fin.common.command.application.policy.PolicyContext;
+import com.soul.fin.common.command.application.policy.Severity;
+import com.soul.fin.common.command.application.policy.effects.PolicyAlert;
+import com.soul.fin.common.command.application.policy.risk.RiskScore;
 
 public final class AmlMonitoringPolicy
         implements AsyncPolicy<CustomerRegisteredEvent> {

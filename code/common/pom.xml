@@ -23,6 +23,9 @@
         <module>common-security</module>
         <module>common-api-rest</module>
         <module>common-application</module>
+        <module>common-application-command</module>
+        <module>common-application-query</module>
+        <module>common-projection</module>
     </modules>
 
     <properties>

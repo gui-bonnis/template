@@ -1,7 +1,6 @@
 package com.soul.fin.accounting.write.data.customer.entity;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
@@ -13,13 +12,11 @@ import java.util.UUID;
 //@NoArgsConstructor
 //@AllArgsConstructor
 // check postgres connection to see if is direct to a database, if so, we can change schema and table naming
-@Table(name = "customer", schema = "accounting_states")
+@Table(name = "customer", schema = "accounting_events_store")
 public class CustomerEventEntity {
 
     @Id
-    @Column("event_position")
-    private Long id;
-
+    private Long globalPosition;
     private UUID aggregateId;
     private String aggregateType;
     private Long aggregateVersion;
@@ -33,7 +30,7 @@ public class CustomerEventEntity {
     public CustomerEventEntity() {
     }
 
-    public CustomerEventEntity(Long id,
+    public CustomerEventEntity(Long globalPosition,
                                UUID aggregateId,
                                String aggregateType,
                                Long aggregateVersion,
@@ -43,7 +40,7 @@ public class CustomerEventEntity {
                                String payload,
                                String metadata,
                                Instant occurredAt) {
-        this.id = id;
+        this.globalPosition = globalPosition;
         this.aggregateId = aggregateId;
         this.aggregateType = aggregateType;
         this.aggregateVersion = aggregateVersion;
@@ -55,12 +52,12 @@ public class CustomerEventEntity {
         this.occurredAt = occurredAt;
     }
 
-    public Long getId() {
-        return id;
+    public Long getGlobalPosition() {
+        return globalPosition;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setGlobalPosition(Long globalPosition) {
+        this.globalPosition = globalPosition;
     }
 
     public UUID getAggregateId() {

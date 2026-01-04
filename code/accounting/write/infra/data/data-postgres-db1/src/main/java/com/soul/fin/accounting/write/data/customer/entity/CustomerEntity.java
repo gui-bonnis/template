@@ -12,7 +12,7 @@ import java.util.UUID;
 //@Builder
 //@NoArgsConstructor
 //@AllArgsConstructor
-@Table(name = "customer", schema = "customer")
+@Table(name = "customer", schema = "accounting_states")
 public class CustomerEntity implements Persistable<UUID> {
 
     @Id

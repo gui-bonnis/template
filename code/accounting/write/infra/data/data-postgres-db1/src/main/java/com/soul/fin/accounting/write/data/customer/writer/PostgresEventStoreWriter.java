@@ -41,7 +41,7 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
                                 CAST(:payload AS jsonb),
                                 CAST(:metadata AS jsonb)
                             )
-                            RETURNING event_position6
+                            RETURNING global_position
                         """)
                 .bind("aggregateId", entity.getAggregateId())
                 .bind("aggregateType", entity.getAggregateType())
@@ -51,7 +51,7 @@ public class PostgresEventStoreWriter implements EventStoreWriter {
                 .bind("eventSchemaVersion", entity.getEventSchemaVersion())
                 .bind("payload", entity.getPayload())
                 .bind("metadata", entity.getMetadata())
-                .map(row -> Objects.requireNonNull(row.get("event_position", Long.class)))
+                .map(row -> Objects.requireNonNull(row.get("global_position", Long.class)))
                 .one()
                 .onErrorMap(
                         DuplicateKeyException.class,

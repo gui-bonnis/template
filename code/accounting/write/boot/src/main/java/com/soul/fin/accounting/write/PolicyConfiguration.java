@@ -4,8 +4,8 @@ import com.soul.fin.accounting.write.customer.dto.command.RegisterCustomerComman
 import com.soul.fin.accounting.write.customer.event.CustomerRegisteredEvent;
 import com.soul.fin.accounting.write.customer.policy.AmlMonitoringPolicy;
 import com.soul.fin.accounting.write.customer.policy.CustomerNameAlreadyRegistered;
-import com.soul.fin.common.application.policy.registry.DefaultPolicyRegistry;
-import com.soul.fin.common.application.policy.registry.PolicyRegistry;
+import com.soul.fin.common.command.application.policy.registry.DefaultPolicyRegistry;
+import com.soul.fin.common.command.application.policy.registry.PolicyRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

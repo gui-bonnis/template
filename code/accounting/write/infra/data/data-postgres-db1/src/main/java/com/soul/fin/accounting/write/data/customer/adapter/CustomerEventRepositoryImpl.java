@@ -44,19 +44,22 @@ public class CustomerEventRepositoryImpl implements CustomerEventRepository {
                                 eventEnvelope.aggregateVersion(),
                                 eventEnvelope.eventId(),
                                 eventEnvelope.metadata(),
-                                eventEnvelope.payload()
+                                eventEnvelope.payload(),
+                                eventEnvelope.occurredAt()
                         )
                 )
-                .map(event_position ->
+                .map(global_position ->
                         new EventEnvelope(
                                 eventEnvelope.eventId(),
-                                event_position,
+                                global_position,
                                 eventEnvelope.eventType(),
+                                eventEnvelope.eventSchemaVersion(),
                                 eventEnvelope.aggregateId(),
                                 eventEnvelope.aggregateType(),
                                 eventEnvelope.aggregateVersion(),
                                 eventEnvelope.payload(),
-                                eventEnvelope.metadata()
+                                eventEnvelope.metadata(),
+                                eventEnvelope.occurredAt()
                         ));
     }
 

@@ -109,12 +109,27 @@
             </dependency>
             <dependency>
                 <groupId>com.soul.fin</groupId>
+                <artifactId>common-application-command</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>common-application-query</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin</groupId>
                 <artifactId>common-bus</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.soul.fin</groupId>
                 <artifactId>common-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soul.fin</groupId>
+                <artifactId>common-projection</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

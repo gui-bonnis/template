@@ -12,7 +12,6 @@ public class EventMetadata implements Metadata {
     private UUID commandId;
     private String actor;
     private String tenantId;
-    private long schemaVersion;
     private Instant occurredAt;
 
     public UUID getEventId() {
@@ -63,13 +62,13 @@ public class EventMetadata implements Metadata {
         this.tenantId = tenantId;
     }
 
-    public long getSchemaVersion() {
-        return schemaVersion;
-    }
-
-    public void setSchemaVersion(long schemaVersion) {
-        this.schemaVersion = schemaVersion;
-    }
+//    public long getSchemaVersion() {
+//        return schemaVersion;
+//    }
+//
+//    public void setSchemaVersion(long schemaVersion) {
+//        this.schemaVersion = schemaVersion;
+//    }
 
     public Instant getOccurredAt() {
         return occurredAt;

@@ -19,11 +19,15 @@
     <dependencies>
         <dependency>
             <groupId>com.soul.fin</groupId>
+            <artifactId>common-application-query</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soul.fin</groupId>
             <artifactId>common-bus</artifactId>
         </dependency>
         <dependency>
             <groupId>com.soul.fin</groupId>
-            <artifactId>common-application</artifactId>
+            <artifactId>common-projection</artifactId>
         </dependency>
         <dependency>
             <groupId>com.soul.fin.accounting</groupId>
@@ -37,7 +41,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
     </dependencies>
 
 

@@ -20,7 +20,7 @@ public class PostgresOutboxWriter implements OutboxWriter {
                             INSERT INTO accounting_integrations.customer_outbox (
                                 aggregate_id,
                                 event_id,
-                                event_position,
+                                global_position,
                                 type,
                                 payload,
                                 metadata,

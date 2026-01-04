@@ -28,6 +28,7 @@
     <file url="file://$PROJECT_DIR$/code/accounting/read/infra/security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/infra/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/infra/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/accounting/read/projection/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/read/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/accounting/src/main/java" charset="UTF-8" />
@@ -68,11 +69,14 @@
     <file url="file://$PROJECT_DIR$/code/api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/boot/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/common/common-api-rest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/common-application-command/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/common-application-query/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/common/common-application/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/common/common-bus/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/common/common-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/common/common-msg/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/common/common-observability/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/code/common/common-projection/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/common/common-security/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/code/common/src/main/resources" charset="UTF-8" />
