@@ -19,7 +19,12 @@ public class CustomerDomainServiceImpl implements CustomerDomainService {
                 .withName(customer.getName())
                 .build();
 
-        cust.registerEvent(new CustomerRegisteredEvent(cust.getId().getValue(), customer.getAggregateVersion(), UUID.randomUUID(), Instant.now()));
+        cust.registerEvent(new CustomerRegisteredEvent(cust.getId().getValue(),
+                customer.getAggregateVersion(),
+                UUID.randomUUID(),
+                customer.getName(),
+                Customer.CURRENT_SHEMA_VERSION,
+                Instant.now()));
 
         return cust;
     }

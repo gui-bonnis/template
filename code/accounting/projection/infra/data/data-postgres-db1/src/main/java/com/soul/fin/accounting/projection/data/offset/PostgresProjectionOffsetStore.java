@@ -1,4 +1,4 @@
-package com.soul.fin.accounting.projection.data.customer.offset;
+package com.soul.fin.accounting.projection.data.offset;
 
 import com.soul.fin.common.projection.api.ProjectionOffsetStore;
 import org.springframework.r2dbc.core.DatabaseClient;
@@ -20,7 +20,7 @@ class PostgresProjectionOffsetStore implements ProjectionOffsetStore {
     public Mono<Long> loadOffset(String projectionName) {
         return db.sql("""
                             SELECT last_position
-                            FROM read.projection_offset
+                            FROM accounting_projections.projection_offset
                             WHERE projection_name = :name
                         """)
                 .bind("name", projectionName)
@@ -31,7 +31,7 @@ class PostgresProjectionOffsetStore implements ProjectionOffsetStore {
     @Override
     public Mono<Void> saveOffset(String projectionName, long position) {
         return db.sql("""
-                            INSERT INTO read.projection_offset (projection_name, last_position)
+                            INSERT INTO accounting_projections.projection_offset (projection_name, last_position)
                             VALUES (:name, :pos)
                             ON CONFLICT (projection_name)
                             DO UPDATE SET last_position = EXCLUDED.last_position

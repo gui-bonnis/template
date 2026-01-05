@@ -1,4 +1,4 @@
-package com.soul.fin.accounting.projection.data.customer.tx;
+package com.soul.fin.accounting.projection.data.tx;
 
 import com.soul.fin.common.projection.engine.TransactionManager;
 import org.springframework.stereotype.Component;

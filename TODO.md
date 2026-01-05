@@ -58,7 +58,7 @@
 25) Add Creating Rest Client and Avro Schemas for external integrations using OpenAPI Generator.
 26) Implement feature toggles for controlled feature releases.
 27) Add data versioning and migration strategy. ✅ (from event store)
-28) Implement full Event Sourcing ✅
+28) Implement full Event Sourcing
 28) Add Elastic Search as CQRS read model.
 29) Infra full cloud native
 
@@ -102,20 +102,24 @@ istio
 # Nest steps
 
 Phase 1
-create projections from events
-read projections based on event schema
-create views and different table schemas?? (Versioning Read Models (You WILL Need This) what about 8️⃣ Versioning read
+create projections from events✅
+read projections based on event schema✅
+create views and different table schemas?? ✅ (Versioning Read Models (You WILL Need This) what about 8️⃣ Versioning read
 projections)
-save projections at DB
-Adjust gets to reflect the projections created
+save projections at DB ✅
+Adjust gets to reflect the projections created ✅
+Add ACK ✅Improve ACK to be stream and reactive not polling maybe(websocket)
+think of return a exception or not when timeout is thrown
+test poison events
 
+Phase 2
+check rehydrate feature
 Outbox module, read from table, create kafka message and send it.
 consume kafka on read side
 check best practices from read side, overall architecture
 
-Phase 2
+Phase 3
 create client/server pattern to consume read on write (inside policies)
-check rehydrate feature
 implement replay events feature
 check other ES features like snapshot, etc...
 review all code to be fully reactive, no blocking

@@ -24,6 +24,8 @@ public class CustomerValidatedEventUpCaster implements CustomerUpCaster {
                         old.aggregateId(),
                         old.aggregateVersion(),
                         old.eventId(),
+                        old.name(),
+                        old.version(),
                         old.occurredAt()
                 );
             }

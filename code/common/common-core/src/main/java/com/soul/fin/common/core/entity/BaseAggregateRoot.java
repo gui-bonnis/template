@@ -42,4 +42,5 @@ public class BaseAggregateRoot<ID extends BaseId<?>> extends AggregateRoot<ID> {
         return copy;
     }
 
+
 }

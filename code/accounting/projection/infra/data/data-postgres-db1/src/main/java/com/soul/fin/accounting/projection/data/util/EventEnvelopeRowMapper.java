@@ -21,7 +21,7 @@ public final class EventEnvelopeRowMapper {
     public static EventEnvelope map(Row row, RowMetadata metadata) {
         return new EventEnvelope(
                 row.get("event_id", UUID.class),
-                row.get("event_position", Long.class),
+                row.get("global_position", Long.class),
                 row.get("event_type", String.class),
                 row.get("event_schema_version", Long.class),
                 row.get("aggregate_id", UUID.class),

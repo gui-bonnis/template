@@ -1,6 +1,7 @@
 package com.soul.fin.accounting.write.customer.mapper;
 
 import com.soul.fin.accounting.write.customer.entity.Customer;
+import com.soul.fin.common.application.dto.SnapshotEnvelope;
 import com.soul.fin.common.application.mapper.AggregateFactory;
 import com.soul.fin.common.core.event.DomainEvent;
 import org.springframework.stereotype.Component;
@@ -24,4 +25,10 @@ public final class CustomerAggregateFactory implements AggregateFactory<Customer
 
         return customer;
     }
+
+    @Override
+    public Customer fromSnapshot(SnapshotEnvelope snapshot) {
+        return null;
+    }
+
 }

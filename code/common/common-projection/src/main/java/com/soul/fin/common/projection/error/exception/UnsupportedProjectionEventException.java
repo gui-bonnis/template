@@ -15,14 +15,10 @@ public class UnsupportedProjectionEventException extends RuntimeException {
             EventEnvelope event
     ) {
         super(
-                "Projection '%s' does not support event " +
-                        "[eventType=%s, schemaVersion=%d, position=%d]"
-                                .formatted(
-                                        projectionName,
-                                        event.eventType(),
-                                        event.eventSchemaVersion(),
-                                        event.eventPosition()
-                                )
+                "Projection '" + projectionName + "' does not support event " +
+                        "[eventType=" + event.eventType() +
+                        ", schemaVersion=" + event.eventSchemaVersion() +
+                        ", position=" + event.eventPosition() + "]"
         );
 
         this.projectionName = projectionName;

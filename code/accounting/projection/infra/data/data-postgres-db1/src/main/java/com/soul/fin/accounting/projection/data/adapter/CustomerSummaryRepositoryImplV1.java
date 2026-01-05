@@ -1,4 +1,4 @@
-package com.soul.fin.accounting.projection.data.customer.adapter;
+package com.soul.fin.accounting.projection.data.adapter;
 
 import com.soul.fin.accounting.projection.customer.repository.CustomerSummaryRepositoryV1;
 import com.soul.fin.accounting.read.customer.entity.CustomerSummaryV1;
@@ -20,13 +20,13 @@ public class CustomerSummaryRepositoryImplV1 implements CustomerSummaryRepositor
     public Mono<Void> insert(CustomerSummaryV1 view) {
         return db.sql("""
                             INSERT INTO accounting_projections.customer_summary_v1
-                            (account_id, name, version, updated_at)
+                            (id, name, version, updated_at)
                             VALUES (:id, :name, :version, :updatedAt)
                         """)
-                .bind("id", view.id())
+                .bind("id", view.aggregateId())
                 .bind("name", view.name())
                 .bind("version", view.version())
-                .bind("updatedAt", view.updatedAt())
+                .bind("updatedAt", view.occurredAt())
                 .then();
     }
 

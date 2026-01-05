@@ -3,8 +3,10 @@ package com.soul.fin.common.projection.engine;
 import com.soul.fin.common.projection.api.EventStream;
 import com.soul.fin.common.projection.api.Projection;
 import com.soul.fin.common.projection.api.ProjectionOffsetStore;
+import com.soul.fin.common.projection.api.WriteProjectionAckStore;
 import com.soul.fin.common.projection.error.ProjectionErrorHandler;
 import com.soul.fin.common.projection.model.EventEnvelope;
+import com.soul.fin.common.projection.model.ProjectionAck;
 import com.soul.fin.common.projection.model.ProjectionBatchConfig;
 import com.soul.fin.common.projection.retry.RetryPolicy;
 import org.springframework.dao.TransientDataAccessException;
@@ -13,6 +15,7 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -20,21 +23,23 @@ public final class ProjectionRunner {
 
     private final EventStream eventStream;
     private final ProjectionOffsetStore offsetStore;
+    private final WriteProjectionAckStore ackStore;
     private final TransactionManager txManager;
     private final ProjectionErrorHandler errorHandler;
 
     public ProjectionRunner(
             EventStream eventStream,
-            ProjectionOffsetStore offsetStore,
+            ProjectionOffsetStore offsetStore, WriteProjectionAckStore ackStore,
             TransactionManager txManager, ProjectionErrorHandler errorHandler
     ) {
         this.eventStream = eventStream;
         this.offsetStore = offsetStore;
+        this.ackStore = ackStore;
         this.txManager = txManager;
         this.errorHandler = errorHandler;
     }
 
-    Mono<Void> run(Projection projection) {
+    public Mono<Void> run(Projection projection) {
 
         ProjectionBatchConfig cfg = projection.batchConfig();
 
@@ -87,11 +92,22 @@ public final class ProjectionRunner {
                                                         error
                                                 )
                                         )
+                                        .thenReturn(event)
                         )
-                        .then(offsetStore.saveOffset(
-                                projection.name(),
-                                lastPosition
+                        .flatMap(eventEnvelop -> offsetStore.saveOffset(
+                                                projection.name(),
+                                                lastPosition
+                                        )
+                                        .thenReturn(eventEnvelop)
+                        )
+                        .flatMap(eventEnvelop -> ackStore.record(
+                                new ProjectionAck(
+                                        eventEnvelop.eventId(),
+                                        projection.name(),
+                                        Instant.now()
+                                )
                         ))
+                        .then()
         );
     }
 

@@ -1,8 +1,7 @@
 package com.soul.fin.accounting.write.data.customer.adapter;
 
 
-import com.soul.fin.accounting.write.customer.ports.output.repository.CustomerEventRepository;
-import com.soul.fin.accounting.write.customer.vo.CustomerId;
+import com.soul.fin.accounting.write.customer.ports.output.repository.AccountingEventRepository;
 import com.soul.fin.accounting.write.data.customer.upcaster.CustomerEventUpCaster;
 import com.soul.fin.accounting.write.data.events.repository.EventsReactiveRepository;
 import com.soul.fin.accounting.write.data.events.serializer.EventsSerializer;
@@ -13,18 +12,20 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Component
-public class CustomerEventRepositoryImpl implements CustomerEventRepository {
+public class EventRepositoryImpl implements AccountingEventRepository {
 
     private final EventsReactiveRepository repository;
     private final PostgresEventStoreWriter writer;
     private final EventsSerializer serializer;
     private final CustomerEventUpCaster upCaster;
 
-    public CustomerEventRepositoryImpl(EventsReactiveRepository repository,
-                                       PostgresEventStoreWriter writer,
-                                       EventsSerializer serializer,
-                                       CustomerEventUpCaster upCaster) {
+    public EventRepositoryImpl(EventsReactiveRepository repository,
+                               PostgresEventStoreWriter writer,
+                               EventsSerializer serializer,
+                               CustomerEventUpCaster upCaster) {
         this.repository = repository;
         this.writer = writer;
         this.serializer = serializer;
@@ -32,9 +33,9 @@ public class CustomerEventRepositoryImpl implements CustomerEventRepository {
     }
 
     @Override
-    public Flux<DomainEvent> load(CustomerId aggregateId) {
+    public Flux<DomainEvent> load(UUID aggregateId) {
         return repository
-                .findByAggregateIdOrderByAggregateVersion(aggregateId.getValue())
+                .findByAggregateIdOrderByAggregateVersion(aggregateId)
                 .map(upCaster::upcast);
     }
 

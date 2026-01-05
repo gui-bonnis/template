@@ -1,5 +1,6 @@
 package com.soul.fin.common.application.ports.output.repository;
 
+
 import com.soul.fin.common.core.entity.BaseAggregateRoot;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

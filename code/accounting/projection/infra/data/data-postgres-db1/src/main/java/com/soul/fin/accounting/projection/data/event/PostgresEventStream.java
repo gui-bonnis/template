@@ -1,4 +1,4 @@
-package com.soul.fin.accounting.projection.data.customer.event;
+package com.soul.fin.accounting.projection.data.event;
 
 import com.soul.fin.accounting.projection.data.util.EventEnvelopeRowMapper;
 import com.soul.fin.common.projection.api.EventStream;

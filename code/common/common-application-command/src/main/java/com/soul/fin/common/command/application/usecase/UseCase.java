@@ -21,14 +21,13 @@ import com.soul.fin.common.command.application.policy.service.PolicyServices;
 import com.soul.fin.common.command.application.service.EventSourcedService;
 import com.soul.fin.common.core.entity.BaseAggregateRoot;
 import com.soul.fin.common.core.event.EventMetadata;
-import com.soul.fin.common.core.vo.BaseId;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class UseCase<T extends BaseId<?>, A extends BaseAggregateRoot<T>> {
+public abstract class UseCase<T extends UUID, A extends BaseAggregateRoot<?>> {
 
     private final EventSourcedService<T, A> eventSourcedService;
     private final InvariantGuard invariantGuard;

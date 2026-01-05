@@ -6,7 +6,6 @@ import com.soul.fin.accounting.write.customer.entity.Customer;
 import com.soul.fin.accounting.write.customer.mapper.CustomerMapper;
 import com.soul.fin.accounting.write.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.accounting.write.customer.service.CustomerDomainService;
-import com.soul.fin.accounting.write.customer.vo.CustomerId;
 import com.soul.fin.common.application.dto.AggregateExecution;
 import com.soul.fin.common.application.event.EventPipeline;
 import com.soul.fin.common.command.application.invariants.InvariantGuard;
@@ -15,29 +14,36 @@ import com.soul.fin.common.command.application.policy.registry.PolicyRegistry;
 import com.soul.fin.common.command.application.policy.service.PolicyServices;
 import com.soul.fin.common.command.application.service.EventSourcedService;
 import com.soul.fin.common.command.application.usecase.UseCase;
+import com.soul.fin.common.projection.api.ProjectionAckAwaiter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.util.UUID;
+
 @Service
-public class RegisterCustomerUseCase extends UseCase<CustomerId, Customer> {
+public class RegisterCustomerUseCase extends UseCase<UUID, Customer> {
 
     private final CustomerDomainService customerDomainService;
     private final CustomerRepository customerRepository;
+    private final ProjectionAckAwaiter ackAwaiter;
 
-    public RegisterCustomerUseCase(EventSourcedService<CustomerId, Customer> eventSourcedService,
+
+    public RegisterCustomerUseCase(EventSourcedService<UUID, Customer> eventSourcedService,
                                    EventPipeline eventPipeline,
                                    InvariantGuard invariantGuard,
                                    DefaultSyncPolicyEngine policyEngine,
                                    PolicyRegistry policyRegistry,
                                    PolicyServices policyServices,
                                    CustomerDomainService customerDomainService,
-                                   CustomerRepository customerRepository
+                                   CustomerRepository customerRepository, ProjectionAckAwaiter ackAwaiter
     ) {
         super(eventSourcedService, eventPipeline, invariantGuard,
                 policyEngine, policyRegistry, policyServices);
         this.customerDomainService = customerDomainService;
         this.customerRepository = customerRepository;
+        this.ackAwaiter = ackAwaiter;
     }
 
     @Transactional
@@ -80,7 +86,13 @@ public class RegisterCustomerUseCase extends UseCase<CustomerId, Customer> {
 //                                new RuntimeException()
 //                        )
 //                )
-                ;
+                .flatMap(result -> ackAwaiter.await(
+                                        result.customerId(),
+                                        "customer-summary",
+                                        Duration.ofMillis(100)
+                                ).onErrorComplete()
+                                .thenReturn(result)
+                );
     }
 
 }

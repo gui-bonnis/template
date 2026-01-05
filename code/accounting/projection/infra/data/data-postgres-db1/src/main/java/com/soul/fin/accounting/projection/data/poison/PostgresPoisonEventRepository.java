@@ -1,4 +1,4 @@
-package com.soul.fin.accounting.projection.data.customer.poison;
+package com.soul.fin.accounting.projection.data.poison;
 
 import com.soul.fin.common.projection.model.EventEnvelope;
 import com.soul.fin.common.projection.ports.PoisonEventRepository;
@@ -22,9 +22,9 @@ class PostgresPoisonEventRepository implements PoisonEventRepository {
             Throwable error
     ) {
         return db.sql("""
-                            INSERT INTO read.poison_event (
+                            INSERT INTO accounting_projections.poison_event (
                                 projection_name,
-                                event_position,
+                                global_position,
                                 event_type,
                                 schema_version,
                                 payload,

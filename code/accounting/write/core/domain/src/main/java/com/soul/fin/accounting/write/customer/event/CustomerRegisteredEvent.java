@@ -8,11 +8,13 @@ import java.util.UUID;
 public record CustomerRegisteredEvent(UUID aggregateId,
                                       long aggregateVersion,
                                       UUID eventId,
+                                      String name,
+                                      long version,
                                       Instant occurredAt) implements DomainEvent {
 
 
     @Override
     public long eventSchemaVersion() {
-        return 2L;
+        return 1L;
     }
 }

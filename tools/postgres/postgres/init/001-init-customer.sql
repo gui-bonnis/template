@@ -42,6 +42,20 @@ CREATE TABLE IF NOT EXISTS accounting_events_store.events (
     UNIQUE (event_id)
 );
 
+CREATE TABLE accounting_events_store.snapshot (
+  aggregate_id        UUID PRIMARY KEY,
+  aggregate_type      TEXT NOT NULL,
+
+  aggregate_version   BIGINT NOT NULL,
+  global_position     BIGINT NOT NULL,
+
+  snapshot_schema_version BIGINT NOT NULL,
+  payload             JSONB NOT NULL,
+
+  created_at          TIMESTAMPTZ NOT NULL
+);
+
+
 -- Insert test customer data
 INSERT INTO accounting_states.customer (id, name, version) VALUES
 ('550e8400-e29b-41d4-a716-446655440000', 'John Doe', 1),
@@ -65,23 +79,39 @@ CREATE TABLE IF NOT EXISTS accounting_integrations.customer_outbox (
 CREATE TABLE IF NOT EXISTS accounting_projections.customer_summary_v1 (
     id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name    VARCHAR(255),
-    version BIGINT NOT NULL
+    version BIGINT NOT NULL,
+    updated_at TIMESTAMPTZ
 );
 
-INSERT INTO accounting_projections.customer_summary_v1 (id, name, version) VALUES
-('550e8400-e29b-41d4-a716-446655440000', 'John Doe', 1),
-('550e8400-e29b-41d4-a716-446655440001', 'Jane Smith', 1);
+--INSERT INTO accounting_projections.customer_summary_v1 (id, name, version) VALUES
+--('550e8400-e29b-41d4-a716-446655440000', 'John Doe', 1),
+--('550e8400-e29b-41d4-a716-446655440001', 'Jane Smith', 1);
 
 CREATE TABLE accounting_projections.projection_offset (
     projection_name TEXT PRIMARY KEY,
     last_position   BIGINT NOT NULL
 );
 
+CREATE TABLE accounting_projections.projection_ack (
+    event_id         UUID        NOT NULL,
+    projection_name  TEXT        NOT NULL,
+    processed_at     TIMESTAMPTZ NOT NULL,
+
+    PRIMARY KEY (event_id, projection_name)
+);
+
+CREATE INDEX idx_projection_ack_event
+ON accounting_projections.projection_ack (event_id);
+
+--DELETE FROM projection.projection_ack
+--WHERE processed_at < now() - interval '24 hours';
+
 CREATE VIEW accounting_projections.customer_summary_current AS
 SELECT
     id,
     name,
-    version
+    version,
+    updated_at
 FROM accounting_projections.customer_summary_v1;
 
 

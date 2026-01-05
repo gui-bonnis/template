@@ -7,7 +7,6 @@ import com.soul.fin.accounting.write.customer.exception.CustomerApplicationExcep
 import com.soul.fin.accounting.write.customer.mapper.CustomerMapper;
 import com.soul.fin.accounting.write.customer.ports.output.repository.CustomerRepository;
 import com.soul.fin.accounting.write.customer.service.CustomerDomainService;
-import com.soul.fin.accounting.write.customer.vo.CustomerId;
 import com.soul.fin.common.application.dto.AggregateExecution;
 import com.soul.fin.common.application.event.EventPipeline;
 import com.soul.fin.common.command.application.invariants.InvariantGuard;
@@ -20,13 +19,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
-public class UpdateCustomerUseCase extends UseCase<CustomerId, Customer> {
+public class UpdateCustomerUseCase extends UseCase<UUID, Customer> {
 
     private final CustomerDomainService customerDomainService;
     private final CustomerRepository customerRepository;
 
-    public UpdateCustomerUseCase(EventSourcedService<CustomerId, Customer> eventSourcedService,
+    public UpdateCustomerUseCase(EventSourcedService<UUID, Customer> eventSourcedService,
                                  EventPipeline eventPipeline,
                                  InvariantGuard invariantGuard,
                                  DefaultSyncPolicyEngine policyEngine,
@@ -46,7 +47,7 @@ public class UpdateCustomerUseCase extends UseCase<CustomerId, Customer> {
 
         return Mono.just(command)
                 // get existing entity
-                .flatMap(cmd -> this.load(new CustomerId(cmd.customerId())))
+                .flatMap(cmd -> this.load(cmd.customerId()))
                 // throw if not found
                 .switchIfEmpty(CustomerApplicationExceptions.customerNotFound(command.customerId()))
                 // evaluate sync polices
